@@ -13,9 +13,25 @@
 		<text>评价(5分)</text>
 	</view>
 
-	<!-- <scroll-view class="comment"></scroll-view> -->
+	<view class="score" wx:for-item="{score.code}">
+		<image src="{{item}}" />
+	</view>
 
-	<view class="main">
+
+
+	<!-- <scroll-view class="comment">
+		<view class="item">
+			<view class="head">
+		        <image class="avatar" src="{{item.logo}}"/>
+		        <text class="name">苹果和鱼</text>
+		        <view class="score"></view>
+		        <text class="time">2017.06.09</text>
+		    </view>
+		    <view class="main"></view>
+	    </view>
+	</scroll-view> -->
+
+	<!-- <view class="main">
 		<scroll-view class="classify" scroll-y="true">
 			<view class="list {{classifySeleted==classify.id?'active':''}}" wx:for="{{goodsList}}" wx:for-item="classify" wx:key="id" data-id="{{classify.id}}" bindtap="tapClassify">
 				<view class="name">{{classify.classifyName}}</view>
@@ -32,7 +48,7 @@
 				</view>
 			</view>
 		</scroll-view>
-	</view>
+	</view> -->
 
 	<view class="cart" hidden="{{!showCartDetail||!cart.count}}">
 		<view class="mask" bindtap="hideCartDetail"></view>

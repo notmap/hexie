@@ -2,6 +2,10 @@ var app = getApp();
 var server = require('../../utils/server');
 Page({
 	data: {
+		score: {
+			// img: [],
+			value: 4.6
+		},
 		goods: {
 			1: {
 				id: 1,
@@ -120,6 +124,8 @@ Page({
 			classifySeleted: this.data.goodsList[0].id
 		});
 	},
+
+	pretreatment: function
 
 	goShopInfo: function () {
 		wx.navigateTo({url: '../shopinfo/shopinfo'});
