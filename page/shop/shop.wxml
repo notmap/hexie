@@ -1,0 +1,62 @@
+<view class="container">
+	<view class="header {{scrollDown?'hidden':''}}">
+		<image class="logo" src="{{shop.logo}}"/>
+		<view class="name ellipsis">{{shop.name}}</view>
+		<view class="express ellipsis">蜂鸟配送</view>
+		<view class="welcome ellipsis">欢迎光临，用餐高峰请提前下单，谢谢</view>
+		<view class="promotion">{{shop.promotion}}</view>
+		<view class="shopinfo" bindtap="goShopInfo"></view>
+	</view>
+
+	<view class="tab">
+		<text>商品</text>
+		<text>评价(5分)</text>
+	</view>
+
+	<!-- <scroll-view class="comment"></scroll-view> -->
+
+	<view class="main">
+		<scroll-view class="classify" scroll-y="true">
+			<view class="list {{classifySeleted==classify.id?'active':''}}" wx:for="{{goodsList}}" wx:for-item="classify" wx:key="id" data-id="{{classify.id}}" bindtap="tapClassify">
+				<view class="name">{{classify.classifyName}}</view>
+			</view>
+		</scroll-view>
+		<scroll-view class="goods" scroll-y="true" scroll-into-view="{{classifyViewed}}" bindscroll="onGoodsScroll">
+			<view class="section" wx:for="{{goodsList}}" wx:for-item="classify" wx:key="id" id="{{classify.id}}">
+				<view class="title">{{classify.classifyName}}</view>
+				<view class="list" wx:for="{{classify.goods}}" wx:for-item="id" wx:key="*this">
+					<image class="pic" src="{{goods[id].pic}}"></image>
+					<view class="name ellipsis">{{goods[id].name}}</view>
+					<view class="price">￥{{goods[id].price}}</view>
+					<view class="addCart" bindtap="tapAddCart" data-id="{{id}}"></view>
+				</view>
+			</view>
+		</scroll-view>
+	</view>
+
+	<view class="cart" hidden="{{!showCartDetail||!cart.count}}">
+		<view class="mask" bindtap="hideCartDetail"></view>
+		<view class="list">
+			<view class="item" wx:for="{{cart.list}}" wx:for-index="id" wx:for-item="num" wx:key="id">
+				<view class="name ellipsis">{{goods[id].name}}</view>
+				<view class="total">￥{{goods[id].price*cart.list[id]}}</view>
+				<view class="reduce" data-id="{{id}}" bindtap="tapReduceCart">-</view>
+				<view class="num">{{num}}</view>
+				<view class="add" data-id="{{id}}" bindtap="tapAddCart">+</view>
+			</view>
+		</view>
+	</view>
+
+	<view class="bottom">
+		<view class="data" bindtap="showCartDetail">
+			<view class="icon">
+				<image src="/imgs/shop/cart.png"></image>
+				<view class="count">{{cart.count}}</view>
+			</view>
+			<view class="total">￥{{cart.total}}</view>
+		</view>
+		<form bindsubmit="submit" report-submit="true">
+			<button class="submit {{cart.count?'':'disabled'}}" formType="submit" disabled="{{!cart.count}}">去结算</button>
+		</form>
+	</view>
+</view>

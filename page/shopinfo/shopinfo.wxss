@@ -1,0 +1,141 @@
+.header {
+	position: relative;
+	background: #fff;
+	padding: 30rpx;
+	height: 160rpx;
+	color: #000;
+	-webkit-transition: all 0.6s ease-in-out;
+}
+
+.header .logo {
+	float: left;
+	width: 160rpx;
+	height: 160rpx;
+	border-radius: 4%;
+	margin-right: 20rpx;
+}
+
+.header .name {
+	padding-top: 20rpx;
+	font-size: 36rpx;
+	font-weight: bold;
+	line-height: 36rpx;
+	/*background-color: red;*/
+}
+
+.header .express {
+	padding-top: 20rpx;
+	color: #000;
+	font-size: 24rpx;
+	line-height: 24rpx;
+	/*background-color: red;*/
+}
+
+.header .star {
+	padding-top: 20rpx;
+	color: #ffd300;
+	font-size: 24rpx;
+	line-height: 24rpx;
+	/*background-color: red;*/
+}
+
+.shopinfo {
+	margin-top: 20rpx;
+	background-color: white;
+}
+
+.shopinfo .address, .shopinfo .time {
+	height: 32rpx;
+	padding: 40rpx 28rpx;
+	/*background-color: red;*/
+}
+
+.shopinfo .address .icon, .shopinfo .time .icon {
+	display: block;
+	width: 32rpx;
+	height: 32rpx;
+	float: left;
+}
+
+.shopinfo .address .text, .shopinfo .time .text {
+	display: block;
+	font-size: 30rpx;
+	line-height: 30rpx;
+	float: left;
+	position: relative;
+	top: 2rpx;
+	left: 10rpx;
+}
+
+.shopinfo .photos {
+	width: 100%;
+	height: 150rpx;
+	/*background-color: red;*/
+	overflow: hidden;
+	/*padding: 20rpx 0;*/
+}
+
+.shopinfo .photos .photo {
+	display: block;
+	float: left;
+	width: 200rpx;
+	height: 150rpx;
+	margin-left: 30rpx;
+	/*float: left;*/
+}
+
+.promotion {
+	margin-top: 20rpx;
+	background-color: white;
+}
+
+.promotion .tip {
+	height: 32rpx;
+	padding: 40rpx 28rpx;
+	/*background-color: red;*/
+}
+
+.promotion .tip .icon {
+	display: block;
+	width: 32rpx;
+	height: 32rpx;
+	float: left;
+}
+
+.promotion .tip .text {
+	display: block;
+	font-size: 30rpx;
+	line-height: 30rpx;
+	float: left;
+	position: relative;
+	top: 2rpx;
+	left: 10rpx;
+}
+
+.promotion .reduce {
+	padding: 0 0 30rpx 80rpx;
+	color: #000;
+	font-size: 24rpx;
+	line-height: 24rpx;
+	position: relative;
+	/*background-color: red;*/
+}
+.promotion .reduce:after {
+	content: "减";
+	padding: 0 4rpx;
+	line-height: 30rpx;
+	color: white;
+	height: 30rpx;
+	background-color: #f07373;
+	position: absolute;
+	top: -4rpx;
+	left: 30rpx;
+}
+
+
+
+
+
+
+
+/*ffd300*/

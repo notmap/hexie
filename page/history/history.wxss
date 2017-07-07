@@ -1,0 +1,237 @@
+/*.header {
+	position: relative;
+	background: #fff;
+	padding: 30rpx;
+	height: 160rpx;
+	color: #000;
+	-webkit-transition: all 0.6s ease-in-out;
+}
+
+.header .logo {
+	float: left;
+	width: 160rpx;
+	height: 160rpx;
+	border-radius: 4%;
+	margin-right: 20rpx;
+}
+
+.header .name {
+	padding-top: 20rpx;
+	font-size: 36rpx;
+	font-weight: bold;
+	line-height: 36rpx;
+}
+
+.header .express {
+	padding-top: 20rpx;
+	color: #000;
+	font-size: 24rpx;
+	line-height: 24rpx;
+}
+
+.header .star {
+	padding-top: 20rpx;
+	color: #ffd300;
+	font-size: 24rpx;
+	line-height: 24rpx;
+}
+
+.shopinfo {
+	margin-top: 20rpx;
+	background-color: white;
+}
+
+.shopinfo .address, .shopinfo .time {
+	height: 32rpx;
+	padding: 40rpx 28rpx;
+}
+
+.shopinfo .address .icon, .shopinfo .time .icon {
+	display: block;
+	width: 32rpx;
+	height: 32rpx;
+	float: left;
+}
+
+.shopinfo .address .text, .shopinfo .time .text {
+	display: block;
+	font-size: 30rpx;
+	line-height: 30rpx;
+	float: left;
+	position: relative;
+	top: 2rpx;
+	left: 10rpx;
+}
+
+.shopinfo .photos {
+	width: 100%;
+	height: 150rpx;
+	overflow: hidden;
+}
+
+.shopinfo .photos .photo {
+	display: block;
+	float: left;
+	width: 200rpx;
+	height: 150rpx;
+	margin-left: 30rpx;
+}
+
+.promotion {
+	margin-top: 20rpx;
+	background-color: white;
+}
+
+.promotion .tip {
+	height: 32rpx;
+	padding: 40rpx 28rpx;
+}
+
+.promotion .tip .icon {
+	display: block;
+	width: 32rpx;
+	height: 32rpx;
+	float: left;
+}
+
+.promotion .tip .text {
+	display: block;
+	font-size: 30rpx;
+	line-height: 30rpx;
+	float: left;
+	position: relative;
+	top: 2rpx;
+	left: 10rpx;
+}
+
+.promotion .reduce {
+	padding: 0 0 30rpx 80rpx;
+	color: #000;
+	font-size: 24rpx;
+	line-height: 24rpx;
+	position: relative;
+}
+
+.promotion .reduce:after {
+	content: "减";
+	padding: 0 4rpx;
+	line-height: 30rpx;
+	color: white;
+	height: 30rpx;
+	background-color: #f07373;
+	position: absolute;
+	top: -4rpx;
+	left: 30rpx;
+}*/
+
+
+
+.order {
+	background-color: white;
+	margin-bottom: 20rpx;
+}
+
+.order .head {
+	height: 80rpx;
+	padding: 14rpx 30rpx;
+}
+
+.order .head .logo {
+	width: 80rpx;
+	height: 80rpx;
+	display: block;
+	float: left;
+	border-radius: 100%;
+}
+
+.order .head .name {
+	display: block;
+	float: left;
+	height: 80rpx;
+	line-height: 80rpx;
+	/*background-color: blue;*/
+	font-size: 28rpx;
+	margin-left: 20rpx;
+}
+
+.order .head .status {
+	display: block;
+	float: right;
+	height: 80rpx;
+	line-height: 80rpx;
+	/*background-color: red;*/
+	font-size: 28rpx;
+	/*margin-right: 20rpx;*/
+}
+
+.order .main {
+	/*background-color: blue;*/
+	/*padding: 20rpx;*/
+	/*height: 60rpx;*/
+}
+
+.order .main .list {
+	height: 40rpx;
+	padding: 10rpx 30rpx 10rpx 130rpx;
+	/*background-color: red;*/
+	/*margin-bottom: 10rpx;*/
+}
+
+.order .main .list .good {
+	display: block;
+	float: left;
+	height: 40rpx;
+	line-height: 40rpx;
+	font-size: 28rpx;
+}
+
+.order .main .list .amount {
+	display: block;
+	float: right;
+	height: 40rpx;
+	line-height: 40rpx;
+	font-size: 28rpx;
+	text-align: right;
+}
+
+.order .main .summary {
+	height: 40rpx;
+	padding: 10rpx 30rpx 10rpx 130rpx;
+	/*background-color: red;*/
+}
+
+.order .main .summary .fold {
+	display: block;
+	float: left;
+	height: 40rpx;
+	line-height: 40rpx;
+	font-size: 28rpx;
+	/*background-color: yellow;*/
+}
+
+.order .main .summary .info {
+	display: block;
+	float: right;
+	height: 40rpx;
+	line-height: 40rpx;
+	font-size: 28rpx;
+	text-align: right;
+	/*background-color: red;*/
+}
+
+.order .bottom {
+	/*background-color: red;*/
+	padding: 20rpx;
+	height: 60rpx;
+}
+
+.order .bottom .button {
+	height: 60rpx;
+	font-size: 28rpx;
+	border-radius: 8%;
+	float: right;
+	background-color: white;
+	border: 2rpx solid #ddd;
+	line-height: 60rpx;
+	padding: 0 20rpx;
+}
