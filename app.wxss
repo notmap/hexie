@@ -6,6 +6,7 @@ page {
 
 button {
     border-radius: 0;
+    padding: 0;
 }
 
 button:after {
@@ -28,4 +29,8 @@ button:after {
 .container {
     height: 100%;
     overflow: hidden;
+}
+
+.placeholder {
+    color: #cccccc;
 }

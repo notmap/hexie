@@ -1,0 +1,273 @@
+
+
+.scrollbox {
+	height: 100%;
+}
+
+
+/*--------------------------------address--------------------------------*/
+
+
+.address{
+	height: 80rpx;
+	padding: 30rpx 28rpx;
+	background-color: white;
+}
+
+.address-icon {
+	display: block;
+	width: 32rpx;
+	height: 32rpx;
+	padding: 24rpx 0;
+	float: left;
+	/*background-color: blue;*/
+	margin-right: 20rpx;
+}
+
+.address-info {
+	height: 80rpx;
+	float: left;
+}
+
+.address-info-text {
+	width: 500rpx;
+	display: block;
+	font-size: 28rpx;
+	line-height: 40rpx;
+	/*background-color: yellow;*/
+}
+
+.address-jump {
+	display: block;
+	height: 80rpx;
+	width: 80rpx;
+	float: right;
+	/*background-color: red;*/
+	position: relative;
+}
+
+.address-jump:after {
+    content: '';
+    display: block;
+    width: 16rpx;
+    height: 16rpx;
+    border-top: 2rpx solid #000;
+    border-right: 2rpx solid #000;
+    transform: rotate(45deg);
+    position: absolute;
+    bottom: 30rpx;
+    left: 24rpx;
+}
+
+
+/*--------------------------------order--------------------------------*/
+
+
+.order {
+	margin-top: 20rpx;
+	/*height: 200rpx;*/
+	background-color: white;
+	padding-bottom: 100rpx;
+	/*padding: 0 28rpx;*/
+}
+
+.order-head {
+	/*background-color: red;*/
+	height: 48rpx;
+	padding: 28rpx;
+}
+
+.order-head-logo {
+	display: block;
+	float: left;
+	width: 48rpx;
+	height: 48rpx;
+	/*background-color: yellow;*/
+	border-radius: 100%;
+}
+
+.order-head-name {
+	display: block;
+	font-size: 28rpx;
+	line-height: 48rpx;
+	/*background-color: blue;*/
+	float: left;
+	margin-left: 20rpx;
+}
+
+.order-head-express {
+	display: block;
+	font-size: 24rpx;
+	line-height: 24rpx;
+	padding: 6rpx 10rpx;
+	/*background-color: blue;*/
+	border: 2rpx solid black;
+	float: right;
+	margin-top: 7rpx;
+}
+
+.order-unit {
+	/*background-color: #f5f5f5;*/
+	background-color: white;
+	height: 114rpx;
+	padding: 28rpx;
+}
+
+.order-unit-box {
+	/*background-color: green;*/
+	float: left;
+	margin-left: 20rpx;
+}
+
+.order-unit-img {
+	display: block;
+	float: left;
+	width: 114rpx;
+	height: 114rpx;
+	/*background-color: red;*/
+}
+
+.order-unit-name {
+	display: block;
+	font-size: 28rpx;
+	line-height: 42rpx;
+	/*background-color: yellow;*/
+}
+
+.order-unit-remark {
+	display: block;
+	font-size: 24rpx;
+	line-height: 36rpx;
+	/*background-color: blue;*/
+}
+
+.order-unit-amount {
+	display: block;
+	font-size: 28rpx;
+	line-height: 36rpx;
+	/*background-color: white;*/
+}
+
+.order-unit-price {
+	display: block;
+	float: right;
+	font-size: 28rpx;
+	line-height: 56rpx;
+	/*background-color: blue;*/
+}
+
+.order-bottom {
+	/*background-color: red;*/
+	padding: 12rpx 28rpx;
+}
+
+.order-bottom-unit {
+	/*background-color: red;*/
+	height: 28rpx;
+	padding: 16rpx 0;
+}
+
+.order-bottom-key {
+	display: block;
+	float: left;
+	font-size: 28rpx;
+	line-height: 28rpx;
+	/*background-color: blue;*/
+}
+
+.order-bottom-value {
+	display: block;
+	float: right;
+	font-size: 28rpx;
+	line-height: 28rpx;
+	/*background-color: blue;*/
+}
+
+/*.order-bottom-total {
+	height: 28rpx;
+	padding: 16rpx 0;
+}
+
+.order-bottom-discount {
+	display: block;
+	float: right;
+	font-size: 28rpx;
+	line-height: 28rpx;
+	margin-right: 20rpx;
+}
+
+.order-bottom-tip {
+	display: block;
+	float: right;
+	font-size: 28rpx;
+	line-height: 28rpx;
+	margin-right: 20rpx;
+}
+
+.order-bottom-money {
+	display: block;
+	float: right;
+	font-size: 28rpx;
+	line-height: 28rpx;
+}*/
+
+
+/*--------------------------------address--------------------------------*/
+
+
+.checkout {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100rpx;
+	background-color: white;
+}
+
+.checkout-discount {
+	display: block;
+	float: left;
+	/*background-color: red;*/
+	font-size: 28rpx;
+	line-height: 100rpx;
+	padding-left: 28rpx;
+}
+
+.checkout-tip {
+	display: block;
+	float: right;
+	/*background-color: blue;*/
+	font-size: 28rpx;
+	line-height: 100rpx;
+	padding-right: 28rpx;
+}
+
+.checkout-money {
+	display: block;
+	float: right;
+	/*background-color: green;*/
+	font-size: 28rpx;
+	font-weight: bold;
+	color: red;
+	line-height: 100rpx;
+	padding-right: 28rpx;
+}
+
+.checkout-button {
+	width: 240rpx;
+	height: 100rpx;
+	float: right;
+	font-size: 32rpx;
+	font-weight: bold;
+	line-height: 100rpx;
+	background-color: #ffd300;
+}
+
+
+
+
+/*#ffd300*/
+
+
+
+

@@ -1,0 +1,33 @@
+
+
+
+<view class="unti">
+    <text class="unti-left" style="font-weight: bold">配送信息</text>
+</view>
+<view class="unti">
+    <text class="unti-left">送达时间</text>
+    <text class="unti-right">预计送达时间 16:30</text>
+</view>
+<view class="unti">
+    <text class="unti-left">收获地址</text>
+    <text class="unti-right">浙江省宁波市鄞州区天高巷222号新城名苑5839号 山久 17681765839</text>
+</view>
+<view class="unti">
+    <text class="unti-left">配送方式</text>
+    <text class="unti-right">达达配送</text>
+</view>
+<view class="unti" style="margin-top:20rpx;">
+    <text class="unti-left" style="font-weight:bold;">订单信息</text>
+</view>
+<view class="unti">
+    <text class="unti-left">订单编号</text>
+    <text class="unti-right">1205 2323 5565 7787 212</text>
+</view>
+<view class="unti">
+    <text class="unti-left">下单时间</text>
+    <text class="unti-right">2017-07-11 16:00:12</text>
+</view>
+
+<!-- <text class="info-unit">预计送达时间 18:30</text> -->
+
+

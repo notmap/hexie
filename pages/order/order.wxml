@@ -1,0 +1,56 @@
+<scroll-view class="scrollbox" scroll-y="true">
+    <view class="address">
+        <image class="address-icon" src="{{icon.address}}"/>
+        <view class="address-info">
+            <text class="address-info-text ellipsis">山久 17681765839</text>
+            <text class="address-info-text ellipsis">宁波市鄞州区天高巷222号新城名苑3106室</text>
+        </view>
+        <text class="address-jump" bindtap="jumpToAddress"></text>
+    </view>
+
+    <view class="order">
+        <view class="order-head">
+            <image class="order-head-logo" src="{{shop.logo}}"/>
+            <text class="order-head-name">{{shop.name}}</text>
+            <text class="order-head-express">{{shop.express}}</text>
+        </view>
+
+        <view class="order-unit" wx:for="{{order}}" wx:key="{{id}}">
+            <image class="order-unit-img" src="{{item.img}}"/>
+            <view class="order-unit-box">
+                <text class="order-unit-name">{{item.name}}</text>
+                <text class="order-unit-remark">{{item.remark}}</text>
+                <text class="order-unit-amount">x{{item.amount}}</text>
+            </view>
+            <text class="order-unit-price">￥{{item.price}}</text>
+        </view>
+
+        <view class="order-bottom">
+            <view class="order-bottom-unit">
+                <text class="order-bottom-key">餐盒费</text>
+                <text class="order-bottom-value">￥2</text>
+            </view>
+            <view class="order-bottom-unit">
+                <text class="order-bottom-key">配送费</text>
+                <text class="order-bottom-value">￥3</text>
+            </view>
+            <view class="order-bottom-unit">
+                <text class="order-bottom-key">满减优惠</text>
+                <text class="order-bottom-value">-￥9</text>
+            </view>
+            <!-- <view class="order-bottom-total">
+                <text class="order-bottom-money">￥56</text>
+                <text class="order-bottom-tip">小计</text>
+                <text class="order-bottom-discount">已优惠￥9</text>
+            </view> -->
+        </view>
+    </view>
+</scroll-view>
+
+<view class="checkout">
+    <text class="checkout-discount">已优惠￥9</text>
+    <button class="checkout-button">提交订单</button>
+    <text class="checkout-money">￥56</text>
+    <text class="checkout-tip">合计</text>
+</view>
+
