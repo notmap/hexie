@@ -1,0 +1,39 @@
+
+
+<view class="progress">
+    <view class="progress-bar">
+        <text class="progress-dot"></text>
+        <text class="progress-dot progress-line"></text>
+        <text class="progress-dot progress-line"></text>
+        <text class="progress-dot progress-line"></text>
+    </view>
+</view>
+
+<view class="info">
+    <view class="info-unti"  style="margin-top:20rpx;">
+        <text class="info-left" style="font-weight: bold">配送信息</text>
+    </view>
+    <view class="info-unti">
+        <text class="info-left">送达时间</text>
+        <text class="info-right">预计送达时间 16:30</text>
+    </view>
+    <view class="info-unti">
+        <text class="info-left">收获地址</text>
+        <text class="info-right">浙江省宁波市鄞州区天高巷222号新城名苑5839号 山久 17681765839</text>
+    </view>
+    <view class="info-unti">
+        <text class="info-left">配送方式</text>
+        <text class="info-right">达达配送</text>
+    </view>
+    <view class="info-unti" style="margin-top:20rpx;">
+        <text class="info-left" style="font-weight:bold;">订单信息</text>
+    </view>
+    <view class="info-unti">
+        <text class="info-left">订单编号</text>
+        <text class="info-right">1205 2323 5565 7787 212</text>
+    </view>
+    <view class="info-unti">
+        <text class="info-left">下单时间</text>
+        <text class="info-right">2017-07-11 16:00:12</text>
+    </view>
+</view>

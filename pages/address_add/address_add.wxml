@@ -1,0 +1,25 @@
+
+<view class="unit">
+    <text class="unit-text">联系人</text>
+    <input class="unit-input" placeholder="名字" placeholder-class="placeholder" auto-focus/>
+    <image class="unit-img" src="" />
+</view>
+
+<view class="unit">
+    <text class="unit-text">手机号码</text>
+    <input class="unit-input" placeholder="11位手机号" placeholder-class="placeholder" auto-focus/>
+    <image class="unit-img" src="" />
+</view>
+
+<view class="unit">
+    <text class="unit-text">选择地区</text>
+    <input class="unit-input" placeholder="地区信息" placeholder-class="placeholder" auto-focus/>
+    <image class="unit-img" src="" />
+</view>
+
+<view class="unit">
+    <text class="unit-text">详细地址</text>
+    <input class="unit-input" placeholder="街道门牌信息" placeholder-class="placeholder" auto-focus/>
+    <image class="unit-img" src="" />
+</view>
+
