@@ -2,10 +2,22 @@
 
 <view class="progress">
     <view class="progress-bar">
-        <text class="progress-dot"></text>
-        <text class="progress-dot progress-line"></text>
-        <text class="progress-dot progress-line"></text>
-        <text class="progress-dot progress-line"></text>
+        <text class="progress-dot-active"></text>
+        <text class="progress-dotline"></text>
+        <text class="progress-dotline"></text>
+        <text class="progress-dotline"></text>
+    </view>
+    <view class="progress-tip">
+        <text class="progress-text progress-text-active">支付成功</text>
+        <text class="progress-text">商家接单</text>
+        <text class="progress-text">正配送中</text>
+        <text class="progress-text">点单完成</text>
+    </view>
+    <view class="progress-status">
+        <image class="progress-status-icon" src="../../imgs/status1.png" />
+        <text class="progress-status-text">支付成功</text>
+        <text class="progress-status-tip">5分钟内商家未接单, 将自动取消</text>
+        <text class="progress-status-time">17:26</text>
     </view>
 </view>
 

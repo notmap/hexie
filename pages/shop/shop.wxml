@@ -2,8 +2,8 @@
 	<view class="header {{scrollDown ? 'header-hidden' : ''}}">
 		<image class="header-logo" src="{{shop.logo}}"></image>
 		<text class="header-name ellipsis">{{shop.name}}</text>
-		<text class="header-express ellipsis">蜂鸟配送</text>
-		<text class="header-welcome ellipsis">欢迎光临，用餐高峰请提前下单，谢谢</text>
+		<text class="header-express ellipsis">{{shop.express}}</text>
+		<text class="header-welcome ellipsis">{{shop.welcome}}</text>
 		<view class="header-promotion">{{shop.promotion}}</view>
 		<view class="header-shopinfo" data-fun="header.goShopInfo" bindtap="onEvent"></view>
 	</view>
@@ -65,7 +65,7 @@
 			            </view>
 			        </view>
 			        <view class="history-bottom" wx:if="{{item.button}}">
-			            <button class="history-button">{{item.button}}</button>
+			            <button class="history-button" data-fun="{{item.data}}" bindtap="onEvent">{{item.button}}</button>
 			        </view>
 			    </view>
 			</scroll-view>

@@ -3,38 +3,132 @@
 
 .progress {
 	width: 100%;
-	height: 400rpx;
-	background-color: green;
+	/*height: 400rpx;*/
+	background-color: #fff;
 }
 
 .progress-bar {
-	padding: 50rpx;
-	background-color: #eee;
-	background-color: red;
-	height: 26rpx;
+	padding: 60rpx 2rpx 30rpx 2rpx;
+	background-color: #fff;
+	/*background-color: red;*/
 }
 
-.progress-dot {
+.progress-bar:after {
+	content: ""; 
+	display: block; 
+	clear: both; 
+	visibility: hidden;
+}
+
+.progress-dot, .progress-dotline, .progress-dot-active , .progress-dotline-active {
 	display: block;
 	float: left;
 	background-color: #fff;
 	width: 14rpx;
 	height: 14rpx;
-	border: 6rpx solid #ffd300;
+	border: 2rpx solid #e3e3e3;
 	border-radius: 100%;
 	position: relative;
-	margin: 0 68rpx;
+	margin: 0 84rpx;
 }
 
-.progress-line:after {
+.progress-dotline:after {
 	content: "";
-	width: 134rpx;
+	width: 168rpx;
 	height: 2rpx;
-	background-color: #ddd;
+	background-color: #e3e3e3;
 	position: absolute;
 	top: 6rpx;
-	right: 20rpx;
+	right: 16rpx;
 }
+
+.progress-dot-active:after, .progress-dotline-active:after {
+	content: "";
+	background-color: #fff;
+	width: 14rpx;
+	height: 14rpx;
+	border: 6rpx solid #ffd300;
+	border-radius: 100%;
+	position: absolute;
+	top: -6rpx;
+	left: -6rpx;
+	z-index: 2;
+}
+
+.progress-dotline-active:before {
+	content: "";
+	width: 164rpx;
+	height: 2rpx;
+	background-color: #ffd300;
+	position: absolute;
+	top: 6rpx;
+	right: 16rpx;
+}
+
+.progress-tip {
+	/*background-color: green;*/
+	display: flex;
+}
+
+.progress-text {
+	flex: 1;
+	font-size: 24rpx;
+	text-align: center;
+	color: #ddd;
+}
+
+.progress-text-active {
+	color: #f5cc00;
+}
+
+
+.progress-status {
+	/*background-color: green;*/
+	padding: 50rpx;
+	height: 80rpx;
+}
+
+.progress-status-icon {
+	display: block;
+	float: left;
+	margin-right: 20rpx;
+	/*background-color: red;*/
+	width: 80rpx;
+	height: 80rpx;
+}
+
+.progress-status-text {
+	font-size: 32rpx;
+	font-weight: bold;
+	line-height: 44rpx;
+	float: left;
+	display: block;
+	width: 420rpx;
+	/*background-color: green;*/
+}
+
+.progress-status-tip {
+	width: 420rpx;
+	font-size: 24rpx;
+	line-height: 36rpx;
+	color: #666;
+	float: left;
+	display: block;
+	/*background-color: blue;*/
+}
+
+.progress-status-time {
+	display: block;
+	float: right;
+	width: 100rpx;
+	text-align: right;
+	height: 36rpx;
+	font-size: 24rpx;
+	line-height:36rpx;
+	color: #666;
+	/*background-color: red;*/
+}
+
 
 /*--------------------------------info--------------------------------*/
 
