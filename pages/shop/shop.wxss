@@ -46,6 +46,7 @@
 	font-size: 24rpx;
 	line-height: 24rpx;
 	position: relative;
+	/*background-color: green;*/
 }
 
 .header-promotion:after {
@@ -58,6 +59,10 @@
 	position: absolute;
 	top: 34rpx;
 	left: 0;
+}
+
+.header-discount {
+	margin-right: 20rpx;
 }
 
 .header-shopinfo {
@@ -549,21 +554,6 @@
 	background-color: #4a4a4c;
 }
 
-/*.bottom-data {
-	flex: 1;
-	background-color: red;
-}*/
-
-/*.bottom-icon {
-	position: absolute;
-	left: 40rpx;
-	top: -20rpx;
-	width: 100rpx;
-	height: 100rpx;
-	background: #ffd300;
-	border-radius: 50%;
-	border: 10rpx solid #4a4a4c;
-}*/
 .bottom-img {
 	position: absolute;
 	left: 20rpx;
@@ -590,16 +580,11 @@
 	font-size: 36rpx;
 	line-height: 100rpx;
 	padding-left: 160rpx;
-	/*background-color: green;*/
 }
 
-.bottom-submit.disabled {
-	width: 200rpx;
-	height: 100rpx;
-	font-size: 30rpx;
-	line-height: 100rpx;
-	background: #404040;
+button[disabled][type="default"], wx-button[disabled]:not([type]) {
 	color: #999999;
+	background-color: #404040;
 }
 
 .bottom-submit {
@@ -608,6 +593,5 @@
 	font-size: 30rpx;
 	line-height: 100rpx;
 	background: #ffd300;
-	/*background-color: red;*/
 	color: #000;
 }

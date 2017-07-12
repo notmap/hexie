@@ -1,80 +1,76 @@
 var server = require('./utils/server');
 
 App({
-
-	globalData: {
-		hasLogin: false
-	},
-
-	rd_session: null,
-
 	onLaunch: function () {
-		// console.log('1.1 App Launch'); // debug
-		var self = this;
-		var rd_session = wx.getStorageSync('rd_session');
-		// console.log('1.2 rd_session', rd_session) // debug
-		if (!rd_session) {
-			self.login();
-		} 
-		else {
-			wx.checkSession({
-				success: function () {
-					// console.log('1.3 登录态未过期') // debug
-					self.rd_session = rd_session;
-					self.getUserInfo();
-				},
-				fail: function () {
-					self.login();
-				}
-			})
-		}
+		this.checkSession();
+		var localData = require('./data.js');
+        this.globalData.shop = localData.shop;
+        this.globalData.classify = localData.classify;
+        this.globalData.product = localData.product;
+        this.globalData.comment = localData.comment;
+        this.globalData.history = this.dataHandle.historyDataHandle(localData.history);
+        this.globalData.classifySeleted = localData.classify[0].id;
+        this.globalData.heightArr = this.dataHandle.classifyDataHandle(localData.classify);
 	},
 
-	onShow: function () {
-		// console.log('App Show') // debug
-	},
-
-	onHide: function () {
-		// console.log('App Hide') // debug
+	checkSession: function() {
+		wx.checkSession({
+			success: () => {this.getUserInfo();},
+			fail: () => {this.login();}
+		})
 	},
 
 	login: function() {
-		var self = this;
 		wx.login({
-			success: function (res) {
-				console.log('wx.login', res) // debug
-
-				self.rd_session = res;
-				self.globalData.hasLogin = true;
-				wx.setStorageSync('rd_session', self.rd_session);
-				self.getUserInfo();
-
-
-				// server.getJSON('/WxAppApi/setUserSessionKey', {code: res.code}, function (res) {
-				// 	console.log('setUserSessionKey', res)
-				// 	self.rd_session = res.data.data.rd_session;
-				// 	self.globalData.hasLogin = true;
-				// 	wx.setStorageSync('rd_session', self.rd_session);
-				// 	self.getUserInfo();
-				// });
-			}
+			success: (res) => {this.getUserInfo();}
 		});
 	},
 
 	getUserInfo: function() {
-		var self = this;
 		wx.getUserInfo({
-			success: function(res) {
-
-				// console.log('2.1 getUserInfo', res) // debug
-				self.globalData.userInfo = res.userInfo;
-				// server.getJSON('/WxAppApi/checkSignature', {rd_session: self.rd_session,result: res}, function (res) {
-				// 	console.log('checkSignature', res)
-				// 	if (res.data.errorcode) {
-				// 		// TODO:验证有误处理
-				// 	}
-				// });
-			}
+			success: (res) => {this.globalData.userInfo = res.userInfo;}
 		});
-	}
+	},
+
+	dataHandle: {
+        productSection: {  // 商品区的高度  单位是rpx
+            classify: 74,
+            unit: 152,
+            padding: 16,
+            border: 2
+        },
+
+        orderStatus: [
+            {status: '订单已取消', button: false, data: false},
+            {status: '配送中', button: '查看订单', data:'order.goExpress'},
+            {status: '订单已完成', button: '评价一下', data:'order.goScore'}
+        ],
+
+        historyDataHandle: function(historyData) {
+            return historyData.map((value, index, arr) => {
+                value.order.total > 3 ? value.fold = true : value.fold = false;
+                value.button = this.orderStatus[value.status].button;
+                value.data = this.orderStatus[value.status].data;
+                value.status = this.orderStatus[value.status].status;
+                return value;
+            });
+        },
+
+        classifyDataHandle: function(classifyData) {
+
+            var height = this.productSection,
+                heightArr = [];
+            classifyData.reduce(function(returnVal, val, index, arr) {
+                heightArr.push({
+                    id: val.id,
+                    sectionTop: returnVal
+                });
+                var sectionHeight = val.product.length * height.unit + height.classify + height.padding + height.border; 
+                return returnVal + sectionHeight;
+            }, 0);
+            return heightArr;
+        }
+    },
+
+    globalData: {}
 })

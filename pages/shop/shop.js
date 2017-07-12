@@ -1,10 +1,11 @@
 var app = getApp();
-var server = require('../../utils/server');
+// var server = require('../../utils/server');
 Page({
 
 	data: {
 		specHidden: true,
 		cartHidden: true,
+        orderEnable: false,
 		swiper: {current: '0'},
 		cart: {
 			count: 0,
@@ -14,16 +15,16 @@ Page({
 	},
 
 	onLoad: function (options) {
-
-        var localData = require('../../data.js');
+        var localData = app.globalData;
         this.setData({
             shop: localData.shop,
             classify: localData.classify,
             product: localData.product,
             comment: localData.comment,
-            history: this.dataHandle.historyDataHandle(localData.history),
-            classifySeleted: localData.classify[0].id,
-            heightArr: this.dataHandle.classifyDataHandle(localData.classify)
+            history: localData.history,
+            classifySeleted: localData.classifySeleted,
+            heightArr: localData.classify,
+            difference: `差￥${localData.shop.minimum}起送`
         });
 	},
 
@@ -56,7 +57,6 @@ Page({
 
 	menu: {
 		onScroll: function (self, e) {
-
             var sectionWidth = 570;
 			if(e.type == 'scroll') {
 				e.detail.scrollTop > 10 && !self.data.scrollDown && self.setData({scrollDown: true});
@@ -113,7 +113,10 @@ Page({
 
 		countCart: function (self) {
 			var count = 0,
-				total = 0;
+				total = 0,
+                difference,
+                minimum = self.data.shop.minimum;
+
 			for (let id in self.data.cart.list) {
 				var product = self.data.product[id];
 				count += self.data.cart.list[id];
@@ -121,6 +124,19 @@ Page({
 			}
 			self.data.cart.count = count;
 			self.data.cart.total = total;
+            difference = minimum - total;
+
+            (minimum - total) <= 0 
+            ? self.setData({
+                orderEnable: true,
+                difference: '去结算'
+            }) 
+            : self.setData({
+                orderEnable: false,
+                difference: `差￥${difference}起送`
+            }) 
+
+            count == 0 && self.setData({cartHidden: true});
 			self.setData({cart: self.data.cart});
 		},
 
@@ -131,48 +147,8 @@ Page({
 		}
 	},
 
-    dataHandle: {
-
-        productSection: {  // 商品区的高度  单位是rpx
-            classify: 74,
-            unit: 152,
-            padding: 16,
-            border: 2
-        },
-
-        orderStatus: [
-            {status: '订单已取消', button: false, data: false},
-            {status: '配送中', button: '查看订单', data:'order.goExpress'},
-            {status: '订单已完成', button: '评价一下', data:'order.goScore'}
-        ],
-
-        historyDataHandle: function(historyData) {
-            return historyData.map((value, index, arr) => {
-                value.order.total > 3 ? value.fold = true : value.fold = false;
-                value.button = this.orderStatus[value.status].button;
-                value.data = this.orderStatus[value.status].data;
-                value.status = this.orderStatus[value.status].status;
-                return value;
-            });
-        },
-
-        classifyDataHandle: function(classifyData) {
-
-            var height = this.productSection,
-                heightArr = [];
-            classifyData.reduce(function(returnVal, val, index, arr) {
-                heightArr.push({
-                    id: val.id,
-                    sectionTop: returnVal
-                });
-                var sectionHeight = val.product.length * height.unit + height.classify + height.padding + height.border; 
-                return returnVal + sectionHeight;
-            }, 0);
-            return heightArr;
-        }
-    },
-
 	checkout: function (e) {
-		wx.navigateTo({url: '../order/order'});
+        var data = JSON.stringify(this.data.cart);
+        wx.navigateTo({url: `../order/order?data=${data}`});
 	}
 });

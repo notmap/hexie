@@ -3,9 +3,24 @@ module.exports = {
 	shop: {
 		logo: 'http://www.legaoshuo.com/hexie/logo/2.jpg',
 		name: '大拇指麻辣烫(南商店)',
-		promotion: '满20减3, 满40减10',
+        address: '宁波市鄞州区天高巷222号',
         express: '蜂鸟配送',
-        welcome: '欢迎光临，用餐高峰请提前下单，谢谢'
+        time: '10:30-13:00 16:30-19:00',
+        welcome: '单点饮料是不外送的哦，谢谢支持',
+        photo: [
+            // 'http://www.legaoshuo.com/hexie/shop_photo/1.jpg',
+            // 'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
+            'http://www.legaoshuo.com/hexie/shop_photo/3.jpg',
+            'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
+            'http://www.legaoshuo.com/hexie/shop_photo/1.jpg'
+        ],
+        promotion: [
+            {full: 20, discount: 5},
+            {full: 40, discount: 12}
+        ],
+        minimum: 20,
+        boxFee: 2,
+        expressFee: 3
 	},
 
 	classify: [
@@ -46,25 +61,25 @@ module.exports = {
 			id: 1,
 			name: '超级麻辣烫',
 			img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
-			price: 62
+			price: 12
 		},
 		2: {
 			id: 2,
 			name: '好吃的炒饭',
 			img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
-			price: 33
+			price: 6
 		},
 		3: {
 			id: 3,
 			name: '养生拌饭',
 			img: 'http://www.legaoshuo.com/hexie/good/3.jpg',
-			price: 22
+			price: 8
 		},
 		4: {
 			id: 4,
 			name: '彩色鱿鱼',
 			img: 'http://www.legaoshuo.com/hexie/good/4.jpg',
-			price: 31
+			price: 25
 		},
 		5: {
 			id: 5,

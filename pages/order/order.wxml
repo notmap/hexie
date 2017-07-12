@@ -1,6 +1,6 @@
 <scroll-view class="scrollbox" scroll-y="true">
     <view class="address">
-        <image class="address-icon" src="{{icon.address}}"/>
+        <image class="address-icon" src="../../imgs/address.png"/>
         <view class="address-info">
             <text class="address-info-text ellipsis">山久 17681765839</text>
             <text class="address-info-text ellipsis">宁波市鄞州区天高巷222号新城名苑3106室</text>
@@ -28,15 +28,15 @@
         <view class="order-bottom">
             <view class="order-bottom-unit">
                 <text class="order-bottom-key">餐盒费</text>
-                <text class="order-bottom-value">￥2</text>
+                <text class="order-bottom-value">￥{{shop.boxFee}}</text>
             </view>
             <view class="order-bottom-unit">
                 <text class="order-bottom-key">配送费</text>
-                <text class="order-bottom-value">￥3</text>
+                <text class="order-bottom-value">￥{{shop.expressFee}}</text>
             </view>
             <view class="order-bottom-unit">
                 <text class="order-bottom-key">满减优惠</text>
-                <text class="order-bottom-value">-￥9</text>
+                <text class="order-bottom-value">-￥{{checkout.discount}}</text>
             </view>
             <!-- <view class="order-bottom-total">
                 <text class="order-bottom-money">￥56</text>
@@ -48,9 +48,9 @@
 </scroll-view>
 
 <view class="checkout">
-    <text class="checkout-discount">已优惠￥9</text>
+    <text class="checkout-discount">已优惠￥{{checkout.discount}}</text>
     <button class="checkout-button">提交订单</button>
-    <text class="checkout-money">￥56</text>
+    <text class="checkout-money">￥{{checkout.money}}</text>
     <text class="checkout-tip">合计</text>
 </view>
 

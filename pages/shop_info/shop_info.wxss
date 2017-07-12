@@ -84,25 +84,25 @@
 	/*float: left;*/
 }
 
-.promotion {
+.notice {
 	margin-top: 20rpx;
 	background-color: white;
 }
 
-.promotion .tip {
+.notice-tip {
 	height: 32rpx;
 	padding: 40rpx 28rpx;
 	/*background-color: red;*/
 }
 
-.promotion .tip .icon {
+.notice-icon {
 	display: block;
 	width: 32rpx;
 	height: 32rpx;
 	float: left;
 }
 
-.promotion .tip .text {
+.notice-text {
 	display: block;
 	font-size: 30rpx;
 	line-height: 30rpx;
@@ -112,7 +112,7 @@
 	left: 10rpx;
 }
 
-.promotion .reduce {
+.notice-promotion {
 	padding: 0 0 30rpx 80rpx;
 	color: #000;
 	font-size: 24rpx;
@@ -120,7 +120,7 @@
 	position: relative;
 	/*background-color: red;*/
 }
-.promotion .reduce:after {
+.notice-promotion:after {
 	content: "减";
 	padding: 0 4rpx;
 	line-height: 30rpx;
@@ -130,6 +130,10 @@
 	position: absolute;
 	top: -4rpx;
 	left: 30rpx;
+}
+
+.notice-discount {
+	margin-right: 20rpx;
 }
 
 

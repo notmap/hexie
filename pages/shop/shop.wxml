@@ -4,7 +4,9 @@
 		<text class="header-name ellipsis">{{shop.name}}</text>
 		<text class="header-express ellipsis">{{shop.express}}</text>
 		<text class="header-welcome ellipsis">{{shop.welcome}}</text>
-		<view class="header-promotion">{{shop.promotion}}</view>
+		<view class="header-promotion">
+			<text class="header-discount" wx:for="{{shop.promotion}}">满{{item.full}}减{{item.discount}}</text>
+		</view>
 		<view class="header-shopinfo" data-fun="header.goShopInfo" bindtap="onEvent"></view>
 	</view>
 
@@ -92,7 +94,6 @@
 		</view>
 	</view>
 
-
 	<view class="cart" hidden="{{cartHidden || !cart.count}}">
 		<view class="cart-mask" data-fun="cart.toggleCartHidden" bindtap="onEvent"></view>
 		<view class="cart-list">
@@ -110,6 +111,6 @@
 		<image class="bottom-img" src="/imgs/cart.png" data-fun="cart.toggleCartHidden" bindtap="onEvent"></image>
 		<view class="bottom-count">{{cart.count}}</view>
 		<text class="bottom-total">￥{{cart.total}}</text>
-		<button class="bottom-submit {{cart.count?'':'disabled'}}" bindtap="checkout">去结算</button>
+		<button class="bottom-submit" disabled="{{!orderEnable}}" bindtap="checkout">{{difference}}</button>
 	</view>
 </view>
