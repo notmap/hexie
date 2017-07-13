@@ -18,7 +18,7 @@ module.exports = {
             {full: 20, discount: 5},
             {full: 40, discount: 12}
         ],
-        minimum: 20,
+        minimum: 15,
         boxFee: 2,
         expressFee: 3
 	},
@@ -224,5 +224,4 @@ module.exports = {
             }
         }
     ]
-
 }

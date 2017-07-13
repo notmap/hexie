@@ -37,6 +37,14 @@
 	/*background-color: yellow;*/
 }
 
+.address-info-add {
+	width: 500rpx;
+	display: block;
+	font-size: 28rpx;
+	line-height: 80rpx;
+	/*background-color: red;*/
+}
+
 .address-jump {
 	display: block;
 	height: 80rpx;

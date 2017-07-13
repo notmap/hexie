@@ -1,21 +1,14 @@
 <scroll-view class="scrollbox" scroll-y="true">
-    <view class="address">
+    <view class="address" wx:for="{{addressArr}}">
         <view class="address-info">
-            <text class="address-info-text ellipsis">山久 17681765839</text>
-            <text class="address-info-text ellipsis">宁波市鄞州区天高巷222号新城名苑5839室</text>
+            <text class="address-info-text ellipsis">{{item.newUser}}</text>
+            <text class="address-info-text ellipsis">{{item.newAddress}}</text>
         </view>
-        <text class="address-jump" data-jump="address_add" bindtap="jump"></text>
-    </view>
-    <view class="address">
-        <view class="address-info">
-            <text class="address-info-text ellipsis">熊熊 17051090103</text>
-            <text class="address-info-text ellipsis">宁波市鄞州区罗蒙公寓14栋9527室</text>
-        </view>
-        <text class="address-jump" data-jump="address_add" bindtap="jump"></text>
+        <text class="address-jump" data-jump="{{item.raw}}" bindtap="jump"></text>
     </view>
 </scroll-view>
 
-<view class="add" data-jump="address_add" bindtap="jump">
+<view class="add" bindtap="jump">
     <text class="add-text">新增地址</text>
 </view>
 

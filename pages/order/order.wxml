@@ -2,10 +2,11 @@
     <view class="address">
         <image class="address-icon" src="../../imgs/address.png"/>
         <view class="address-info">
-            <text class="address-info-text ellipsis">山久 17681765839</text>
-            <text class="address-info-text ellipsis">宁波市鄞州区天高巷222号新城名苑3106室</text>
+            <text class="address-info-add" wx:if="{{!address}}">添加配送地址</text>
+            <text class="address-info-text ellipsis" wx:if="{{address}}">{{address.user}}</text>
+            <text class="address-info-text ellipsis" wx:if="{{address}}">{{address.address}}</text>
         </view>
-        <text class="address-jump" bindtap="jumpToAddress"></text>
+        <text class="address-jump" bindtap="goAddress"></text>
     </view>
 
     <view class="order">
@@ -49,7 +50,7 @@
 
 <view class="checkout">
     <text class="checkout-discount">已优惠￥{{checkout.discount}}</text>
-    <button class="checkout-button">提交订单</button>
+    <button class="checkout-button" bindtap="checkout">提交订单</button>
     <text class="checkout-money">￥{{checkout.money}}</text>
     <text class="checkout-tip">合计</text>
 </view>

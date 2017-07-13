@@ -31,14 +31,32 @@
 .unit-img {
 	display: block;
 	float: left;
-	background-color: red;
+	/*background-color: red;*/
 	width: 74rpx;
 	height: 56rpx;
 }
 
 
+/*--------------------------------add--------------------------------*/
 
-/*#ffd300*/
+
+.save {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100rpx;
+	background-color: #ffd300;
+	text-align: center;
+}
+
+.save-text {
+	font-size: 28rpx;
+	font-weight: bold;
+	line-height: 100rpx;
+	color: #000;
+}
+
 
 
 

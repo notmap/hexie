@@ -21,31 +21,69 @@
     </view>
 </view>
 
+<view class="order">
+    <view class="order-head">
+        <image class="order-head-logo" src="{{shop.logo}}"/>
+        <text class="order-head-name">{{shop.name}}</text>
+        <text class="order-head-express">{{shop.express}}</text>
+    </view>
+
+    <view class="order-unit" wx:for="{{order}}" wx:key="{{id}}">
+        <image class="order-unit-img" src="{{item.img}}"/>
+        <view class="order-unit-box">
+            <text class="order-unit-name">{{item.name}}</text>
+            <text class="order-unit-remark">{{item.remark}}</text>
+            <text class="order-unit-amount">x{{item.amount}}</text>
+        </view>
+        <text class="order-unit-price">￥{{item.price}}</text>
+    </view>
+
+    <view class="order-bottom">
+        <view class="order-bottom-unit">
+            <text class="order-bottom-key">餐盒费</text>
+            <text class="order-bottom-value">￥{{shop.boxFee}}</text>
+        </view>
+        <view class="order-bottom-unit">
+            <text class="order-bottom-key">配送费</text>
+            <text class="order-bottom-value">￥{{shop.expressFee}}</text>
+        </view>
+        <view class="order-bottom-unit">
+            <text class="order-bottom-key">满减优惠</text>
+            <text class="order-bottom-value">-￥{{checkout.discount}}</text>
+        </view>
+        <view class="order-bottom-total">
+            <text class="order-bottom-money">￥{{checkout.money}}</text>
+            <text class="order-bottom-tip">小计</text>
+            <text class="order-bottom-discount">已优惠￥{{checkout.discount}}</text>
+        </view>
+    </view>
+</view>
+
 <view class="info">
     <view class="info-unti"  style="margin-top:20rpx;">
         <text class="info-left" style="font-weight: bold">配送信息</text>
     </view>
     <view class="info-unti">
         <text class="info-left">送达时间</text>
-        <text class="info-right">预计送达时间 16:30</text>
+        <text class="info-right">预计送达时间 {{expressInfo.arrival}}</text>
     </view>
     <view class="info-unti">
         <text class="info-left">收获地址</text>
-        <text class="info-right">浙江省宁波市鄞州区天高巷222号新城名苑5839号 山久 17681765839</text>
+        <text class="info-right">{{expressInfo.target}}</text>
     </view>
     <view class="info-unti">
         <text class="info-left">配送方式</text>
-        <text class="info-right">达达配送</text>
+        <text class="info-right">{{shop.express}}</text>
     </view>
     <view class="info-unti" style="margin-top:20rpx;">
         <text class="info-left" style="font-weight:bold;">订单信息</text>
     </view>
     <view class="info-unti">
         <text class="info-left">订单编号</text>
-        <text class="info-right">1205 2323 5565 7787 212</text>
+        <text class="info-right">{{expressInfo.code}}</text>
     </view>
     <view class="info-unti">
         <text class="info-left">下单时间</text>
-        <text class="info-right">2017-07-11 16:00:12</text>
+        <text class="info-right">{{expressInfo.time}}</text>
     </view>
 </view>

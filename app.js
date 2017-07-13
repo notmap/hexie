@@ -1,16 +1,18 @@
-var server = require('./utils/server');
+// var server = require('./utils/server');
 
 App({
 	onLaunch: function () {
 		this.checkSession();
-		var localData = require('./data.js');
-        this.globalData.shop = localData.shop;
-        this.globalData.classify = localData.classify;
-        this.globalData.product = localData.product;
-        this.globalData.comment = localData.comment;
-        this.globalData.history = this.dataHandle.historyDataHandle(localData.history);
-        this.globalData.classifySeleted = localData.classify[0].id;
-        this.globalData.heightArr = this.dataHandle.classifyDataHandle(localData.classify);
+		var shopData = require('./shop_data.js');
+        this.globalData = {
+            shop: shopData.shop,
+            classify: shopData.classify,
+            product: shopData.product,
+            comment: shopData.comment,
+            history: this.dataHandle.historyDataHandle(shopData.history),
+            classifySeleted: shopData.classify[0].id,
+            heightArr: this.dataHandle.classifyDataHandle(shopData.classify)
+        }
 	},
 
 	checkSession: function() {
@@ -27,8 +29,16 @@ App({
 	},
 
 	getUserInfo: function() {
+        // console.log(55555)
 		wx.getUserInfo({
-			success: (res) => {this.globalData.userInfo = res.userInfo;}
+			success: (res) => {
+                this.globalData.userInfo = res.userInfo;
+                var userData = require('./user_data.js');
+                this.globalData.addressArr = userData.addressArr;
+                this.globalData.addressActive = userData.addressActive;
+                // console.log(res.userInfo)
+                // console.log(userData.addressArr)
+            }
 		});
 	},
 
@@ -70,7 +80,5 @@ App({
             }, 0);
             return heightArr;
         }
-    },
-
-    globalData: {}
+    }
 })

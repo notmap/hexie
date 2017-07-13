@@ -26,7 +26,7 @@
 	background-color: #fff;
 	width: 14rpx;
 	height: 14rpx;
-	border: 2rpx solid #e3e3e3;
+	border: 2rpx solid #ccc;
 	border-radius: 100%;
 	position: relative;
 	margin: 0 84rpx;
@@ -36,7 +36,7 @@
 	content: "";
 	width: 168rpx;
 	height: 2rpx;
-	background-color: #e3e3e3;
+	background-color: #ccc;
 	position: absolute;
 	top: 6rpx;
 	right: 16rpx;
@@ -66,7 +66,6 @@
 }
 
 .progress-tip {
-	/*background-color: green;*/
 	display: flex;
 }
 
@@ -74,7 +73,7 @@
 	flex: 1;
 	font-size: 24rpx;
 	text-align: center;
-	color: #ddd;
+	color: #ccc;
 }
 
 .progress-text-active {
@@ -83,7 +82,6 @@
 
 
 .progress-status {
-	/*background-color: green;*/
 	padding: 50rpx;
 	height: 80rpx;
 }
@@ -92,7 +90,6 @@
 	display: block;
 	float: left;
 	margin-right: 20rpx;
-	/*background-color: red;*/
 	width: 80rpx;
 	height: 80rpx;
 }
@@ -104,7 +101,6 @@
 	float: left;
 	display: block;
 	width: 420rpx;
-	/*background-color: green;*/
 }
 
 .progress-status-tip {
@@ -114,7 +110,6 @@
 	color: #666;
 	float: left;
 	display: block;
-	/*background-color: blue;*/
 }
 
 .progress-status-time {
@@ -126,8 +121,143 @@
 	font-size: 24rpx;
 	line-height:36rpx;
 	color: #666;
-	/*background-color: red;*/
 }
+
+
+/*--------------------------------order--------------------------------*/
+
+
+.order {
+	margin-top: 20rpx;
+	background-color: white;
+}
+
+.order-head {
+	height: 48rpx;
+	padding: 28rpx;
+}
+
+.order-head-logo {
+	display: block;
+	float: left;
+	width: 48rpx;
+	height: 48rpx;
+	border-radius: 100%;
+}
+
+.order-head-name {
+	display: block;
+	font-size: 28rpx;
+	line-height: 48rpx;
+	float: left;
+	margin-left: 20rpx;
+}
+
+.order-head-express {
+	display: block;
+	font-size: 24rpx;
+	line-height: 24rpx;
+	padding: 6rpx 10rpx;
+	border: 2rpx solid black;
+	float: right;
+	margin-top: 7rpx;
+}
+
+.order-unit {
+	background-color: white;
+	height: 114rpx;
+	padding: 28rpx;
+}
+
+.order-unit-box {
+	float: left;
+	margin-left: 20rpx;
+}
+
+.order-unit-img {
+	display: block;
+	float: left;
+	width: 114rpx;
+	height: 114rpx;
+}
+
+.order-unit-name {
+	display: block;
+	font-size: 28rpx;
+	line-height: 42rpx;
+}
+
+.order-unit-remark {
+	display: block;
+	font-size: 24rpx;
+	line-height: 36rpx;
+}
+
+.order-unit-amount {
+	display: block;
+	font-size: 28rpx;
+	line-height: 36rpx;
+}
+
+.order-unit-price {
+	display: block;
+	float: right;
+	font-size: 28rpx;
+	line-height: 56rpx;
+}
+
+.order-bottom {
+	padding: 12rpx 28rpx;
+}
+
+.order-bottom-unit {
+	height: 28rpx;
+	padding: 16rpx 0;
+}
+
+.order-bottom-key {
+	display: block;
+	float: left;
+	font-size: 28rpx;
+	line-height: 28rpx;
+}
+
+.order-bottom-value {
+	display: block;
+	float: right;
+	font-size: 28rpx;
+	line-height: 28rpx;
+}
+
+.order-bottom-total {
+	height: 28rpx;
+	padding: 16rpx 0;
+}
+
+.order-bottom-discount {
+	display: block;
+	float: right;
+	font-size: 28rpx;
+	line-height: 28rpx;
+	margin-right: 20rpx;
+}
+
+.order-bottom-tip {
+	display: block;
+	float: right;
+	font-size: 28rpx;
+	line-height: 28rpx;
+	margin-right: 20rpx;
+}
+
+.order-bottom-money {
+	display: block;
+	float: right;
+	font-size: 28rpx;
+	line-height: 28rpx;
+	color: red;
+}
+
 
 
 /*--------------------------------info--------------------------------*/
