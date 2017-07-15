@@ -1,12 +1,18 @@
+
+const ImgLoader = require('../../utils/img_loader/img_loader.js')
+// const server = require('../../utils/server');
+ 
 var app = getApp();
-// var server = require('../../utils/server');
 Page({
 
 	data: {
 		specHidden: true,
 		cartHidden: true,
         orderEnable: false,
-		swiper: {current: '0'},
+		swiper: {
+            current: '0',
+            show: false
+        },
 		cart: {
 			count: 0,
 			total: 0,
@@ -19,16 +25,51 @@ Page({
         this.setData({
             shop: localData.shop,
             classify: localData.classify,
-            product: localData.product,
+            product: this.addImgStatus(localData.product),
             comment: localData.comment,
             history: localData.history,
             classifySeleted: localData.classifySeleted,
             heightArr: localData.classify,
             difference: `差￥${localData.shop.minimum}起送`
         });
+
+        this.imgLoader = new ImgLoader(this, this.imageOnLoad.bind(this))
+        this.loadImages(this.data.product);
 	},
 
-	onShow: function () {},
+	loadImages(imgArr) {
+        this.imgLoader.load(this.data.shop.logo);
+        imgArr.forEach(item => {
+            this.imgLoader.load(item.img)
+        })
+    },
+
+    imageOnLoad(err, data) {
+
+        // console.log('图片加载完成', err, data.src);
+        // console.log('图片加载完成');
+
+        var productData = this.data.product.map(item => {
+            if (item.img == data.src)
+                item.loaded = true
+            return item
+        })
+        
+        var  shopData = this.data.shop;
+        shopData.logo == data.src && (shopData.loaded = true);
+
+        this.setData({
+            product: productData,
+            shop: shopData
+        })
+    },
+
+    addImgStatus: function(imgArr) {
+        return imgArr.map(item => {
+            item.loaded = false;
+            return item;
+        })
+    },
 
 	onEvent: function(e) {
 		var self = this;
@@ -49,14 +90,19 @@ Page({
 			var active = e.target.dataset.tab || e.detail.current.toString(); // 注意数据类型
 			if(active !== self.data.swiper.current) {
 				self.setData({
-                    swiper: {current: active}
+                    swiper: {
+                        current: active,
+                        show: true
+                    }
                 });
 			}
+            // console.log(self.data.swiper.current == 2)
 		}
 	},
 
 	menu: {
 		onScroll: function (self, e) {
+            // console.log(5839);
             var sectionWidth = 570;
 			if(e.type == 'scroll') {
 				e.detail.scrollTop > 10 && !self.data.scrollDown && self.setData({scrollDown: true});

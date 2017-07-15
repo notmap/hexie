@@ -24,11 +24,12 @@ Page({
         });
     },
 
-    onShow: function (options) {
-        // var addressArr = wx.getStorageSync('addressArr');
-        // addressArr && this.setData({
-        //     addressArr: this.getAddress(addressArr, app.globalData.addressActive)
-        // });
+    onShow: function (option) {
+        var addressArr = wx.getStorageSync('addressArr');
+        console.log(addressArr)
+        addressArr && this.setData({
+            address: this.getAddress(addressArr, app.globalData.addressActive)
+        });
     },
 
     goAddress: function() {

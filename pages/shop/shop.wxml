@@ -1,6 +1,6 @@
 <view class="container">
 	<view class="header {{scrollDown ? 'header-hidden' : ''}}">
-		<image class="header-logo" src="{{shop.logo}}"></image>
+		<image class="header-logo" src="{{shop.logo}}" wx:if="{{shop.loaded}}"></image>
 		<text class="header-name ellipsis">{{shop.name}}</text>
 		<text class="header-express ellipsis">{{shop.express}}</text>
 		<text class="header-welcome ellipsis">{{shop.welcome}}</text>
@@ -27,7 +27,7 @@
 				<view class="product-section" wx:for="{{classify}}" wx:key="id" id="{{item.id}}">
 					<view class="product-classify">{{item.name}}</view>
 					<view class="product-unit" wx:for="{{item.product}}" wx:for-item="id" wx:key="*this">
-						<image class="product-img" src="{{product[id].img}}"></image>
+						<image class="product-img" src="{{product[id].img}}" wx:if="{{product[id].loaded}}"></image>
 						<text class="product-name ellipsis">{{product[id].name}}</text>
 						<text class="product-price">￥{{product[id].price}}</text>
 						<image class="product-addCart" src="../../imgs/add.png" data-fun="cart.addCart" bindtap="onEvent" data-id="{{id}}"></image>
@@ -36,7 +36,7 @@
 			</scroll-view>
 		</swiper-item>
 		<swiper-item>
-			<scroll-view class="comment" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent">
+			<scroll-view class="comment" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent" wx:if="{{swiper.show}}">
 				<view class="comment-unit" wx:for="{{comment}}" wx:key="id">
 					<view class="comment-meta">
 						<image class="comment-avatar" src="{{item.avatar}}"></image>
@@ -49,7 +49,7 @@
 			</scroll-view>
 		</swiper-item>
 		<swiper-item>
-			<scroll-view class="history" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent">
+			<scroll-view class="history" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent" wx:if="{{swiper.show}}">
 			    <view class="history-order" wx:for="{{history}}" wx:key="id">
 			        <view class="history-head">
 			            <image class="history-logo" src="{{item.logo}}"/>
@@ -114,3 +114,6 @@
 		<button class="bottom-submit" disabled="{{!orderEnable}}" bindtap="checkout">{{difference}}</button>
 	</view>
 </view>
+
+<import src="../../utils/img_loader/img_loader.wxml"/>
+<template is="img-loader" data="{{ imgLoadList }}"></template>
