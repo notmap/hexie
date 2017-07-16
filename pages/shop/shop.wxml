@@ -1,3 +1,4 @@
+<import src="../../utils/score_show/score_show.wxml" />
 <view class="container">
 	<view class="header {{scrollDown ? 'header-hidden' : ''}}">
 		<image class="header-logo" src="{{shop.logo}}" wx:if="{{shop.loaded}}"></image>
@@ -5,7 +6,7 @@
 		<text class="header-express ellipsis">{{shop.express}}</text>
 		<text class="header-welcome ellipsis">{{shop.welcome}}</text>
 		<view class="header-promotion">
-			<text class="header-discount" wx:for="{{shop.promotion}}">满{{item.full}}减{{item.discount}}</text>
+			<text class="header-discount" wx:for="{{shop.promotion}}" wx:key="{{item.full}}">满{{item.full}}减{{item.discount}}</text>
 		</view>
 		<view class="header-shopinfo" data-fun="header.goShopInfo" bindtap="onEvent"></view>
 	</view>
@@ -23,7 +24,7 @@
 					<text class="classify-name">{{item.name}}</text>
 				</view>
 			</scroll-view>
-			<scroll-view class="product" scroll-y="true" scroll-into-view="{{classifyViewed}}" data-fun="menu.onScroll" bindscroll="onEvent">
+			<scroll-view class="product" scroll-y="true" scroll-into-view="{{classifyViewed}}" data-fun="menu.onScroll" bindscroll="onEvent" catchtouchmove="onMove">
 				<view class="product-section" wx:for="{{classify}}" wx:key="id" id="{{item.id}}">
 					<view class="product-classify">{{item.name}}</view>
 					<view class="product-unit" wx:for="{{item.product}}" wx:for-item="id" wx:key="*this">
@@ -42,7 +43,7 @@
 						<image class="comment-avatar" src="{{item.avatar}}"></image>
 						<text class="comment-name ellipsis">{{item.name}}</text>
 						<text class="comment-time">{{item.time}}</text>
-						<text class="comment-score">{{item.score}}</text>
+						<template is="score-show" data="{{...item}}"></template>
 					</view>
 					<view class="comment-content">{{item.content}}</view>
 				</view>

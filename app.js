@@ -1,5 +1,5 @@
 // var server = require('./utils/server');
-
+const scoreShow = require('./utils/score_show/score_show.js');
 App({
 	onLaunch: function () {
 		this.checkSession();
@@ -8,7 +8,7 @@ App({
             shop: shopData.shop,
             classify: shopData.classify,
             product: shopData.product,
-            comment: shopData.comment,
+            comment: this.dataHandle.commentDataHandle(shopData.comment),
             history: this.dataHandle.historyDataHandle(shopData.history),
             classifySeleted: shopData.classify[0].id,
             heightArr: this.dataHandle.classifyDataHandle(shopData.classify)
@@ -55,6 +55,13 @@ App({
             {status: '配送中', button: '查看订单', data:'order.goExpress'},
             {status: '订单已完成', button: '评价一下', data:'order.goScore'}
         ],
+
+        commentDataHandle: function(commentData) {
+            return commentData.map((value, index, arr) => {
+                value.score = scoreShow.calcScore(value.score);
+                return value;
+            });
+        },
 
         historyDataHandle: function(historyData) {
             return historyData.map((value, index, arr) => {

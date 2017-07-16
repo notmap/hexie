@@ -28,7 +28,7 @@ Page({
 
     jump: function(e) {
         var data = e.currentTarget.dataset.jump;
-        var url = `../${data}/${data}`;
+        var url = `../${data}/${data}?swiper=1`;
         wx.navigateTo({url: url});
     }
 });

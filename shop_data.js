@@ -5,12 +5,14 @@ module.exports = {
         loaded: false,
 		name: '大拇指麻辣烫(南商店)',
         address: '宁波市鄞州区天高巷222号',
+        phone: '17051090103',
         express: '蜂鸟配送',
         time: '10:30-13:00 16:30-19:00',
         welcome: '单点饮料是不外送的哦，谢谢支持',
+        score: 4.6,
         photo: [
-            // 'http://www.legaoshuo.com/hexie/shop_photo/1.jpg',
-            // 'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
+            'http://www.legaoshuo.com/hexie/shop_photo/1.jpg',
+            'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
             'http://www.legaoshuo.com/hexie/shop_photo/3.jpg',
             'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
             'http://www.legaoshuo.com/hexie/shop_photo/1.jpg'
@@ -43,7 +45,7 @@ module.exports = {
 		{
 			id: 'mushroom',
 			name: '蘑菇',
-			product: [2, 7, 8, 9]
+			product: [2, 7, 8]
 		},
 		{
 			id: 'food',
@@ -115,32 +117,16 @@ module.exports = {
 	],
 
 	comment: [
+        {
+            id: 7,
+            avatar: 'http://www.legaoshuo.com/hexie/avatar/2.jpg',
+            name: '匿名',
+            score: 2,
+            time: '2017.06.09',
+            content: '东西超级难吃，又很咸，我表示真的很难理解竟然有这样的餐厅存在，呵呵'
+        },
 		{
-			id: 1,
-			avatar: 'http://www.legaoshuo.com/hexie/avatar/2.jpg',
-			name: '匿名',
-			score: 2,
-			time: '2017.06.09',
-			content: '东西超级难吃，又很咸，我表示真的很难理解竟然有这样的餐厅存在，呵呵'
-		},
-		{
-			id: 2,
-			avatar: 'http://www.legaoshuo.com/hexie/avatar/3.jpg',
-			name: '匿名',
-			score: 2,
-			time: '2017.06.09',
-			content: '东西超级难吃，又很咸，我表示真的很难理解竟然有这样的餐厅存在，呵呵'
-		},
-		{
-			id: 3,
-			avatar: 'http://www.legaoshuo.com/hexie/avatar/1.jpg',
-			name: '匿名',
-			score: 2,
-			time: '2017.06.09',
-			content: '东西超级难吃，又很咸，我表示真的很难理解竟然有这样的餐厅存在，呵呵'
-		},
-		{
-			id: 4,
+			id: 6,
 			avatar: 'http://www.legaoshuo.com/hexie/avatar/2.jpg',
 			name: '匿名',
 			score: 2,
@@ -150,17 +136,41 @@ module.exports = {
 		{
 			id: 5,
 			avatar: 'http://www.legaoshuo.com/hexie/avatar/3.jpg',
+			name: '田野猫',
+			score: 5,
+			time: '2017.06.08',
+			content: '性价比很高'
+		},
+		{
+			id: 4,
+			avatar: 'http://www.legaoshuo.com/hexie/avatar/1.jpg',
+			name: '老虎猫',
+			score: 4,
+			time: '2017.06.08',
+			content: '分量十足啊 不错 外卖小哥很帅'
+		},
+		{
+			id: 3,
+			avatar: 'http://www.legaoshuo.com/hexie/avatar/2.jpg',
+			name: '有趣',
+			score: 3,
+			time: '2017.06.07',
+			content: '有点太咸了 下次盐少放点啊...'
+		},
+		{
+			id: 2,
+			avatar: 'http://www.legaoshuo.com/hexie/avatar/3.jpg',
 			name: '天使的猫',
 			score: 5,
-			time: '2017.06.09',
+			time: '2017.06.07',
 			content: '好吃好吃好吃好吃！'
 		},
         {
-            id: 6,
+            id: 1,
             avatar: 'http://www.legaoshuo.com/hexie/avatar/1.jpg',
             name: '苹果和鱼',
             score: 4,
-            time: '2017.06.09',
+            time: '2017.06.03',
             content: '松坂肉还不错'
         }
 	],

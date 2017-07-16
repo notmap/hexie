@@ -1,5 +1,5 @@
 
-const ImgLoader = require('../../utils/img_loader/img_loader.js')
+const ImgLoader = require('../../utils/img_loader/img_loader.js');
 // const server = require('../../utils/server');
  
 var app = getApp();
@@ -20,7 +20,14 @@ Page({
 		}
 	},
 
-	onLoad: function (options) {
+	onLoad: function (option) {
+        option.swiper && this.setData({
+            swiper: {
+                current: option.swiper,
+                show: true
+            },
+        });
+
         var localData = app.globalData;
         this.setData({
             shop: localData.shop,
@@ -29,13 +36,17 @@ Page({
             comment: localData.comment,
             history: localData.history,
             classifySeleted: localData.classifySeleted,
-            heightArr: localData.classify,
+            heightArr: localData.heightArr,
             difference: `差￥${localData.shop.minimum}起送`
         });
 
         this.imgLoader = new ImgLoader(this, this.imageOnLoad.bind(this))
         this.loadImages(this.data.product);
 	},
+
+    onShow: function(option) {
+        // option && console.log(option)
+    },
 
 	loadImages(imgArr) {
         this.imgLoader.load(this.data.shop.logo);
@@ -71,12 +82,13 @@ Page({
         })
     },
 
+    onMove: function() {},
+
 	onEvent: function(e) {
 		var self = this;
 		var obj = e.currentTarget.dataset.fun.split('.')[0];
 		var fun = e.currentTarget.dataset.fun.split('.')[1];
 		this[obj][fun](self, e);
-		// console.log(this.data.spec);
 	},
 
 	header: {
@@ -96,17 +108,22 @@ Page({
                     }
                 });
 			}
-            // console.log(self.data.swiper.current == 2)
 		}
 	},
 
 	menu: {
 		onScroll: function (self, e) {
-            // console.log(5839);
             var sectionWidth = 570;
 			if(e.type == 'scroll') {
 				e.detail.scrollTop > 10 && !self.data.scrollDown && self.setData({scrollDown: true});
-				e.detail.scrollTop < 10 && self.data.scrollDown && self.setData({scrollDown: false});
+                if(e.detail.scrollTop < 10 && self.data.scrollDown) {
+                    self.setData({classifyViewed: self.data.classify[0].id});
+                    setTimeout(function() {
+                        self.setData({
+                            scrollDown: false
+                        });
+                    },500);
+                }
 			}
 			if(e.type == 'tap') {self.setData({scrollDown: true});}
 			var scale = e.detail.scrollWidth / sectionWidth; // rpx和px的比例
@@ -120,10 +137,10 @@ Page({
 
 		switchClassify: function (self, e) {
 			this.onScroll(self, e);
-			self.setData({
-				classifyViewed: e.target.dataset.id,
-				classifySeleted: e.target.dataset.id
-			});
+            self.setData({
+                classifyViewed: e.target.dataset.id,
+                classifySeleted: e.target.dataset.id
+            });
 		}
 	},
 
