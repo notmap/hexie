@@ -64,55 +64,64 @@ module.exports = {
 			id: 1,
 			name: '超级麻辣烫',
 			img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
-			price: 12
+			price: 12,
+            box: 1.2
 		},
 		{
 			id: 2,
 			name: '好吃的炒饭',
 			img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
-			price: 6
+			price: 6,
+            box: 0.5
 		},
 		{
 			id: 3,
 			name: '养生拌饭',
 			img: 'http://www.legaoshuo.com/hexie/good/3.jpg',
-			price: 8
+			price: 8,
+            box: 0.5
 		},
 		{
 			id: 4,
 			name: '彩色鱿鱼',
 			img: 'http://www.legaoshuo.com/hexie/good/4.jpg',
-			price: 25
+			price: 25,
+            box: 0.2
 		},
 		{
 			id: 5,
 			name: '桂花糕',
 			img: 'http://www.legaoshuo.com/hexie/good/5.jpg',
-			price: 12
+			price: 12,
+            box: 0.3
 		},
 		{
 			id: 6,
 			name: '水煮鱼片',
 			img: 'http://www.legaoshuo.com/hexie/good/6.jpg',
-			price: 42
+			price: 42,
+            box: 1.5
 		},
 		{
 			id: 7,
 			name: '绿色的豆豆',
 			img: 'http://www.legaoshuo.com/hexie/good/7.jpg',
-			price: 13
+			price: 13,
+            box: 0.5
 		},
 		{
 			id: 8,
 			name: '好吃的鱼肉卷',
 			img: 'http://www.legaoshuo.com/hexie/good/8.jpg',
-			price: 13
+			price: 13,
+            box: 0.5
 		},
 		{
 			id: 9,
-			name: '老宁波猪排',
+			name: '微辣',
 			img: 'http://www.legaoshuo.com/hexie/good/9.jpg',
-			price: 25
+			price: 25,
+            box: 0
 		}
 	],
 
