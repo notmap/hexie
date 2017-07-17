@@ -125,8 +125,8 @@
 }
 
 .menu {
+	height: calc(100% - 80rpx);
 	display: flex;
-	height: 100%;
 }
 
 .classify {
@@ -596,4 +596,12 @@ button[disabled][type="default"], wx-button[disabled]:not([type]) {
 	line-height: 100rpx;
 	background: #ffd300;
 	color: #000;
+}
+
+
+/*-----------------------------------------debug-----------------------------------------*/
+
+.debug {
+	min-height: calc(100% + 80rpx);
+	background-color: white;
 }

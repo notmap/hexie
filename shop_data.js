@@ -30,7 +30,7 @@ module.exports = {
 		{
 			id: 'hot',
 			name: '热销',
-			product: [0, 1, 2, 3, 4, 5]
+			product: [0, 1, 2]
 		},
 		{
 			id: 'new',
