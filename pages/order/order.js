@@ -11,15 +11,18 @@ Page({
             order,
             checkout;
 
+        // console.log(cart.boxfee)
+
         addressArr && (address = this.getAddress(addressArr, addressActive));
         shop = app.globalData.shop,
         order = this.getOrder(cart.list, product);
-        checkout = this.getDiscount(shop.promotion, cart.total, shop);
+        checkout = this.getDiscount(shop.promotion, cart.total, cart.boxfee, shop);
 
         this.setData({
             address: address,
             shop: shop,
             order: order,
+            boxfee: cart.boxfee,
             checkout: checkout
         });
     },
@@ -64,7 +67,7 @@ Page({
         return order;
     },
 
-    getDiscount: function(promotion, total, shop) {
+    getDiscount: function(promotion, total, boxfee, shop) {
         var discount;
         promotion.forEach((val) => {
             total >= val.full && (discount = val.discount);
@@ -72,7 +75,7 @@ Page({
         discount = discount ? discount : 0;
         return {
             discount: discount,
-            money: total - discount + shop.boxFee + shop.expressFee
+            money: total + boxfee + shop.expressFee - discount
         };
     },
 

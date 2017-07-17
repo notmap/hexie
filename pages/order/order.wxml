@@ -29,7 +29,7 @@
         <view class="order-bottom">
             <view class="order-bottom-unit">
                 <text class="order-bottom-key">餐盒费</text>
-                <text class="order-bottom-value">￥{{shop.boxFee}}</text>
+                <text class="order-bottom-value">￥{{boxfee}}</text>
             </view>
             <view class="order-bottom-unit">
                 <text class="order-bottom-key">配送费</text>

@@ -177,6 +177,7 @@ Page({
 		countCart: function (self) {
 			var count = 0,
 				total = 0,
+                boxfee = 0,
                 difference,
                 minimum = self.data.shop.minimum;
 
@@ -184,9 +185,11 @@ Page({
 				var product = self.data.product[id];
 				count += self.data.cart.list[id];
 				total += product.price * self.data.cart.list[id];
+                boxfee += product.boxFee * self.data.cart.list[id];
 			}
 			self.data.cart.count = count;
 			self.data.cart.total = total;
+            self.data.cart.boxfee = boxfee;
             difference = minimum - total;
 
             (minimum - total) <= 0 
