@@ -69,11 +69,11 @@
 				            </view>
 				            <view class="history-summary">
 				                <text class="history-fold" wx:if="{{item.fold}}">......</text>
-				                <text class="history-info">共5件商品，实付￥21</text>
+				                <text class="history-info">共{{item.order.total}}件商品，实付￥{{item.order.money}}</text>
 				            </view>
 				        </view>
 				        <view class="history-bottom" wx:if="{{item.button}}">
-				            <button class="history-button" data-fun="{{item.data}}" bindtap="onEvent">{{item.button}}</button>
+				            <button class="history-button" data-id="{{item.id}}" data-fun="{{item.data}}" bindtap="onEvent">{{item.button}}</button>
 				        </view>
 				    </view>
 				</view>    

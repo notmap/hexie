@@ -1,3 +1,4 @@
+const calc = require('../../utils/calculation.js');
 var app = getApp()
 Page({
 	onLoad: function (option) {
@@ -29,7 +30,7 @@ Page({
 
     onShow: function (option) {
         var addressArr = wx.getStorageSync('addressArr');
-        console.log(addressArr)
+        // console.log(addressArr)
         addressArr && this.setData({
             address: this.getAddress(addressArr, app.globalData.addressActive)
         });
@@ -43,8 +44,8 @@ Page({
         var address;
         addressArr.forEach((val) => {
             val.id == addressActive && (address = {
-                user: val.user + ' ' + val.phone,
-                address: val.area + val.address
+                user: `${val.user} ${val.phone}`,
+                address: `${val.area}${val.address}`
             });
         });
         return address;
@@ -75,11 +76,16 @@ Page({
         discount = discount ? discount : 0;
         return {
             discount: discount,
-            money: total + boxfee + shop.expressFee - discount
+            money: calc.sub(calc.add(calc.add(total, boxfee), shop.expressFee), discount)      
         };
     },
 
     checkout: function() {
+
+        // console.log(this.data.order)
+        // console.log(this.data.checkout)
+
+
         var order = JSON.stringify(this.data.order),
             checkout = JSON.stringify(this.data.checkout);
         wx.navigateTo({url: `../express/express?order=${order}&checkout=${checkout}`});

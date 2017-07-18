@@ -308,6 +308,7 @@
 
 .history {
 	height: calc( 100% - 80rpx );
+	background-color: white;
 }
 
 .history-order {

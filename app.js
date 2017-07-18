@@ -54,6 +54,7 @@ App({
             {status: '订单已取消', button: false, data: false},
             {status: '配送中', button: '查看订单', data:'order.goExpress'},
             {status: '订单已完成', button: '评价一下', data:'order.goScore'}
+            // ,{status: '订单已完成', button: '已评价', data: false}
         ],
 
         commentDataHandle: function(commentData) {

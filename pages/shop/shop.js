@@ -1,7 +1,7 @@
-
 const ImgLoader = require('../../utils/img_loader/img_loader.js');
+const calc = require('../../utils/calculation.js');
 // const server = require('../../utils/server');
- 
+
 var app = getApp();
 Page({
 
@@ -45,7 +45,15 @@ Page({
 	},
 
     onShow: function(option) {
-        // option && console.log(option)
+        var comment = wx.getStorageSync('comment');
+        if(comment) {
+            this.order.historyModify(this, comment.order);
+            this.data.comment.unshift(comment);
+            this.setData({
+                comment: this.data.comment
+            });
+            wx.removeStorage({key: 'comment'});
+        }
     },
 
 	loadImages(imgArr) {
@@ -85,6 +93,7 @@ Page({
     onMove: function() {},
 
 	onEvent: function(e) {
+        if(!e.currentTarget.dataset.fun) return;
 		var self = this;
 		var obj = e.currentTarget.dataset.fun.split('.')[0];
 		var fun = e.currentTarget.dataset.fun.split('.')[1];
@@ -145,12 +154,21 @@ Page({
 	},
 
     order: {
+        historyModify: function(self, id) {
+            var newHistory = self.data.history.map((val, index, arr) => {
+                val.id == id && (val.button = '已评价', val.data = false);
+                return val;
+            });
+            self.setData({history: newHistory});
+        },
+
         goExpress: function (self, e) {
             wx.navigateTo({url: '../express/express'});
         },
 
         goScore: function (self, e) {
-            wx.navigateTo({url: '../score/score'});
+            var id = e.currentTarget.dataset.id;
+            wx.navigateTo({url: `../score/score?id=${id}`});
         }
     },
 
@@ -184,15 +202,15 @@ Page({
 			for (let id in self.data.cart.list) {
 				var product = self.data.product[id];
 				count += self.data.cart.list[id];
-				total += product.price * self.data.cart.list[id];
-                boxfee += product.boxFee * self.data.cart.list[id];
+				total = calc.add(total, calc.mul(product.price, self.data.cart.list[id]));
+                boxfee = calc.add(boxfee, calc.mul(product.boxFee, self.data.cart.list[id]));
 			}
 			self.data.cart.count = count;
 			self.data.cart.total = total;
             self.data.cart.boxfee = boxfee;
-            difference = minimum - total;
 
-            (minimum - total) <= 0 
+            difference = calc.sub(minimum, total);
+            difference <= 0 
             ? self.setData({
                 orderEnable: true,
                 difference: '去结算'
@@ -215,6 +233,7 @@ Page({
 
 	checkout: function (e) {
         var data = JSON.stringify(this.data.cart);
+        // console.log(data);
         wx.navigateTo({url: `../order/order?data=${data}`});
 	}
 });
