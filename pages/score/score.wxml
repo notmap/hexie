@@ -10,10 +10,10 @@
     <view class="score-star">
         <image class="{{item ? 'score-icon-active' : 'score-icon'}}" src="../../imgs/star.png" data-score="{{index + 1}}" wx:for="{{scoreIcon}}" wx:key="index" bindtap="setScore"></image>
     </view>
-    <textarea class="score-input" placeholder="写下您对配送和商家的评价吧" placeholder-class="placeholder" auto-focus />
+    <textarea class="score-input" placeholder="写下您对配送和商家的评价吧" placeholder-class="placeholder" bindinput="getComment" />
 </view>
 
-<view class="submit" data-jump="address_add" bindtap="jump">
+<view class="submit" data-jump="shop" bindtap="jump">
     <text class="submit-text">发布评价</text>
 </view>
 

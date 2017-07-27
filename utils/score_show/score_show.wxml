@@ -1,0 +1,7 @@
+
+<template name="score-show">
+    <view class="score-show" style="height:28rpx;">
+        <image style="width:24rpx; height:24rpx; display:block; float:left; margin:2rpx 10rpx 2rpx 0;" src="../../imgs/smallstar{{item}}.png" wx:for="{{score.iconArr}}" wx:key="score"></image>
+        <text style="display:block; position:relative; top:4rpx; float:left; margin-left:10rpx; line-height:28rpx; font-size:28rpx; font-weight:bold; color:#f5cc00;">{{score.score}}</text>
+    </view>
+</template>

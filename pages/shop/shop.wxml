@@ -1,11 +1,12 @@
+<import src="../../utils/score_show/score_show.wxml" />
 <view class="container">
 	<view class="header {{scrollDown ? 'header-hidden' : ''}}">
-		<image class="header-logo" src="{{shop.logo}}"></image>
+		<image class="header-logo" src="{{shop.logo}}" wx:if="{{shop.loaded}}"></image>
 		<text class="header-name ellipsis">{{shop.name}}</text>
 		<text class="header-express ellipsis">{{shop.express}}</text>
 		<text class="header-welcome ellipsis">{{shop.welcome}}</text>
 		<view class="header-promotion">
-			<text class="header-discount" wx:for="{{shop.promotion}}">满{{item.full}}减{{item.discount}}</text>
+			<text class="header-discount" wx:for="{{shop.promotion}}" wx:key="full">满{{item.full}}减{{item.discount}}</text>
 		</view>
 		<view class="header-shopinfo" data-fun="header.goShopInfo" bindtap="onEvent"></view>
 	</view>
@@ -23,53 +24,59 @@
 					<text class="classify-name">{{item.name}}</text>
 				</view>
 			</scroll-view>
-			<scroll-view class="product" scroll-y="true" scroll-into-view="{{classifyViewed}}" data-fun="menu.onScroll" bindscroll="onEvent">
-				<view class="product-section" wx:for="{{classify}}" wx:key="id" id="{{item.id}}">
-					<view class="product-classify">{{item.name}}</view>
-					<view class="product-unit" wx:for="{{item.product}}" wx:for-item="id" wx:key="*this">
-						<image class="product-img" src="{{product[id].img}}"></image>
-						<text class="product-name ellipsis">{{product[id].name}}</text>
-						<text class="product-price">￥{{product[id].price}}</text>
-						<image class="product-addCart" src="../../imgs/add.png" data-fun="cart.addCart" bindtap="onEvent" data-id="{{id}}"></image>
+			<scroll-view class="product" scroll-y="true" scroll-into-view="{{classifyViewed}}" data-fun="menu.onScroll" bindscroll="onEvent" catchtouchmove="onMove">
+				<view class="debug">
+					<view class="product-section" wx:for="{{classify}}" wx:key="id" id="{{item.id}}">
+						<view class="product-classify">{{item.name}}</view>
+						<view class="product-unit" wx:for="{{item.product}}" wx:for-item="id" wx:key="*this">
+							<image class="product-img" src="{{product[id].img}}" wx:if="{{product[id].loaded}}"></image>
+							<text class="product-name ellipsis">{{product[id].name}}</text>
+							<text class="product-price">￥{{product[id].price}}</text>
+							<image class="product-addCart" src="../../imgs/add.png" data-fun="cart.addCart" bindtap="onEvent" data-id="{{id}}"></image>
+						</view>
 					</view>
 				</view>
 			</scroll-view>
 		</swiper-item>
 		<swiper-item>
-			<scroll-view class="comment" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent">
-				<view class="comment-unit" wx:for="{{comment}}" wx:key="id">
-					<view class="comment-meta">
-						<image class="comment-avatar" src="{{item.avatar}}"></image>
-						<text class="comment-name ellipsis">{{item.name}}</text>
-						<text class="comment-time">{{item.time}}</text>
-						<text class="comment-score">{{item.score}}</text>
+			<scroll-view class="comment" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent" wx:if="{{swiper.show}}">
+				<view class="debug">
+					<view class="comment-unit" wx:for="{{comment}}" wx:key="id">
+						<view class="comment-meta">
+							<image class="comment-avatar" src="{{item.avatar}}"></image>
+							<text class="comment-name ellipsis">{{item.name}}</text>
+							<text class="comment-time">{{item.time}}</text>
+							<template is="score-show" data="{{...item}}"></template>
+						</view>
+						<view class="comment-content">{{item.content}}</view>
 					</view>
-					<view class="comment-content">{{item.content}}</view>
 				</view>
 			</scroll-view>
 		</swiper-item>
 		<swiper-item>
-			<scroll-view class="history" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent">
-			    <view class="history-order" wx:for="{{history}}" wx:key="id">
-			        <view class="history-head">
-			            <image class="history-logo" src="{{item.logo}}"/>
-			            <text class="history-name">{{item.name}}</text>
-			            <text class="history-status">{{item.status}}</text>
-			        </view>
-			        <view class="history-main">
-			            <view class="history-list" wx:for="{{item.order.goods}}" wx:key="id">
-			                <text class="history-good">{{item.good}}</text>
-			                <text class="history-amount">x{{item.amount}}</text>
-			            </view>
-			            <view class="history-summary">
-			                <text class="history-fold" wx:if="{{item.fold}}">......</text>
-			                <text class="history-info">共5件商品，实付￥21</text>
-			            </view>
-			        </view>
-			        <view class="history-bottom" wx:if="{{item.button}}">
-			            <button class="history-button" data-fun="{{item.data}}" bindtap="onEvent">{{item.button}}</button>
-			        </view>
-			    </view>
+			<scroll-view class="history" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent" wx:if="{{swiper.show}}">
+				<view class="debug">
+				    <view class="history-order" wx:for="{{history}}" wx:key="id">
+				        <view class="history-head">
+				            <image class="history-logo" src="{{item.logo}}"/>
+				            <text class="history-name">{{item.name}}</text>
+				            <text class="history-status">{{item.status}}</text>
+				        </view>
+				        <view class="history-main">
+				            <view class="history-list" wx:for="{{item.order.goods}}" wx:key="id">
+				                <text class="history-good">{{item.good}}</text>
+				                <text class="history-amount">x{{item.amount}}</text>
+				            </view>
+				            <view class="history-summary">
+				                <text class="history-fold" wx:if="{{item.fold}}">......</text>
+				                <text class="history-info">共{{item.order.total}}件商品，实付￥{{item.order.money}}</text>
+				            </view>
+				        </view>
+				        <view class="history-bottom" wx:if="{{item.button}}">
+				            <button class="history-button" data-id="{{item.id}}" data-fun="{{item.data}}" bindtap="onEvent">{{item.button}}</button>
+				        </view>
+				    </view>
+				</view>    
 			</scroll-view>
 		</swiper-item>
 	</swiper>
@@ -114,3 +121,6 @@
 		<button class="bottom-submit" disabled="{{!orderEnable}}" bindtap="checkout">{{difference}}</button>
 	</view>
 </view>
+
+<import src="../../utils/img_loader/img_loader.wxml"/>
+<template is="img-loader" data="{{ imgLoadList }}"></template>

@@ -1,30 +1,36 @@
+<import src="../../utils/score_show/score_show.wxml" />
 <view class="header {{scrollDown?'hidden':''}}">
-    <image class="logo" src="{{shop.logo}}"/>
-    <view class="name ellipsis">{{shop.name}}</view>
-    <view class="star ellipsis">{{star}}</view>
-    <view class="express ellipsis">{{shop.express}}</view>
+    <image class="header-logo" src="{{shop.logo}}"/>
+    <text class="header-name ellipsis">{{shop.name}}</text>
+    <template class="header-score" is="score-show" data="{{score}}"></template>
+    <text class="header-express ellipsis">{{shop.express}}</text>
 </view>
 
 <view class="shopinfo">
-    <view class="address">
-        <image class="icon" src="../../imgs/address.png"/>
-        <text class="text">{{shop.address}}</text>
+    <view class="shopinfo-address">
+        <image class="shopinfo-address-icon" src="../../imgs/address.png"/>
+        <text class="shopinfo-address-text ellipsis">{{shop.address}}</text>
+        <image class="shopinfo-phone" src="../../imgs/phone.png" bindtap="getCall" />
     </view>
-    <scroll-view class="photos" scroll-x="true">
-        <image class="photo" src="{{item}}" wx:for="{{shop.photo}}" />
-    </scroll-view>
-    <view class="time">
-        <image class="icon" src="../../imgs/time.png"/>
-        <text class="text">营业时间: {{shop.time}}</text>
+    <swiper class="shopinfo-photos">
+        <swiper-item wx:for="{{photo}}" wx:for-item="img" wx:key="*this">
+            <view class="shopinfo-photos-unit">
+                <image class="shopinfo-photos-img" src="{{item}}" data-src="{{item}}" wx:for="{{img}}" wx:key="*this" bindtap="showImg" />
+            </view>
+        </swiper-item>
+    </swiper>
+    <view class="shopinfo-time">
+        <image class="shopinfo-time-icon" src="../../imgs/time.png"/>
+        <text class="shopinfo-time-text">营业时间: {{shop.time}}</text>
     </view>
 </view>
 
 <view class="notice">
     <view class="notice-tip">
-        <image class="notice-icon" src="../../imgs/tip.png"/>
-        <text class="notice-text">{{shop.welcome}}</text>
+        <image class="notice-tip-icon" src="../../imgs/tip.png"/>
+        <text class="notice-tip-text">{{shop.welcome}}</text>
     </view>
     <view class="notice-promotion">
-        <text class="notice-discount" wx:for="{{shop.promotion}}">满{{item.full}}减{{item.discount}}</text>
+        <text class="notice-promotion-discount" wx:for="{{shop.promotion}}" wx:key="{{item.full}}">满{{item.full}}减{{item.discount}}</text>
     </view>
 </view>

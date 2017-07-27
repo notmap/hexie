@@ -18,11 +18,10 @@ Page({
         }
     },
 
-
 	onLoad: function (option) {
+        console.log(option)
         var order = JSON.parse(option.order),
             checkout = JSON.parse(option.checkout);
-
         this.setData({
             shop: app.globalData.shop,
             order: order,
