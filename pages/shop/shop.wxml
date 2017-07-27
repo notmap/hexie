@@ -58,18 +58,18 @@
 				<view class="debug">
 				    <view class="history-order" wx:for="{{history}}" wx:key="id">
 				        <view class="history-head">
-				            <image class="history-logo" src="{{item.logo}}"/>
-				            <text class="history-name">{{item.name}}</text>
+				            <image class="history-logo" src="{{shop.logo}}"/>
+				            <text class="history-name">{{shop.name}}</text>
 				            <text class="history-status">{{item.status}}</text>
 				        </view>
 				        <view class="history-main">
-				            <view class="history-list" wx:for="{{item.order.goods}}" wx:key="id">
-				                <text class="history-good">{{item.good}}</text>
+				            <view class="history-list" wx:for="{{item.order.goods}}" wx:key="id" wx:if="{{index < 3}}">
+				                <text class="history-good">{{item.name}}</text>
 				                <text class="history-amount">x{{item.amount}}</text>
 				            </view>
 				            <view class="history-summary">
 				                <text class="history-fold" wx:if="{{item.fold}}">......</text>
-				                <text class="history-info">共{{item.order.total}}件商品，实付￥{{item.order.money}}</text>
+				                <text class="history-info">共{{item.order.checkout.total}}件商品，实付￥{{item.order.checkout.money}}</text>
 				            </view>
 				        </view>
 				        <view class="history-bottom" wx:if="{{item.button}}">

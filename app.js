@@ -29,18 +29,29 @@ App({
 	},
 
 	getUserInfo: function() {
-        // console.log(55555)
 		wx.getUserInfo({
 			success: (res) => {
                 this.globalData.userInfo = res.userInfo;
                 var userData = require('./user_data.js');
                 this.globalData.addressArr = userData.addressArr;
-                this.globalData.addressActive = userData.addressActive;
-                // console.log(res.userInfo)
-                // console.log(userData.addressArr)
+                this.globalData.active = userData.active;
             }
 		});
 	},
+
+    getDate: function(date, delimiter) {
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1) < 10 ? `0${date.getMonth() + 1}` : (date.getMonth() + 1);
+        var day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+        return `${year}${delimiter}${month}${delimiter}${day}`;
+    },
+
+    getTime: function(date, arrival) {
+        var hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+        var minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+        var seconds = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
+        return arrival ? `${hours}:${minutes}` : `${hours}:${minutes}:${seconds}`;
+    },
 
 	dataHandle: {
         productSection: {  // 商品区的高度  单位是rpx
@@ -52,9 +63,9 @@ App({
 
         orderStatus: [
             {status: '订单已取消', button: false, data: false},
-            {status: '配送中', button: '查看订单', data:'order.goExpress'},
-            {status: '订单已完成', button: '评价一下', data:'order.goScore'}
-            // ,{status: '订单已完成', button: '已评价', data: false}
+            {status: '配送中', button: '查看订单', data: 'order.goExpress'},
+            {status: '订单已完成', button: '评价一下', data: 'order.goScore'},
+            {status: '订单已完成', button: '已评价', data: false}
         ],
 
         commentDataHandle: function(commentData) {
@@ -66,7 +77,7 @@ App({
 
         historyDataHandle: function(historyData) {
             return historyData.map((value, index, arr) => {
-                value.order.total > 3 ? value.fold = true : value.fold = false;
+                value.order.goods.length > 3 ? value.fold = true : value.fold = false;
                 value.button = this.orderStatus[value.status].button;
                 value.data = this.orderStatus[value.status].data;
                 value.status = this.orderStatus[value.status].status;

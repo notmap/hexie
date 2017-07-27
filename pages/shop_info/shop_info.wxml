@@ -9,7 +9,7 @@
 <view class="shopinfo">
     <view class="shopinfo-address">
         <image class="shopinfo-address-icon" src="../../imgs/address.png"/>
-        <text class="shopinfo-address-text ellipsis">{{shop.address}}</text>
+        <text class="shopinfo-address-text ellipsis" data-address="{{shop.address}}">{{shop.address}}</text>
         <image class="shopinfo-phone" src="../../imgs/phone.png" bindtap="getCall" />
     </view>
     <swiper class="shopinfo-photos">

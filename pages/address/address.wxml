@@ -1,8 +1,9 @@
 <scroll-view class="scrollbox" scroll-y="true">
-    <view class="address" wx:for="{{addressArr}}">
-        <view class="address-info">
-            <text class="address-info-text ellipsis">{{item.newUser}}</text>
-            <text class="address-info-text ellipsis">{{item.newAddress}}</text>
+    <view class="address" wx:for="{{addressArr}}" wx:key="address">
+        <view class="address-info" id="{{item.id}}" bindtap="setActive">
+            <icon class="address-info-icon" type="success" size="20" color="#ffd300" wx:if="{{item.id == active}}" />
+            <text class="address-info-text ellipsis">{{item.user}}</text>
+            <text class="address-info-text ellipsis">{{item.address}}</text>
         </view>
         <text class="address-jump" data-jump="{{item.raw}}" bindtap="jump"></text>
     </view>
