@@ -30,31 +30,6 @@ Page({
 
     onShow: function(option) {
 
-
-
-
-
-
-
-        // var sign = 'app_id=e6862d80-53c8-47f2-9691-a1221e59db33&salt=2345&secret_key=f3eed1c8-8bc2-4456-9f43-57371aab2f90'; 
-        // sign = md5(encodeURIComponent(sign));
-        // console.log(sign)
-
-
-        // wx.request({
-        //     url: 'https://www.legaoshuo.com', //仅为示例，并非真实的接口地址
-        //     success: function(res) {
-        //         console.log(5840)
-        //         // console.log(res.statusCode)
-        //     },
-        //     fail: function(res) {
-        //         console.log(5839)
-        //         // console.log(res.statusCode)
-        //     }
-        // })
-
-
-
         var history = wx.getStorageSync('history');
         if(history) {
             var arr = [];
