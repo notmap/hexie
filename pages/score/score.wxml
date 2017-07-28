@@ -3,8 +3,8 @@
 
 <view class="score">
     <view class="score-shop">
-        <image class="score-shop-logo" src="http://www.legaoshuo.com/hexie/logo/1.jpg"></image>
-        <text class="score-shop-name">大拇指麻辣烫(鄞州万达店)</text>
+        <image class="score-shop-logo" src="{{shop.logo}}"></image>
+        <text class="score-shop-name">{{shop.name}}</text>
     </view>
     <text class="score-tip">为商家打分</text>
     <view class="score-star">

@@ -20,11 +20,20 @@
 	float: left;
 }
 
+.address-info-icon {
+    float: left;
+    /*background-color: red;*/
+    height: 40rpx;
+    padding: 20rpx 0;
+    margin-right: 24rpx;
+}
+
 .address-info-text {
 	width: 500rpx;
 	display: block;
 	font-size: 28rpx;
 	line-height: 40rpx;
+    margin-left: 64rpx;
 	/*background-color: yellow;*/
 }
 

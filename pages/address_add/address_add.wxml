@@ -1,29 +1,28 @@
 
 <view class="unit">
     <text class="unit-text">联系人</text>
-    <input class="unit-input" id="user" value="{{address.user}}" bindblur="updateData" placeholder="名字" placeholder-class="placeholder" auto-focus />
-    <image class="unit-img" src="" />
+    <input class="unit-input" id="user" value="{{address.user}}" bindblur="blurHandler" placeholder="名字" placeholder-class="placeholder" auto-focus />
+    <!-- <image class="unit-img" src="../../imgs/phonelist.png" /> -->
 </view>
 
 <view class="unit">
     <text class="unit-text">手机号码</text>
-    <input class="unit-input" id="phone" value="{{address.phone}}" bindblur="updateData" placeholder="11位手机号" placeholder-class="placeholder" />
-    <image class="unit-img" src="" />
+    <input class="unit-input" id="phone" value="{{address.phone}}" bindblur="blurHandler" placeholder="11位手机号" placeholder-class="placeholder" />
+    <!-- <image class="unit-img" src="" /> -->
 </view>
 
 <view class="unit">
     <text class="unit-text">选择地区</text>
-    <input class="unit-input" id="area" value="{{address.area}}" bindblur="updateData" placeholder="地区信息" placeholder-class="placeholder" />
-    <image class="unit-img" src="" />
+    <input class="unit-input" id="area" value="{{address.area}}" bindblur="blurHandler" placeholder="地区信息" placeholder-class="placeholder" />
+    <image class="unit-img" src="../../imgs/address.png" bindtap="chooseLocation" />
 </view>
 
 <view class="unit">
     <text class="unit-text">详细地址</text>
-    <input class="unit-input" id="address" value="{{address.address}}" bindblur="updateData" placeholder="街道门牌信息" placeholder-class="placeholder" />
-    <image class="unit-img" src="" />
+    <input class="unit-input" id="address" value="{{address.address}}" bindblur="blurHandler" placeholder="街道门牌信息" placeholder-class="placeholder" />
+    <!-- <image class="unit-img" src="" /> -->
 </view>
 
 <view class="save" bindtap="saveAddress">
     <text class="save-text">保存地址</text>
 </view>
-

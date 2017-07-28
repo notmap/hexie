@@ -30,10 +30,11 @@
 
 .unit-img {
 	display: block;
-	float: left;
+	float: right;
 	/*background-color: red;*/
-	width: 74rpx;
-	height: 56rpx;
+	width: 32rpx;
+	height: 32rpx;
+	padding: 12rpx 0;
 }
 
 

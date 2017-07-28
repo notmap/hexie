@@ -184,62 +184,124 @@ module.exports = {
     ],
 
     history:[
-        // {
-        //     id: 4,
-        //     logo: 'http://www.legaoshuo.com/hexie/logo/1.jpg',
-        //     name: '欧巴韩国料理店铺(创新128广场)',
-        //     status: 1, // 配送中
-        //     order: {
-        //         goods: [
-        //             {id: 1, good: '马铃薯脆', amount: 1},
-        //             {id: 2, good: '黑椒牛肉饭', amount: 1},
-        //             {id: 3, good: '可乐', amount: 2},
-        //             {id: 4, good: '好吃的鸡块', amount: 1}
-        //         ],
-        //         total: 4,
-        //         money: 56.50
-        //     }
-        // },
+        {
+            id: 4,
+            status: 2, // 1 是配送中
+            order: {
+                goods: [
+                    {
+                        id: 1,
+                        name: '超级麻辣烫',
+                        img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
+                        price: 12,
+                        amount: 1,
+                        remark: "常规"
+                    },
+                    {
+                        id: 2,
+                        name: '好吃的炒饭',
+                        img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
+                        price: 6,
+                        amount: 1,
+                        remark: "常规"
+                    },
+                    {
+                        id: 3,
+                        name: '养生拌饭',
+                        img: 'http://www.legaoshuo.com/hexie/good/3.jpg',
+                        price: 8,
+                        amount: 2,
+                        remark: "常规"
+                    }
+                ],
+                checkout: {
+                    boxfee: 2.5,
+                    discount: 10,
+                    total: 4,
+                    money: 56.50
+                }
+            }
+        },
         {
             id: 3,
-            logo: 'http://www.legaoshuo.com/hexie/logo/2.jpg',
-            name: '肯德基',
             status: 2, // 订单已完成
             order: {
                 goods: [
-                    {id: 1, good: '可乐', amount: 2},
-                    {id: 2, good: '好吃的鸡块', amount: 1}
+                    {
+                        id: 2,
+                        name: '好吃的炒饭',
+                        img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
+                        price: 6,
+                        amount: 1,
+                        remark: "常规"
+                    },
+                    {
+                        id: 3,
+                        name: '养生拌饭',
+                        img: 'http://www.legaoshuo.com/hexie/good/3.jpg',
+                        price: 8,
+                        amount: 2,
+                        remark: "常规"
+                    }
                 ],
-                total: 2,
-                money: 36.50
+                checkout: {
+                    boxfee: 2.0,
+                    discount: 10,
+                    total: 3,
+                    money: 56.50
+                }
             }
         },
         {
             id: 2,
-            logo: 'http://www.legaoshuo.com/hexie/logo/3.jpg',
-            name: '麦当劳',
-            status: 2, // 订单已完成
+            status: 3, // 订单已完成
             order: {
                 goods: [
-                    {id: 1, good: '可口可乐', amount: 2},
-                    {id: 2, good: '好吃的汉堡', amount: 1}
+                    {
+                        id: 1,
+                        name: '超级麻辣烫',
+                        img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
+                        price: 12,
+                        amount: 1,
+                        remark: "常规"
+                    }
                 ],
-                total: 2,
-                money: 36.50
+                checkout: {
+                    boxfee: 1.2,
+                    discount: 10,
+                    total: 1,
+                    money: 56.50
+                }
             }
         },
         {
             id: 1,
-            logo: 'http://www.legaoshuo.com/hexie/logo/4.jpg',
-            name: '星巴克',
             status: 0, // 订单已取消
             order: {
                 goods: [
-                    {id: 1, good: '马铃薯脆', amount: 1},
-                    {id: 2, good: '黑椒牛肉饭', amount: 1}
+                    {
+                        id: 1,
+                        name: '超级麻辣烫',
+                        img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
+                        price: 12,
+                        amount: 1,
+                        remark: "常规"
+                    },
+                    {
+                        id: 2,
+                        name: '好吃的炒饭',
+                        img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
+                        price: 6,
+                        amount: 1,
+                        remark: "常规"
+                    }
                 ],
-                total: 2,
-                money: 26.50
+                checkout: {
+                    boxfee: 2.2,
+                    discount: 10,
+                    total: 2,
+                    money: 56.50
+                }
             }
         }
     ]

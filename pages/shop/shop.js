@@ -1,3 +1,4 @@
+const md5 = require('../../utils/md5.js');
 const ImgLoader = require('../../utils/img_loader/img_loader.js');
 const calc = require('../../utils/calculation.js');
 // const server = require('../../utils/server');
@@ -21,13 +22,85 @@ Page({
 	},
 
 	onLoad: function (option) {
+        this.checkSwiper(option);
+        this.setMainData();
+        this.imgLoader = new ImgLoader(this, this.imageOnLoad.bind(this));
+        this.loadImages(this.data.product);
+	},
+
+    onShow: function(option) {
+
+
+
+
+
+
+
+        // var sign = 'app_id=e6862d80-53c8-47f2-9691-a1221e59db33&salt=2345&secret_key=f3eed1c8-8bc2-4456-9f43-57371aab2f90'; 
+        // sign = md5(encodeURIComponent(sign));
+        // console.log(sign)
+
+
+        // wx.request({
+        //     url: 'https://www.legaoshuo.com', //仅为示例，并非真实的接口地址
+        //     success: function(res) {
+        //         console.log(5840)
+        //         // console.log(res.statusCode)
+        //     },
+        //     fail: function(res) {
+        //         console.log(5839)
+        //         // console.log(res.statusCode)
+        //     }
+        // })
+
+
+
+        var history = wx.getStorageSync('history');
+        if(history) {
+            var arr = [];
+            arr.push(history);
+            var newHistory = app.dataHandle.historyDataHandle(arr)[0];
+            // console.log(newHistory);
+            this.data.history.unshift(newHistory)
+            this.setData({
+                history: this.data.history
+            });
+            wx.removeStorage({key: 'history'});
+            this.setData({
+                swiper: {
+                    current: 2,
+                    show: true
+                }
+            });
+        }
+        
+        var comment = wx.getStorageSync('comment');
+        if(comment) {
+            this.order.historyModify(this, comment.order);
+            this.data.comment.unshift(comment);
+            this.setData({
+                comment: this.data.comment
+            });
+            wx.removeStorage({key: 'comment'});
+            this.setData({
+                swiper: {
+                    current: 1,
+                    show: true
+                }
+            });
+        }
+    },
+
+    checkSwiper: function(option) {
         option.swiper && this.setData({
             swiper: {
                 current: option.swiper,
                 show: true
             },
         });
+    },
 
+    setMainData: function() {
         var localData = app.globalData;
         this.setData({
             shop: localData.shop,
@@ -39,21 +112,6 @@ Page({
             heightArr: localData.heightArr,
             difference: `差￥${localData.shop.minimum}起送`
         });
-
-        this.imgLoader = new ImgLoader(this, this.imageOnLoad.bind(this))
-        this.loadImages(this.data.product);
-	},
-
-    onShow: function(option) {
-        var comment = wx.getStorageSync('comment');
-        if(comment) {
-            this.order.historyModify(this, comment.order);
-            this.data.comment.unshift(comment);
-            this.setData({
-                comment: this.data.comment
-            });
-            wx.removeStorage({key: 'comment'});
-        }
     },
 
 	loadImages(imgArr) {
@@ -89,8 +147,6 @@ Page({
             return item;
         })
     },
-
-    onMove: function() {},
 
 	onEvent: function(e) {
         if(!e.currentTarget.dataset.fun) return;
@@ -163,7 +219,12 @@ Page({
         },
 
         goExpress: function (self, e) {
-            wx.navigateTo({url: '../express/express'});
+            var id = e.currentTarget.dataset.id;
+            var order;
+            self.data.history.forEach(function(val, index, arr) {
+                val.id == id && (order = val);
+            });
+            wx.navigateTo({url: `../express/express?order=${JSON.stringify(order)}`});   
         },
 
         goScore: function (self, e) {

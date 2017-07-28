@@ -28,7 +28,7 @@
         <text class="order-head-express">{{shop.express}}</text>
     </view>
 
-    <view class="order-unit" wx:for="{{order}}" wx:key="{{id}}">
+    <view class="order-unit" wx:for="{{order.order.goods}}" wx:key="{{id}}">
         <image class="order-unit-img" src="{{item.img}}"/>
         <view class="order-unit-box">
             <text class="order-unit-name">{{item.name}}</text>
@@ -41,7 +41,7 @@
     <view class="order-bottom">
         <view class="order-bottom-unit">
             <text class="order-bottom-key">餐盒费</text>
-            <text class="order-bottom-value">￥{{shop.boxFee}}</text>
+            <text class="order-bottom-value">￥{{order.order.checkout.boxfee}}</text>
         </view>
         <view class="order-bottom-unit">
             <text class="order-bottom-key">配送费</text>
@@ -49,12 +49,12 @@
         </view>
         <view class="order-bottom-unit">
             <text class="order-bottom-key">满减优惠</text>
-            <text class="order-bottom-value">-￥{{checkout.discount}}</text>
+            <text class="order-bottom-value">-￥{{order.order.checkout.discount}}</text>
         </view>
         <view class="order-bottom-total">
-            <text class="order-bottom-money">￥{{checkout.money}}</text>
+            <text class="order-bottom-money">￥{{order.order.checkout.money}}</text>
             <text class="order-bottom-tip">小计</text>
-            <text class="order-bottom-discount">已优惠￥{{checkout.discount}}</text>
+            <text class="order-bottom-discount">已优惠￥{{order.order.checkout.discount}}</text>
         </view>
     </view>
 </view>

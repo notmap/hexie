@@ -6,18 +6,17 @@ Page({
         var cart = JSON.parse(option.data),
             product = app.globalData.product,
             addressArr = app.globalData.addressArr,
-            addressActive = app.globalData.addressActive,
+            active = app.globalData.active,
             address,
             shop,
             order,
             checkout;
 
-        // console.log(cart.boxfee)
-
-        addressArr && (address = this.getAddress(addressArr, addressActive));
+        addressArr && (address = this.getActiveAddress(addressArr, active));
+        
         shop = app.globalData.shop,
         order = this.getOrder(cart.list, product);
-        checkout = this.getDiscount(shop.promotion, cart.total, cart.boxfee, shop);
+        checkout = this.getDiscount(shop.promotion, cart.total, cart.boxfee, shop, cart.count);
 
         this.setData({
             address: address,
@@ -29,10 +28,8 @@ Page({
     },
 
     onShow: function (option) {
-        var addressArr = wx.getStorageSync('addressArr');
-        // console.log(addressArr)
-        addressArr && this.setData({
-            address: this.getAddress(addressArr, app.globalData.addressActive)
+        app.globalData.addressArr && this.setData({
+            address: this.getActiveAddress(app.globalData.addressArr, app.globalData.active)
         });
     },
 
@@ -40,15 +37,19 @@ Page({
         wx.navigateTo({url: '../address/address'});
     },
 
-    getAddress: function(addressArr, addressActive) {
-        var address;
-        addressArr.forEach((val) => {
-            val.id == addressActive && (address = {
-                user: `${val.user} ${val.phone}`,
-                address: `${val.area}${val.address}`
-            });
+    getAddress: function(address) {
+        return {
+            user: `${address.user} ${address.phone}`,
+            address: `${address.area}${address.address}`
+        };
+    },
+
+    getActiveAddress: function(addressArr, active) {
+        var addressActive;
+        addressArr.forEach((value, index, arr) => {
+            value.id == active && (addressActive = value);
         });
-        return address;
+        return this.getAddress(addressActive);
     },
 
     getOrder: function(list, product) {
@@ -68,13 +69,15 @@ Page({
         return order;
     },
 
-    getDiscount: function(promotion, total, boxfee, shop) {
+    getDiscount: function(promotion, total, boxfee, shop, count) {
         var discount;
         promotion.forEach((val) => {
             total >= val.full && (discount = val.discount);
         });
         discount = discount ? discount : 0;
         return {
+            boxfee: boxfee,
+            total: count,
             discount: discount,
             money: calc.sub(calc.add(calc.add(total, boxfee), shop.expressFee), discount)      
         };
@@ -82,13 +85,17 @@ Page({
 
     checkout: function() {
 
-        // console.log(this.data.order)
-        // console.log(this.data.checkout)
+        var order = {
+            id: 0,
+            status: 1, // 配送中
+            order: {
+                goods: this.data.order,
+                checkout: this.data.checkout,
+                address: this.data.address
+            }
+        };
 
-
-        var order = JSON.stringify(this.data.order),
-            checkout = JSON.stringify(this.data.checkout);
-        wx.navigateTo({url: `../express/express?order=${order}&checkout=${checkout}`});
+        wx.redirectTo({url: `../express/express?order=${JSON.stringify(order)}&new=1`});
     }
 });
 

@@ -1,32 +1,43 @@
+const md5 = require('../../utils/md5.js');
 var app = getApp()
 Page({
+	onLoad: function (option) {
 
-    data: {
+        // var sign = 'app_id=e6862d80-53c8-47f2-9691-a1221e59db33&salt=2345&secret_key=f3eed1c8-8bc2-4456-9f43-57371aab2f90'; 
+        // sign = md5(encodeURIComponent(sign));
+        // console.log(sign)
 
-        address: {
-            area: '浙江省宁波市鄞州区',
-            address: '天高巷222号新城名苑5839号',
-            user: '山久',
-            phone: '17681765839'
-        },
 
-        expressInfo: {
-            target: '浙江省宁波市鄞州区天高巷222号新城名苑5839号 山久 17681765839',
-            code: '1205 2323 5565 7787 212',
-            time: '2017-07-11 16:00',
-            arrival: '16:40'
-        }
+
+
+
+
+
+        var order = JSON.parse(option.order);
+        this.setOrderData(order);
+        option.new && this.updateHistory(order);
     },
 
-	onLoad: function (option) {
-        console.log(option)
-        var order = JSON.parse(option.order),
-            checkout = JSON.parse(option.checkout);
+    setOrderData: function(order) {
+        var timestamp = Date.parse(new Date());
         this.setData({
-            shop: app.globalData.shop,
             order: order,
-            checkout: checkout
+            shop: app.globalData.shop,
+            expressInfo: {
+                target: `${order.order.address.address} ${order.order.address.user}`,
+                code: '1205 2323 5565 7787 212',
+                time: `${app.getDate(new Date(timestamp), '-')} ${app.getTime(new Date(timestamp))}`,
+                arrival: app.getTime(new Date(timestamp + 10*60*1000), true)
+            }
+        });
+    },
+
+    updateHistory: function(order) {
+        wx.setStorage({
+            key: "history",
+            data: order
         });
     }
 });
+
 
