@@ -131,6 +131,11 @@ Page({
 		this[obj][fun](self, e);
 	},
 
+    start: function(e) {
+        console.log(e.changedTouches[0].clientY);
+        this.data.start = e.changedTouches[0].clientY;
+    },
+
 	header: {
 		goShopInfo: function (self, e) {
 			wx.navigateTo({url: '../shop_info/shop_info'});
@@ -153,6 +158,12 @@ Page({
 
 	menu: {
 		onScroll: function (self, e) {
+
+
+            // console.log(e);
+
+
+
             var sectionWidth = 570;
 			if(e.type == 'scroll') {
 				e.detail.scrollTop > 10 && !self.data.scrollDown && self.setData({scrollDown: true});
@@ -162,9 +173,10 @@ Page({
                         self.setData({
                             scrollDown: false
                         });
-                    },500);
+                    }, 700);
                 }
 			}
+
 			if(e.type == 'tap') {self.setData({scrollDown: true});}
 			var scale = e.detail.scrollWidth / sectionWidth; // rpx和px的比例
 			var scrollTop = e.detail.scrollTop / scale + 200; // 转rpx 200rpx 是提前量
