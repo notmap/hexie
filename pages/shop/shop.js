@@ -132,8 +132,42 @@ Page({
 	},
 
     start: function(e) {
-        console.log(e.changedTouches[0].clientY);
-        this.data.start = e.changedTouches[0].clientY;
+        this.data.startY = e.changedTouches[0].clientY;
+        this.data.startTime = e.timeStamp;
+    },
+
+    end: function(e) {
+
+    	var startY = this.data.startY,
+	    	startTime = this.data.startTime,
+	    	endY = e.changedTouches[0].clientY,
+	    	endTime = e.timeStamp,
+	    	interval,
+	    	move,
+	    	transitionTime;
+
+    	interval = endTime - startTime;
+    	console.log(interval);
+    	move = Math.abs(endY - startY);
+    	console.log(move);
+
+    	transitionTime = 130*interval / (1000*move);
+    	console.log(parseFloat(transitionTime.toFixed(2)));
+    	
+
+
+
+    	// speed = 
+    },
+
+    move: function(e) {
+        // console.log(e.changedTouches[0].clientY)
+        this.data.stop = e.changedTouches[0].clientY;
+        this.data.move = this.data.start - this.data.stop;
+        console.log(this.data.move);
+        this.setData({
+            marginTop: 300 - this.data.move
+        });
     },
 
 	header: {
@@ -160,7 +194,8 @@ Page({
 		onScroll: function (self, e) {
 
 
-            // console.log(e);
+            // console.log(e.detail.scrollTop);
+            // console.log(e.timeStamp);
 
 
 
