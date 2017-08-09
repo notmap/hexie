@@ -185,6 +185,120 @@ module.exports = {
 
     history:[
         {
+            id: 7,
+            status: 2, // 1 是配送中
+            order: {
+                goods: [
+                    {
+                        id: 1,
+                        name: '超级麻辣烫',
+                        img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
+                        price: 12,
+                        amount: 1,
+                        remark: "常规"
+                    },
+                    {
+                        id: 2,
+                        name: '好吃的炒饭',
+                        img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
+                        price: 6,
+                        amount: 1,
+                        remark: "常规"
+                    },
+                    {
+                        id: 3,
+                        name: '养生拌饭',
+                        img: 'http://www.legaoshuo.com/hexie/good/3.jpg',
+                        price: 8,
+                        amount: 2,
+                        remark: "常规"
+                    }
+                ],
+                checkout: {
+                    boxfee: 2.5,
+                    discount: 10,
+                    total: 4,
+                    money: 56.50
+                }
+            }
+        },    
+        {
+            id: 6,
+            status: 2, // 1 是配送中
+            order: {
+                goods: [
+                    {
+                        id: 1,
+                        name: '超级麻辣烫',
+                        img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
+                        price: 12,
+                        amount: 1,
+                        remark: "常规"
+                    },
+                    {
+                        id: 2,
+                        name: '好吃的炒饭',
+                        img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
+                        price: 6,
+                        amount: 1,
+                        remark: "常规"
+                    },
+                    {
+                        id: 3,
+                        name: '养生拌饭',
+                        img: 'http://www.legaoshuo.com/hexie/good/3.jpg',
+                        price: 8,
+                        amount: 2,
+                        remark: "常规"
+                    }
+                ],
+                checkout: {
+                    boxfee: 2.5,
+                    discount: 10,
+                    total: 4,
+                    money: 56.50
+                }
+            }
+        },    
+        {
+            id: 5,
+            status: 2, // 1 是配送中
+            order: {
+                goods: [
+                    {
+                        id: 1,
+                        name: '超级麻辣烫',
+                        img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
+                        price: 12,
+                        amount: 1,
+                        remark: "常规"
+                    },
+                    {
+                        id: 2,
+                        name: '好吃的炒饭',
+                        img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
+                        price: 6,
+                        amount: 1,
+                        remark: "常规"
+                    },
+                    {
+                        id: 3,
+                        name: '养生拌饭',
+                        img: 'http://www.legaoshuo.com/hexie/good/3.jpg',
+                        price: 8,
+                        amount: 2,
+                        remark: "常规"
+                    }
+                ],
+                checkout: {
+                    boxfee: 2.5,
+                    discount: 10,
+                    total: 4,
+                    money: 56.50
+                }
+            }
+        },    
+        {
             id: 4,
             status: 2, // 1 是配送中
             order: {

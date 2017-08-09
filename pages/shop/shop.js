@@ -30,31 +30,6 @@ Page({
 
     onShow: function(option) {
 
-
-
-
-
-
-
-        // var sign = 'app_id=e6862d80-53c8-47f2-9691-a1221e59db33&salt=2345&secret_key=f3eed1c8-8bc2-4456-9f43-57371aab2f90'; 
-        // sign = md5(encodeURIComponent(sign));
-        // console.log(sign)
-
-
-        // wx.request({
-        //     url: 'https://www.legaoshuo.com', //仅为示例，并非真实的接口地址
-        //     success: function(res) {
-        //         console.log(5840)
-        //         // console.log(res.statusCode)
-        //     },
-        //     fail: function(res) {
-        //         console.log(5839)
-        //         // console.log(res.statusCode)
-        //     }
-        // })
-
-
-
         var history = wx.getStorageSync('history');
         if(history) {
             var arr = [];
@@ -156,6 +131,11 @@ Page({
 		this[obj][fun](self, e);
 	},
 
+    start: function(e) {
+        console.log(e.changedTouches[0].clientY);
+        this.data.start = e.changedTouches[0].clientY;
+    },
+
 	header: {
 		goShopInfo: function (self, e) {
 			wx.navigateTo({url: '../shop_info/shop_info'});
@@ -178,6 +158,12 @@ Page({
 
 	menu: {
 		onScroll: function (self, e) {
+
+
+            // console.log(e);
+
+
+
             var sectionWidth = 570;
 			if(e.type == 'scroll') {
 				e.detail.scrollTop > 10 && !self.data.scrollDown && self.setData({scrollDown: true});
@@ -187,9 +173,10 @@ Page({
                         self.setData({
                             scrollDown: false
                         });
-                    },500);
+                    }, 700);
                 }
 			}
+
 			if(e.type == 'tap') {self.setData({scrollDown: true});}
 			var scale = e.detail.scrollWidth / sectionWidth; // rpx和px的比例
 			var scrollTop = e.detail.scrollTop / scale + 200; // 转rpx 200rpx 是提前量

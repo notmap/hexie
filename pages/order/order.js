@@ -83,18 +83,24 @@ Page({
         };
     },
 
-    checkout: function() {
+    getOrderCode: function() {
+        var stamp = new Date().getTime();
+        var random = parseInt(Math.random()*1000000);
+        return `${stamp}${random}`;
+    },
 
+    checkout: function() {
+        var orderCode = this.getOrderCode();
         var order = {
             id: 0,
             status: 1, // 配送中
+            orderCode: orderCode,
             order: {
                 goods: this.data.order,
                 checkout: this.data.checkout,
                 address: this.data.address
             }
         };
-
         wx.redirectTo({url: `../express/express?order=${JSON.stringify(order)}&new=1`});
     }
 });
