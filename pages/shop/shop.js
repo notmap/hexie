@@ -138,36 +138,21 @@ Page({
 
     end: function(e) {
 
-    	var startY = this.data.startY,
-	    	startTime = this.data.startTime,
-	    	endY = e.changedTouches[0].clientY,
-	    	endTime = e.timeStamp,
-	    	interval,
-	    	move,
-	    	transitionTime;
+    	// var startY = this.data.startY,
+	    // 	startTime = this.data.startTime,
+	    // 	endY = e.changedTouches[0].clientY,
+	    // 	endTime = e.timeStamp,
+	    // 	interval,
+	    // 	move,
+	    // 	transitionTime;
 
-    	interval = endTime - startTime;
-    	console.log(interval);
-    	move = Math.abs(endY - startY);
-    	console.log(move);
+    	// interval = endTime - startTime;
+    	// console.log(interval);
+    	// move = Math.abs(endY - startY);
+    	// console.log(move);
 
-    	transitionTime = 130*interval / (1000*move);
-    	console.log(parseFloat(transitionTime.toFixed(2)));
-    	
-
-
-
-    	// speed = 
-    },
-
-    move: function(e) {
-        // console.log(e.changedTouches[0].clientY)
-        this.data.stop = e.changedTouches[0].clientY;
-        this.data.move = this.data.start - this.data.stop;
-        console.log(this.data.move);
-        this.setData({
-            marginTop: 300 - this.data.move
-        });
+    	// transitionTime = 130*interval / (1000*move);
+    	// console.log(parseFloat(transitionTime.toFixed(2)));
     },
 
 	header: {
@@ -192,12 +177,6 @@ Page({
 
 	menu: {
 		onScroll: function (self, e) {
-
-
-            // console.log(e.detail.scrollTop);
-            // console.log(e.timeStamp);
-
-
 
             var sectionWidth = 570;
 			if(e.type == 'scroll') {
