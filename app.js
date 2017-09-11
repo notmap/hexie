@@ -13,6 +13,19 @@ App({
             classifySeleted: shopData.classify[0].id,
             heightArr: this.dataHandle.classifyDataHandle(shopData.classify)
         }
+
+        // 第三方平台相关调试
+        if (wx.getExtConfig) {
+            wx.getExtConfig({
+                success: function(res) {
+                    console.log(res.extConfig)
+                    console.log(res.extConfig.name)
+                    console.log(res.extConfig.attr.host)
+                }
+            })
+        }
+
+        // 接口调用令牌测试 https://api.weixin.qq.com/cgi-bin/component/api_component_token
 	},
 
 	checkSession: function() {
