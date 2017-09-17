@@ -131,30 +131,6 @@ Page({
 		this[obj][fun](self, e);
 	},
 
-    start: function(e) {
-        this.data.startY = e.changedTouches[0].clientY;
-        this.data.startTime = e.timeStamp;
-    },
-
-    end: function(e) {
-
-    	// var startY = this.data.startY,
-	    // 	startTime = this.data.startTime,
-	    // 	endY = e.changedTouches[0].clientY,
-	    // 	endTime = e.timeStamp,
-	    // 	interval,
-	    // 	move,
-	    // 	transitionTime;
-
-    	// interval = endTime - startTime;
-    	// console.log(interval);
-    	// move = Math.abs(endY - startY);
-    	// console.log(move);
-
-    	// transitionTime = 130*interval / (1000*move);
-    	// console.log(parseFloat(transitionTime.toFixed(2)));
-    },
-
 	header: {
 		goShopInfo: function (self, e) {
 			wx.navigateTo({url: '../shop_info/shop_info'});
@@ -177,7 +153,6 @@ Page({
 
 	menu: {
 		onScroll: function (self, e) {
-
             var sectionWidth = 570;
 			if(e.type == 'scroll') {
 				e.detail.scrollTop > 10 && !self.data.scrollDown && self.setData({scrollDown: true});
@@ -194,6 +169,7 @@ Page({
 			if(e.type == 'tap') {self.setData({scrollDown: true});}
 			var scale = e.detail.scrollWidth / sectionWidth; // rpx和px的比例
 			var scrollTop = e.detail.scrollTop / scale + 200; // 转rpx 200rpx 是提前量
+
 			var classifySeleted;
 			self.data.heightArr.forEach((item) => {
 				scrollTop > item.sectionTop && (classifySeleted = item.id);

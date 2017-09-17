@@ -28,32 +28,32 @@ module.exports = {
 
     classify: [
         {
-            id: 'hot',
+            id: 'classify1',
             name: '热销',
             product: [0, 1, 2]
         },
         {
-            id: 'new',
+            id: 'classify2',
             name: '新品',
             product: [1, 3]
         },
         {
-            id: 'vegetable',
+            id: 'classify3',
             name: '蔬菜',
             product: [1, 6, 5]
         },
         {
-            id: 'mushroom',
+            id: 'classify4',
             name: '蘑菇',
             product: [2, 7, 8]
         },
         {
-            id: 'food',
+            id: 'classify5',
             name: '主食',
             product: [3, 4]
         },
         {
-            id: 'classic',
+            id: 'classify6',
             name: '经典套餐',
             product: [2, 4]
         }

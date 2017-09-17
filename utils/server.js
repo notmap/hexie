@@ -36,6 +36,18 @@ module.exports = {
 		}, success, fail);
 	},
 
+	getClassify: function(shopId, success, fail) {
+		this.request('/wx/category/entire', 'post', {
+			shopId: shopId
+		}, success, fail);
+	},
+
+	getProduct: function(shopId, success, fail) {
+		this.request('/wx/category/products', 'post', {
+			shopId: shopId
+		}, success, fail);
+	},
+
 	postUserInfo: function(openId, shopId, nickname, headimage, success, fail) {
 		this.request('/wx/wechat/register', 'post', {
 			openId: openId,

@@ -24,7 +24,7 @@
 					<text class="classify-name">{{item.name}}</text>
 				</view>
 			</scroll-view>
-			<scroll-view class="product" scroll-y="true" scroll-into-view="{{classifyViewed}}" data-fun="menu.onScroll" bindscroll="onEvent" bindtouchstart="start" bindtouchend="end">
+			<scroll-view class="product" scroll-y="true" scroll-into-view="{{classifyViewed}}" data-fun="menu.onScroll" bindscroll="onEvent">
 				<view class="debug">
 					<view class="product-section" wx:for="{{classify}}" wx:key="id" id="{{item.id}}">
 						<view class="product-classify">{{item.name}}</view>
@@ -39,7 +39,7 @@
 			</scroll-view>
 		</swiper-item>
 		<swiper-item>
-			<scroll-view class="comment" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent" wx:if="{{swiper.show}}" bindtouchstart="start" bindtouchend="end">
+			<scroll-view class="comment" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent" wx:if="{{swiper.show}}">
 				<view class="debug">
 					<view class="comment-unit" wx:for="{{comment}}" wx:key="id">
 						<view class="comment-meta">

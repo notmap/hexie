@@ -2,8 +2,8 @@ var server = require('./utils/server');
 const scoreShow = require('./utils/score_show/score_show.js');
 App({
 	onLaunch: function () {
-        // this.login();
-		this.checkSession();
+        this.login();
+		// this.checkSession();
         this.dataInit();
 	},
 
@@ -17,6 +17,7 @@ App({
     login: function() {
         wx.login({
             success: (res) => {
+                // console.log(res.code)
                 this.getUserInfo();
                 this.getOpenid(res);
             }
@@ -24,6 +25,15 @@ App({
     },
 
     dataInit: function() { // 商铺数据初始化 
+
+        server.getClassify('100011', function(res) {
+            // console.log(res.data.data)
+        });
+
+        server.getProduct('100011', function(res) {
+            // console.log(res.data.data)
+        });
+
         var shopData = require('./shop_data.js');
         this.globalData = {
             shopId: '100011',
@@ -56,11 +66,7 @@ App({
 			success: (res) => {
                 this.postUserInfo(res);
                 this.globalData.userInfo = res.userInfo;
-
-
                 this.getUserAddress(); // 5839
-
-
 
                 // var userData = require('./user_data.js');
                 // this.globalData.addressArr = userData.addressArr;
@@ -70,7 +76,10 @@ App({
 	},
 
     getOpenid: function(res) {
+        // console.log(res.code)
+        // console.log(this.globalData.shopId)
         server.getOpenid(res.code, this.globalData.shopId, function(res){
+            // console.log(res)
             console.log(`getOpenid: ${res.data.openid}`)
             wx.setStorage({
                 key: 'openid',
@@ -107,6 +116,8 @@ App({
             self.globalData.addressArr = addressInfo.addressArr;
             self.globalData.active = addressInfo.active;
         });
+
+        // console.log(addressInfo)
     },
 
     postUserInfo: function(res) {  // 提交用户信息（店铺id 昵称 头像）
