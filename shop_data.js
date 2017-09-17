@@ -2,6 +2,7 @@ module.exports = {
 
     shop: {
         logo: 'http://www.legaoshuo.com/hexie/logo/2.jpg',
+        test: 'http://www.legaoshuo.com/hexie/shop_photo/1.jpg',
         loaded: false,
         name: '大拇指麻辣烫(南商店)',
         address: '宁波市鄞州区天高巷666号',

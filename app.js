@@ -1,7 +1,10 @@
-// var server = require('./utils/server');
+var server = require('./utils/server');
 const scoreShow = require('./utils/score_show/score_show.js');
 App({
 	onLaunch: function () {
+
+        // this.login();
+
 		this.checkSession();
 		var shopData = require('./shop_data.js');
         this.globalData = {
@@ -15,17 +18,16 @@ App({
         }
 
         // 第三方平台相关调试
-        if (wx.getExtConfig) {
-            wx.getExtConfig({
-                success: function(res) {
-                    console.log(res.extConfig)
-                    console.log(res.extConfig.name)
-                    console.log(res.extConfig.attr.host)
-                }
-            })
-        }
-
-        // 接口调用令牌测试 https://api.weixin.qq.com/cgi-bin/component/api_component_token
+        // if (wx.getExtConfig) {
+        //     wx.getExtConfig({
+        //         success: function(res) {
+        //             console.log(5839)
+        //             console.log(res.extConfig)
+        //             console.log(res.extConfig.name)
+        //             console.log(res.extConfig.attr.host)
+        //         }
+        //     })
+        // }
 	},
 
 	checkSession: function() {
@@ -37,13 +39,23 @@ App({
 
 	login: function() {
 		wx.login({
-			success: (res) => {this.getUserInfo();}
+			success: (res) => {
+                // console.log(res);
+                this.getUserInfo();
+
+                // 获取openid
+                server.getOpenid(res.code, '100011', function(res){
+                    console.log(res)
+                });
+            }
 		});
 	},
 
 	getUserInfo: function() {
 		wx.getUserInfo({
+            // withCredentials: true,
 			success: (res) => {
+                console.log(res);
                 this.globalData.userInfo = res.userInfo;
                 var userData = require('./user_data.js');
                 this.globalData.addressArr = userData.addressArr;

@@ -12,7 +12,7 @@ module.exports = {
         }
         return {
             iconArr: arr,
-            score: `${score}.0`
+            score: `${score}`
         };
     }
 }
