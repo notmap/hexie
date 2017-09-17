@@ -2,12 +2,31 @@ var server = require('./utils/server');
 const scoreShow = require('./utils/score_show/score_show.js');
 App({
 	onLaunch: function () {
-
         // this.login();
-
 		this.checkSession();
-		var shopData = require('./shop_data.js');
+        this.dataInit();
+	},
+
+    checkSession: function() { 
+        wx.checkSession({
+            success: () => {this.getUserInfo();},
+            fail: () => {this.login();}
+        })
+    },
+
+    login: function() {
+        wx.login({
+            success: (res) => {
+                this.getUserInfo();
+                this.getOpenid(res);
+            }
+        });
+    },
+
+    dataInit: function() { // 商铺数据初始化 
+        var shopData = require('./shop_data.js');
         this.globalData = {
+            shopId: '100011',
             shop: shopData.shop,
             classify: shopData.classify,
             product: shopData.product,
@@ -16,53 +35,101 @@ App({
             classifySeleted: shopData.classify[0].id,
             heightArr: this.dataHandle.classifyDataHandle(shopData.classify)
         }
+    },
 
-        // 第三方平台相关调试
-        // if (wx.getExtConfig) {
-        //     wx.getExtConfig({
-        //         success: function(res) {
-        //             console.log(5839)
-        //             console.log(res.extConfig)
-        //             console.log(res.extConfig.name)
-        //             console.log(res.extConfig.attr.host)
-        //         }
-        //     })
-        // }
-	},
-
-	checkSession: function() {
-		wx.checkSession({
-			success: () => {this.getUserInfo();},
-			fail: () => {this.login();}
-		})
-	},
-
-	login: function() {
-		wx.login({
-			success: (res) => {
-                // console.log(res);
-                this.getUserInfo();
-
-                // 获取openid
-                server.getOpenid(res.code, '100011', function(res){
-                    console.log(res)
-                });
-            }
-		});
-	},
+    getExtConfig: function() { // 第三方平台相关调试
+        if (wx.getExtConfig) {
+            wx.getExtConfig({
+                success: function(res) {
+                    console.log(5839)
+                    console.log(res.extConfig)
+                    console.log(res.extConfig.name)
+                    console.log(res.extConfig.attr.host)
+                }
+            });
+        }
+    },
 
 	getUserInfo: function() {
 		wx.getUserInfo({
             // withCredentials: true,
 			success: (res) => {
-                console.log(res);
+                this.postUserInfo(res);
                 this.globalData.userInfo = res.userInfo;
-                var userData = require('./user_data.js');
-                this.globalData.addressArr = userData.addressArr;
-                this.globalData.active = userData.active;
+
+
+                this.getUserAddress(); // 5839
+
+
+
+                // var userData = require('./user_data.js');
+                // this.globalData.addressArr = userData.addressArr;
+                // this.globalData.active = userData.active;
             }
 		});
 	},
+
+    getOpenid: function(res) {
+        server.getOpenid(res.code, this.globalData.shopId, function(res){
+            console.log(`getOpenid: ${res.data.openid}`)
+            wx.setStorage({
+                key: 'openid',
+                data: res.data.openid
+            });
+        }); 
+    },
+
+    getUserAddress: function() {
+
+        function dataHandle(data) {
+            var addressInfo = {addressArr: [], active: null}
+            data.map((item, index, arr) => {
+                var obj = {};
+                obj.id = item.id;
+                obj.area = item.area;
+                obj.address = item.address;
+                obj.user = item.contact;
+                obj.phone = item.mobile;
+                obj.lat = item.lat;
+                obj.lng = item.lng;
+                addressInfo.addressArr.push(obj);
+                if(item.defaults) addressInfo.active = item.id;
+            });
+            // console.log(addressInfo);
+            return addressInfo;
+        }
+
+        var self = this;
+        var openId = wx.getStorageSync('openid');
+        server.getUserAddress(openId, function(res) {
+            // console.log(res)
+            var addressInfo = dataHandle(res.data.items);
+            self.globalData.addressArr = addressInfo.addressArr;
+            self.globalData.active = addressInfo.active;
+        });
+    },
+
+    postUserInfo: function(res) {  // 提交用户信息（店铺id 昵称 头像）
+        var openId = wx.getStorageSync('openid'),
+            shopId = this.globalData.shopId,
+            nickname = res.userInfo.nickName,
+            headimage = res.userInfo.avatarUrl;
+
+        server.postUserInfo(openId, shopId, nickname, headimage, function(res){
+            console.log('5839: userinfo has posted');
+        });  
+    },
+
+    // postUserAddress: function(res) {  // 提交用户信息（店铺id 昵称 头像）
+    //     var openId = wx.getStorageSync('openid'),
+    //         shopId = this.globalData.shopId,
+    //         nickname = res.userInfo.nickName,
+    //         headimage = res.userInfo.avatarUrl;
+
+    //     server.postUserInfo(openId, shopId, nickname, headimage, function(res){
+    //         console.log('postUserInfo: userinfo has posted');
+    //     });  
+    // },
 
     getDate: function(date, delimiter) {
         var year = date.getFullYear();

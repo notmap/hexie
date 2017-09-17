@@ -1,6 +1,10 @@
+var server = require('../../utils/server');
 var app = getApp()
 Page({
 	onLoad: function (options) {
+
+        // this.getUserAddress();
+
         app.globalData.addressArr && this.setData({
             rawAddressArr: app.globalData.addressArr,
             addressArr: this.getAddress(app.globalData.addressArr),
@@ -27,8 +31,15 @@ Page({
         });
     },
 
+    postDefaultAddress: function(addressId) {
+        server.postDefaultAddress(addressId, function() {
+            console.log('the defaults address has reseted')
+        });
+    },
+
     setActive: function(e) {
         app.globalData.active = e.currentTarget.id;
+        this.postDefaultAddress(e.currentTarget.id);
         wx.navigateBack();
     },
 
