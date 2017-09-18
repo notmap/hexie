@@ -12,7 +12,10 @@ App({
 
 
 
-        // var newfish = this.modifyObject(fish, arrtObj);
+
+
+
+
 
 	},
 
@@ -36,7 +39,7 @@ App({
     dataInit: function() { // 商铺数据初始化 
 
     	this.getShopInfo();
-        this.getClassify();
+        // this.getClassify();
         this.getProduct();
         
 
@@ -45,13 +48,10 @@ App({
 
     setGlobalData: function(shopData) {
 
-    	// 元数据
-    	this.globalData.shopId = '100011';
-
     	// 内容数据 [店铺信息, 分类信息, 产品信息, 评论信息, 历史订单 ]
-        // this.globalData.shop = shopData.shop;
         this.globalData.classify = shopData.classify;
         this.globalData.product = shopData.product;
+
         this.globalData.comment = this.dataHandle.commentDataHandle(shopData.comment);
         this.globalData.history = this.dataHandle.historyDataHandle(shopData.history);
 
@@ -131,6 +131,7 @@ App({
                 deliverFee: 'expressFee'
             });
             shopInfo.loaded = false;
+            shopInfo.minimum = 15;
             shopInfo.express = shopInfo.express ? '蜂鸟配送' : '商家配送';
             shopInfo.score = 4.6;
             shopInfo.photo = [  
@@ -141,21 +142,51 @@ App({
                 'http://www.legaoshuo.com/hexie/shop_photo/1.jpg'
             ];
             shopInfo.promotion = [{full: 20, discount: 5}, {full: 40, discount: 15}];
-            shopInfo.minimum = 15;
             // console.log(shopInfo);
             self.globalData.shop = shopInfo;
     	});
     },
 
     getClassify: function() {   // ok 
+
+        function converProductId() {
+            // 转换产品ID到产品所在的组下标
+        }
+
+
+        var self = this;
         server.getClassify('100011', function(res) {
             console.log('Classify', res)
+
+            var classify = res.data.data;
+            self.modifyObject(classify, {
+                products: 'product'
+            });
+            classify.map((item, index, arr) => {
+                item.product = item.product.map((item, index, arr) => {
+                    return item.id
+                });
+                item.id = 'c' + item.id;
+            });
+            console.log(classify);
+            // self.globalData.classify = classify;
         });
     },
 
     getProduct: function() {   // ok 
+        var self = this;
         server.getProduct('100011', function(res) {
             console.log('Product', res)
+
+            var product = res.data.data;
+            self.modifyObject(product, {
+                fullImage: 'img',
+                boxcost: 'boxFee'
+            });
+            console.log(product)
+            self.globalData.product2 = product;
+
+            self.getClassify()
         });
     },
 

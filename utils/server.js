@@ -36,14 +36,14 @@ module.exports = {
 		}, success, fail);
 	},
 
-	getClassify: function(shopId, success, fail) {  // ok
-		this.request('/wx/category/entire', 'post', {
+	getShopInfo: function(shopId, success, fail) {  // ok
+		this.request('/wx/shop/infor', 'post', {
 			shopId: shopId
 		}, success, fail);
 	},
 
-	getShopInfo: function(shopId, success, fail) {  // ok
-		this.request('/wx/shop/infor', 'post', {
+	getClassify: function(shopId, success, fail) {  // ok
+		this.request('/wx/category/products', 'post', {
 			shopId: shopId
 		}, success, fail);
 	},
