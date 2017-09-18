@@ -42,6 +42,12 @@ module.exports = {
 		}, success, fail);
 	},
 
+	getShopInfo: function(shopId, success, fail) {
+		this.request('/wx/shop/infor', 'post', {
+			shopId: shopId
+		}, success, fail);
+	},
+
 	getProduct: function(shopId, success, fail) {
 		this.request('/wx/category/products', 'post', {
 			shopId: shopId

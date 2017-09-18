@@ -22,6 +22,10 @@ Page({
 	},
 
 	onLoad: function (option) {
+
+        // console.log(page__route__);
+
+
         this.checkSwiper(option);
         this.setMainData();
         this.imgLoader = new ImgLoader(this, this.imageOnLoad.bind(this));
@@ -76,16 +80,16 @@ Page({
     },
 
     setMainData: function() {
-        var localData = app.globalData;
         this.setData({
-            shop: localData.shop,
-            classify: localData.classify,
-            product: this.addImgStatus(localData.product),
-            comment: localData.comment,
-            history: localData.history,
-            classifySeleted: localData.classifySeleted,
-            heightArr: localData.heightArr,
-            difference: `差￥${localData.shop.minimum}起送`
+            productInfo: app.globalData.productInfo, // new
+            shop: app.globalData.shop,
+            classify: app.globalData.classify,
+            product: this.addImgStatus(app.globalData.product),
+            comment: app.globalData.comment,
+            history: app.globalData.history,
+            classifySeleted: app.globalData.classifySeleted,
+            heightArr: app.globalData.heightArr,
+            difference: `差￥${app.globalData.shop.minimum}起送`
         });
     },
 
