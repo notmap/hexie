@@ -2,28 +2,28 @@ module.exports = {
 
     shop: {
         logo: 'http://www.legaoshuo.com/hexie/logo/2.jpg',
-        test: 'http://www.legaoshuo.com/hexie/shop_photo/1.jpg',
-        loaded: false,
+        loaded: false,  // miss
         name: '大拇指麻辣烫(南商店)',
         address: '宁波市鄞州区天高巷666号',
         phone: '17051090103',
         express: '蜂鸟配送',
-        time: '10:30-13:00 16:30-19:00',
+        openTime: '10:30',
+        closeTime: '19:00',
         welcome: '单点饮料是不外送的哦，谢谢支持',
-        score: 4.6,
-        photo: [
+        score: 4.6, // miss
+        photo: [  // miss
             'http://www.legaoshuo.com/hexie/shop_photo/1.jpg',
             'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
             'http://www.legaoshuo.com/hexie/shop_photo/3.jpg',
             'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
             'http://www.legaoshuo.com/hexie/shop_photo/1.jpg'
         ],
-        promotion: [
+        promotion: [  // miss
             {full: 20, discount: 5},
             {full: 40, discount: 15}
         ],
-        minimum: 15,
-        expressFee: 3
+        minimum: 15,  // miss
+        expressFee: 3  
     },
 
     classify: [

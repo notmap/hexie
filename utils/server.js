@@ -30,27 +30,44 @@ module.exports = {
 		}, success, fail);
 	},
 
-	getUserAddress: function(openId, success, fail) {
+	getUserAddress: function(openId, success, fail) {  // ok
 		this.request('/wx/address/entire', 'post', {
 			openId: openId
 		}, success, fail);
 	},
 
-	getClassify: function(shopId, success, fail) {
+	getClassify: function(shopId, success, fail) {  // ok
 		this.request('/wx/category/entire', 'post', {
 			shopId: shopId
 		}, success, fail);
 	},
 
-	getShopInfo: function(shopId, success, fail) {
+	getShopInfo: function(shopId, success, fail) {  // ok
 		this.request('/wx/shop/infor', 'post', {
 			shopId: shopId
 		}, success, fail);
 	},
 
-	getProduct: function(shopId, success, fail) {
-		this.request('/wx/category/products', 'post', {
+	getProduct: function(shopId, success, fail) {  // ok
+		this.request('/wx/product/entire', 'post', {
 			shopId: shopId
+		}, success, fail);
+	},
+
+	getHistoryOrder: function(shopId, openId, page, size, success, fail) {  // getHistoryOrder
+		this.request('/wx/order/entire', 'post', {
+			shopId: shopId,
+			openId: openId,
+			page: page,
+			size: size
+		}, success, fail);
+	},
+
+	getComments: function(shopId, page, size, success, fail) {  // getComments
+		this.request('/wx/comments/byshopid', 'post', {
+			shopId: shopId,
+			page: page,
+			size: size
 		}, success, fail);
 	},
 

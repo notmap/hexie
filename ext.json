@@ -1,16 +1,13 @@
 
 {
     "extEnable": true,
-    "extAppid": "wx1d5cce846744081a",
+    "extAppid": "wxde1ce1f82e19e983",
     "ext": {
-        "name": "wechat",
+        "name": "dianfanme",
         "attr":
         {
-            "host": "open.weixin.qq.com",
-            "users": [
-                "user_1",
-                "user_2"
-            ]
+            "host": "https://snack.bugdeer.com",
+            "shopId": "100011"
         }
     }
 }

@@ -20,7 +20,7 @@
     </swiper>
     <view class="shopinfo-time">
         <image class="shopinfo-time-icon" src="../../imgs/time.png"/>
-        <text class="shopinfo-time-text">营业时间: {{shop.time}}</text>
+        <text class="shopinfo-time-text">营业时间: {{shop.openTime}}-{{shop.closeTime}}</text>
     </view>
 </view>
 <view class="notice">

@@ -4,6 +4,7 @@ const scoreShow = require('./utils/score_show/score_show.js');
 
 App({
 	onLaunch: function () {
+        this.getExtConfig();
         this.login();
 		// this.checkSession();   // 是否需要验证
         this.dataInit();
@@ -33,8 +34,11 @@ App({
     },
 
     dataInit: function() { // 商铺数据初始化 
-    	// this.getProductInfo();
+
     	this.getShopInfo();
+        this.getClassify();
+        this.getProduct();
+        
 
         this.setGlobalData(require('./shop_data.js'));
     },
@@ -45,7 +49,7 @@ App({
     	this.globalData.shopId = '100011';
 
     	// 内容数据 [店铺信息, 分类信息, 产品信息, 评论信息, 历史订单 ]
-        this.globalData.shop = shopData.shop;
+        // this.globalData.shop = shopData.shop;
         this.globalData.classify = shopData.classify;
         this.globalData.product = shopData.product;
         this.globalData.comment = this.dataHandle.commentDataHandle(shopData.comment);
@@ -57,13 +61,15 @@ App({
     },
 
     getExtConfig: function() { // 第三方平台相关调试
+        var self = this;
         if (wx.getExtConfig) {
             wx.getExtConfig({
                 success: function(res) {
-                    console.log(5839)
-                    console.log(res.extConfig)
-                    console.log(res.extConfig.name)
-                    console.log(res.extConfig.attr.host)
+                    // console.log(res.extConfig)
+                    // console.log(res.extConfig.name)
+                    // console.log(res.extConfig.attr.host)
+                    // console.log(res.extConfig.attr.shopId)
+                    self.globalData.shopId = res.extConfig.attr.shopId;
                 }
             });
         }
@@ -71,7 +77,7 @@ App({
 
     getOpenid: function(res) {
         server.getOpenid(res.code, this.globalData.shopId, function(res){
-            console.log(`openid: ${res.data.openid}`)
+            console.log('Openid', res);
             wx.setStorage({
                 key: 'openid',
                 data: res.data.openid
@@ -81,103 +87,77 @@ App({
 
 	getUserInfo: function() {
 		wx.getUserInfo({
-            // withCredentials: true,
 			success: (res) => {
                 this.postUserInfo(res);
-                this.globalData.userInfo = res.userInfo;
                 this.getUserAddress();  
-
-                // var userData = require('./user_data.js');
-                // this.globalData.addressArr = userData.addressArr;
-                // this.globalData.active = userData.active;
+                this.globalData.userInfo = res.userInfo;
             }
 		});
 	},
 
 	getUserAddress: function() {
-
 		var self = this;
-		
         function dataHandle(data) {
-
-        	var test = self.modifyObject(data, {contact: 'user', mobile: 'phone'});
-        	console.log(test);
-
-            var newdata = {addressArr: [], active: null}
+        	self.modifyObject(data, {contact: 'user', mobile: 'phone'});
+            var active;
             data.map((item, index, arr) => {
-                var obj = {};
-                obj.id = item.id;
-                obj.area = item.area;
-                obj.address = item.address;
-                obj.user = item.contact;
-                obj.phone = item.mobile;
-                obj.lat = item.lat;
-                obj.lng = item.lng;
-                newdata.addressArr.push(obj);
-                if(item.defaults) newdata.active = item.id;
+                if(item.defaults) active = item.id;
             });
-            // console.log(newdata);
-            return newdata;
+            return {
+                addressArr: data, 
+                active: active
+            };
         }
-
-        var self = this;
         var openId = wx.getStorageSync('openid');
         server.getUserAddress(openId, function(res) {
-
+            console.log('UserAddress', res);
             var addressInfo = dataHandle(res.data.items);
-            // var addressInfo = this.modifyObject(res.data.items, {contact: 'user', mobile: 'phone'});
-
-
             self.globalData.addressArr = addressInfo.addressArr;
             self.globalData.active = addressInfo.active;
         });
-
-        // console.log(addressInfo)
     },
 
-	getShopInfo: function() {
-
-		function dataHandle(data) {
-            var newdata = {addressArr: [], active: null}
-            data.map((item, index, arr) => {
-                var obj = {};
-                obj.id = item.id;
-                obj.area = item.area;
-                obj.address = item.address;
-                obj.user = item.contact;
-                obj.phone = item.mobile;
-                obj.lat = item.lat;
-                obj.lng = item.lng;
-                newdata.addressArr.push(obj);
-                if(item.defaults) newdata.active = item.id;
-            });
-            // console.log(newdata);
-            return newdata;
-        }
-
+	getShopInfo: function() {   // ok 
+        var self = this;
     	server.getShopInfo('100011', function(res) {
+    		console.log('ShopInfo', res)
 
-
-
-    		// console.log(res.data.data)
+            var shopInfo = res.data.data;
+            self.modifyObject(shopInfo, {
+                fullCover: 'logo',
+                serviceTel: 'phone',
+                deliverType: 'express',
+                notice: 'welcome',
+                deliverFee: 'expressFee'
+            });
+            shopInfo.loaded = false;
+            shopInfo.express = shopInfo.express ? '蜂鸟配送' : '商家配送';
+            shopInfo.score = 4.6;
+            shopInfo.photo = [  
+                'http://www.legaoshuo.com/hexie/shop_photo/1.jpg',
+                'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
+                'http://www.legaoshuo.com/hexie/shop_photo/3.jpg',
+                'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
+                'http://www.legaoshuo.com/hexie/shop_photo/1.jpg'
+            ];
+            shopInfo.promotion = [{full: 20, discount: 5}, {full: 40, discount: 15}];
+            shopInfo.minimum = 15;
+            // console.log(shopInfo);
+            self.globalData.shop = shopInfo;
     	});
     },
 
-	getProductInfo: function() {
-		var self = this;
-        server.getProduct('100011', function(res) {
-
-        	// console.log(res)
-
-           	res.data.data.map((item, index, arr) => {
-           		item.id = 'classify' + item.id;
-           		return item;
-           	});
-           	self.globalData.productInfo = res.data.data;
-           	// wx.setStorageSync('productInfo', res.data.data);
-           	// console.log(res.data.data);
+    getClassify: function() {   // ok 
+        server.getClassify('100011', function(res) {
+            console.log('Classify', res)
         });
-	},
+    },
+
+    getProduct: function() {   // ok 
+        server.getProduct('100011', function(res) {
+            console.log('Product', res)
+        });
+    },
 
     postUserInfo: function(res) {  // 提交用户信息（店铺id 昵称 头像）
         var openId = wx.getStorageSync('openid'),
@@ -186,7 +166,7 @@ App({
             headimage = res.userInfo.avatarUrl;
 
         server.postUserInfo(openId, shopId, nickname, headimage, function(res){
-            console.log('5839: userinfo has posted');
+            // console.log('5839: userinfo has posted');
         });  
     },
 
@@ -272,5 +252,12 @@ App({
         }
     },
 
-    globalData: {}
+    globalData: {
+        // 店铺信息@
+        // 产品分类信息@ 
+        // 产品信息@
+        // 历史订单
+        // 评论信息
+        // 用户地址信息
+    }
 })

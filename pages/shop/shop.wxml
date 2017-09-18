@@ -54,7 +54,7 @@
 			</scroll-view>
 		</swiper-item>
 		<swiper-item>
-			<scroll-view class="history" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent" wx:if="{{swiper.show}}" bindtouchstart="start" bindtouchend="end">
+			<scroll-view class="history" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent" wx:if="{{swiper.show}}">
 				<view class="debug">
 				    <view class="history-order" wx:for="{{history}}" wx:key="id">
 				        <view class="history-head">
