@@ -95,7 +95,14 @@ App({
 	},
 
 	getUserAddress: function() {
+
+		var self = this;
+		
         function dataHandle(data) {
+
+        	var test = self.modifyObject(data, {contact: 'user', mobile: 'phone'});
+        	console.log(test);
+
             var newdata = {addressArr: [], active: null}
             data.map((item, index, arr) => {
                 var obj = {};
