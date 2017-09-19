@@ -22,14 +22,39 @@ Page({
 	},
 
 	onLoad: function (option) {
-
-        // console.log(page__route__);
-
-
+        var self = this;
+        app.getShopInfo(function(shopInfo) {
+            // console.log(shopInfo)
+            self.setData({
+                shop: shopInfo,
+                difference: `差￥${shopInfo.minimum}起送`
+            });
+        });
+        app.getProduct(function(product, classify) {
+            self.imgLoader = new ImgLoader(self, self.imageOnLoad.bind(self));
+            self.loadImages(product);
+            self.setData({
+                classify: classify,
+                product: self.addImgStatus(product),
+                classifySeleted: classify[0].id,
+                heightArr: app.dataHandle.classifyDataHandle(classify)
+            });
+        });
+        this.setMainData(app.globalData);
         this.checkSwiper(option);
-        this.setMainData();
-        this.imgLoader = new ImgLoader(this, this.imageOnLoad.bind(this));
-        this.loadImages(this.data.product);
+
+        app.getComments(function(comments) {
+            console.log(comments)
+            self.setData({
+                comment: app.dataHandle.commentDataHandle(comments)
+            });
+        });
+
+        
+
+        // console.log(app.globalData.comment)
+
+
 	},
 
     onShow: function(option) {
@@ -79,18 +104,19 @@ Page({
         });
     },
 
-    setMainData: function() {
+    setMainData: function(data) {
         this.setData({
-            productInfo: app.globalData.productInfo, // new
-            shop: app.globalData.shop,
-            classify: app.globalData.classify,
-            product: this.addImgStatus(app.globalData.product),
-            comment: app.globalData.comment,
-            history: app.globalData.history,
-            classifySeleted: app.globalData.classifySeleted,
-            heightArr: app.globalData.heightArr,
-            difference: `差￥${app.globalData.shop.minimum}起送`
+            // shop: data.shop,
+            // classify: data.classify,
+            // product: this.addImgStatus(data.product),
+            comment: data.comment,
+            history: data.history,
+            // classifySeleted: data.classifySeleted,
+            // heightArr: data.heightArr,
+            // difference: `差￥${data.shop.minimum}起送`
         });
+
+        // console.log(app.globalData.classifySeleted)
     },
 
 	loadImages(imgArr) {
@@ -175,6 +201,7 @@ Page({
 			var scrollTop = e.detail.scrollTop / scale + 200; // 转rpx 200rpx 是提前量
 
 			var classifySeleted;
+            // console.log(self.data.heightArr)
 			self.data.heightArr.forEach((item) => {
 				scrollTop > item.sectionTop && (classifySeleted = item.id);
 			});
@@ -182,6 +209,7 @@ Page({
 		},
 
 		switchClassify: function (self, e) {
+            // console.log(e.target.dataset.id)
 			this.onScroll(self, e);
             self.setData({
                 classifyViewed: e.target.dataset.id,

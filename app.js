@@ -1,5 +1,4 @@
 const server = require('./utils/server');
-// const pages = require('./utils/pages.js');
 const scoreShow = require('./utils/score_show/score_show.js');
 
 App({
@@ -38,26 +37,25 @@ App({
 
     dataInit: function() { // 商铺数据初始化 
 
-    	this.getShopInfo();
-        // this.getClassify();
-        this.getProduct();
-        
+        // this.getComments();
 
+    	// this.getShopInfo();
+        // this.getProduct();
         this.setGlobalData(require('./shop_data.js'));
     },
 
     setGlobalData: function(shopData) {
 
     	// 内容数据 [店铺信息, 分类信息, 产品信息, 评论信息, 历史订单 ]
-        this.globalData.classify = shopData.classify;
-        this.globalData.product = shopData.product;
+        // this.globalData.classify = shopData.classify;
+        // this.globalData.product = shopData.product;
 
         this.globalData.comment = this.dataHandle.commentDataHandle(shopData.comment);
         this.globalData.history = this.dataHandle.historyDataHandle(shopData.history);
 
         // 样式数据
-        this.globalData.classifySeleted = shopData.classify[0].id;
-        this.globalData.heightArr = this.dataHandle.classifyDataHandle(shopData.classify);
+        // this.globalData.classifySeleted = shopData.classify[0].id;
+        // this.globalData.heightArr = this.dataHandle.classifyDataHandle(shopData.classify);
     },
 
     getExtConfig: function() { // 第三方平台相关调试
@@ -110,17 +108,17 @@ App({
         }
         var openId = wx.getStorageSync('openid');
         server.getUserAddress(openId, function(res) {
-            console.log('UserAddress', res);
+            // console.log('UserAddress', res);
             var addressInfo = dataHandle(res.data.items);
             self.globalData.addressArr = addressInfo.addressArr;
             self.globalData.active = addressInfo.active;
         });
     },
 
-	getShopInfo: function() {   // ok 
+	getShopInfo: function(cb) {   // ok 
         var self = this;
     	server.getShopInfo('100011', function(res) {
-    		console.log('ShopInfo', res)
+    		// console.log('ShopInfo', res)
 
             var shopInfo = res.data.data;
             self.modifyObject(shopInfo, {
@@ -144,19 +142,27 @@ App({
             shopInfo.promotion = [{full: 20, discount: 5}, {full: 40, discount: 15}];
             // console.log(shopInfo);
             self.globalData.shop = shopInfo;
+            if(cb) cb(shopInfo);
     	});
     },
 
-    getClassify: function() {   // ok 
+    getClassify: function(allProduct, cb) {   // ok 
 
-        function converProductId() {
+        function converProductId(classify) {
             // 转换产品ID到产品所在的组下标
+            classify.map((item, index, arr) => {
+                item.product = item.product.map((item2, index, arr) => {
+                    allProduct.map((item3, index, arr) => {
+                        if(item3.id == item2) item2 = index;
+                    });
+                    return item2;
+                });
+            });
         }
-
 
         var self = this;
         server.getClassify('100011', function(res) {
-            console.log('Classify', res)
+            // console.log('Classify', res)
 
             var classify = res.data.data;
             self.modifyObject(classify, {
@@ -168,25 +174,55 @@ App({
                 });
                 item.id = 'c' + item.id;
             });
-            console.log(classify);
-            // self.globalData.classify = classify;
+
+            converProductId(classify);
+            // console.log(classify);
+            self.globalData.product = allProduct;
+            self.globalData.classify = classify;
+            self.globalData.classifySeleted = classify[0].id;
+            self.globalData.heightArr = self.dataHandle.classifyDataHandle(classify);
+
+            if(cb) cb(allProduct, classify);
         });
     },
 
-    getProduct: function() {   // ok 
+    getProduct: function(cb) {   // ok 
         var self = this;
         server.getProduct('100011', function(res) {
-            console.log('Product', res)
+            // console.log('Product', res)
 
             var product = res.data.data;
             self.modifyObject(product, {
                 fullImage: 'img',
                 boxcost: 'boxFee'
             });
-            console.log(product)
-            self.globalData.product2 = product;
+            // console.log(product)
+            // self.globalData.product = product;
 
-            self.getClassify()
+            self.getClassify(product, cb)
+        });
+    },
+
+    getComments: function(cb) {   // ok
+        var self = this;
+        var page = 1, size = 10;
+        server.getComments('100011', page, size, function(res) {
+            // console.log('Comments', res)
+
+            var comments = res.data.data;
+            self.modifyObject(comments, {
+                headimage: 'avatar',
+                nicknameStr: 'name',
+                createTime: 'time'
+            });
+
+            comments.map((item, index, arr) => {
+                item.time = self.getDate(item.time, '.')
+            });
+
+            // console.log(comments);
+
+            cb && cb(comments);
         });
     },
 
@@ -201,14 +237,16 @@ App({
         });  
     },
 
-    getDate: function(date, delimiter) {
+    getDate: function(timeStamp, delimiter) { // timeStamp 缺省就获取当前时间
+        var date =  new Date(timeStamp);
         var year = date.getFullYear();
         var month = (date.getMonth() + 1) < 10 ? `0${date.getMonth() + 1}` : (date.getMonth() + 1);
         var day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
         return `${year}${delimiter}${month}${delimiter}${day}`;
     },
 
-    getTime: function(date, arrival) {
+    getTime: function(timeStamp, arrival) {
+        var date =  new Date(timeStamp);
         var hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
         var minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
         var seconds = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
@@ -292,3 +330,5 @@ App({
         // 用户地址信息
     }
 })
+
+

@@ -63,7 +63,7 @@ module.exports = {
 		}, success, fail);
 	},
 
-	getComments: function(shopId, page, size, success, fail) {  // getComments
+	getComments: function(shopId, page, size, success, fail) {  // ok
 		this.request('/wx/comments/byshopid', 'post', {
 			shopId: shopId,
 			page: page,
