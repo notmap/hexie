@@ -187,7 +187,7 @@ module.exports = {
     history:[
         {
             id: 7,
-            status: 2, // 1 是配送中
+            status: 3, // 1 是配送中
             order: {
                 goods: [
                     {
@@ -225,7 +225,7 @@ module.exports = {
         },    
         {
             id: 6,
-            status: 2, // 1 是配送中
+            status: 1, // 1 是配送中
             order: {
                 goods: [
                     {

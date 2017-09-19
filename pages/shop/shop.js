@@ -23,22 +23,24 @@ Page({
 
 	onLoad: function (option) {
         var self = this;
+        self.imgLoader = new ImgLoader(self, self.imageOnLoad.bind(self));
+
         app.getShopInfo(function(shopInfo) {
-            // console.log(shopInfo)
             self.setData({
                 shop: shopInfo,
                 difference: `差￥${shopInfo.minimum}起送`
             });
+            self.loadImages(shopInfo.logo);
         });
+
         app.getProduct(function(product, classify) {
-            self.imgLoader = new ImgLoader(self, self.imageOnLoad.bind(self));
-            self.loadImages(product);
             self.setData({
                 classify: classify,
                 product: self.addImgStatus(product),
                 classifySeleted: classify[0].id,
                 heightArr: app.dataHandle.classifyDataHandle(classify)
             });
+            self.loadImages(product);
         });
         this.setMainData(app.globalData);
         this.checkSwiper(option);
@@ -57,10 +59,6 @@ Page({
             // });
         });
         
-
-
-
-        // console.log(app.globalData.comment)
 
 
 	},
@@ -101,6 +99,9 @@ Page({
                 }
             });
         }
+
+
+        // wx.navigateTo({url: `../test/test`});  // 测试用页面
     },
 
     checkSwiper: function(option) {
@@ -117,7 +118,7 @@ Page({
             // shop: data.shop,
             // classify: data.classify,
             // product: this.addImgStatus(data.product),
-            comment: data.comment,
+            // comment: data.comment,
             history: data.history,
             // classifySeleted: data.classifySeleted,
             // heightArr: data.heightArr,
@@ -127,31 +128,33 @@ Page({
         // console.log(app.globalData.classifySeleted)
     },
 
-	loadImages(imgArr) {
-        this.imgLoader.load(this.data.shop.logo);
-        imgArr.forEach(item => {
-            this.imgLoader.load(item.img)
-        })
+	loadImages(imgObj) {
+        if(Array.isArray(imgObj)) {
+            imgObj.forEach(item => {
+                this.imgLoader.load(item.img)
+            })           
+        }
+        else {
+            this.imgLoader.load(imgObj);  //this.data.shop.logo
+        }
     },
 
-    imageOnLoad(err, data) {
+    imageOnLoad(err, data) { // 图片加载完成的cb
 
-        // console.log('图片加载完成', err, data.src);
-        // console.log('图片加载完成');
+        if(this.data.product) {
+            var productData = this.data.product.map(item => {
+                if (item.img == data.src)
+                    item.loaded = true
+                return item
+            })
+            this.setData({product: productData});
+        }
 
-        var productData = this.data.product.map(item => {
-            if (item.img == data.src)
-                item.loaded = true
-            return item
-        })
-        
-        var  shopData = this.data.shop;
-        shopData.logo == data.src && (shopData.loaded = true);
-
-        this.setData({
-            product: productData,
-            shop: shopData
-        })
+        if(this.data.shop) {
+            var  shopData = this.data.shop;
+            shopData.logo == data.src && (shopData.loaded = true);
+            this.setData({shop: shopData});
+        }
     },
 
     addImgStatus: function(imgArr) {

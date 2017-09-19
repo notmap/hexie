@@ -11,7 +11,7 @@
 
     <view class="order">
         <view class="order-head">
-            <image class="order-head-logo" src="{{shop.logo}}"/>
+            <image class="order-head-logo" src="{{shop.logo}}" wx:if="{{shop.logo}}" />
             <text class="order-head-name">{{shop.name}}</text>
             <text class="order-head-express">{{shop.express}}</text>
         </view>

@@ -3,6 +3,10 @@ var app = getApp()
 Page({
 	onLoad: function (option) {
         // console.log(option.id);
+
+        // console.log(app.globalData.shop)
+
+
         this.setData({
             order: option.id,
             shop: app.globalData.shop
@@ -37,19 +41,34 @@ Page({
     },
 
     jump: function(e) {
-        wx.setStorage({
-            key: 'comment',
-            data: {
-                order: this.data.order,
-                id: 0,
-                avatar: app.globalData.userInfo.avatarUrl,
-                name: app.globalData.userInfo.nickName,
-                score: scoreShow.calcScore(this.data.score),
-                time: app.getDate(new Date(), '.'),
-                content: this.data.content
-            }
-        });
-        wx.navigateBack();
+
+        var score = scoreShow.calcScore(this.data.score),
+            content = this.data.content;
+            
+        if(score && content) {
+            console.log('what the fuck')
+            app.postComments(score.score, content);
+            wx.setStorage({
+                key: 'comment',
+                data: {
+                    order: this.data.order,
+                    id: 0,
+                    avatar: app.globalData.userInfo.avatarUrl,
+                    name: app.globalData.userInfo.nickName,
+                    score: score,
+                    time: app.getDate(new Date(), '.'),
+                    content: content
+                }
+            });
+            wx.navigateBack();
+        }
+        else {
+            wx.showToast({
+                title: '信息不完整',
+                image: '../../imgs/warn5.png',
+                duration: 2000
+            })
+        }
     }
 });
 

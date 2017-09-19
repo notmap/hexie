@@ -1,4 +1,5 @@
 
-	<view class="one"></view>
-	<view class="two" style="margin-top: {{marginTop}}rpx" bindtouchstart="start" bindtouchmove="move"></view>
 
+<image src="{{logo}}" mode="aspectFill"></image>
+
+<!-- <image wx:if="{{logo}}" src="{{logo}}" mode="aspectFill"></image> -->

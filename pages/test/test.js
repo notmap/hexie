@@ -4,28 +4,15 @@ var app = getApp();
 Page({
 
 	data: {
-        marginTop: 300
+        // logo: 'http://osjpettzm.bkt.clouddn.com/AgqguUpqNTkP8p2wB1q'
 	},
 
-	onLoad: function (option) {},
-
-    onShow: function(option) {},
-
-    start: function(e) {
-        // console.log(e.changedTouches[0].clientY)
-        this.data.start = e.changedTouches[0].clientY;
+	onLoad: function (option) {
+        this.setData({
+            // logo: 'http://osjpettzm.bkt.clouddn.com/AgqguUpqNTkP8p2wB1q'
+            logo: 'http://img1.3lian.com/2015/w7/85/d/101.jpg'
+        });
     },
 
-    move: function(e) {
-        // console.log(e.changedTouches[0].clientY)
-        this.data.stop = e.changedTouches[0].clientY;
-        this.data.move = this.data.start - this.data.stop;
-        console.log(this.data.move);
-        this.setData({
-            marginTop: 300 - this.data.move
-        });
-    }
-
-
-
+    onShow: function(option) {}
 });

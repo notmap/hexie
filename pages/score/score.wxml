@@ -3,7 +3,7 @@
 
 <view class="score">
     <view class="score-shop">
-        <image class="score-shop-logo" src="{{shop.logo}}"></image>
+        <image class="score-shop-logo" src="{{shop.logo}}" wx:if="{{shop.logo}}"></image>
         <text class="score-shop-name">{{shop.name}}</text>
     </view>
     <text class="score-tip">为商家打分</text>
@@ -16,4 +16,6 @@
 <view class="submit" data-jump="shop" bindtap="jump">
     <text class="submit-text">发布评价</text>
 </view>
+
+
 

@@ -3,6 +3,7 @@
 
 	"pages": [
 		"pages/shop/shop",
+		"pages/test/test",
 		"pages/shop_info/shop_info",
 		"pages/order/order",
 		"pages/address/address",

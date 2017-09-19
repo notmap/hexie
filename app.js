@@ -2,19 +2,20 @@ const server = require('./utils/server');
 const scoreShow = require('./utils/score_show/score_show.js');
 
 App({
-	onLaunch: function () {
+	onLaunch: function() {
         this.getExtConfig();
         this.login();
 		// this.checkSession();   // 是否需要验证
         this.dataInit();
 
-
-
-
-
-
-
-
+        // function proFunc() {
+        //     return new Promise((resolve, reject) => {
+        //         // get some data or err
+        //         if(data) resolve(data) 
+        //         else reject(err)
+        //     });
+        // }
+        // proFunc().then(function(data) {}, function(err) {})
 
 	},
 
@@ -52,7 +53,7 @@ App({
         // this.globalData.classify = shopData.classify;
         // this.globalData.product = shopData.product;
 
-        this.globalData.comment = this.dataHandle.commentDataHandle(shopData.comment);
+        // this.globalData.comment = this.dataHandle.commentDataHandle(shopData.comment);
         this.globalData.history = this.dataHandle.historyDataHandle(shopData.history);
 
         // 样式数据
@@ -77,7 +78,7 @@ App({
 
     getOpenid: function(res) {
         server.getOpenid(res.code, this.globalData.shopId, function(res){
-            console.log('Openid', res);
+            console.log(`Openid: ${res.data.openid}`);
             wx.setStorage({
                 key: 'openid',
                 data: res.data.openid
@@ -271,6 +272,32 @@ App({
         });  
     },
 
+
+    postComments: function(score, content) { 
+
+        var shopId = this.globalData.shopId,
+            openId = wx.getStorageSync('openid'),
+            orderId = '2017091800057',
+            nickname = this.globalData.userInfo.nickName,
+            headimage = this.globalData.userInfo.avatarUrl,
+            score = score,
+            content = content;
+
+        server.postComments(shopId, openId, orderId, nickname, headimage, score, content, function(res){
+            console.log('postComments', res);
+        });  
+    },
+
+
+
+
+    // 2017091800057   orderId
+
+
+
+
+
+
     getDate: function(timeStamp, delimiter) { // timeStamp 缺省就获取当前时间
         var date =  new Date(timeStamp);
         var year = date.getFullYear();
@@ -316,10 +343,18 @@ App({
         },
 
         orderStatus: [
-            {status: '订单已取消', button: false, data: false},
-            {status: '配送中', button: '查看订单', data: 'order.goExpress'},
-            {status: '订单已完成', button: '评价一下', data: 'order.goScore'},
-            {status: '订单已完成', button: '已评价', data: false}
+            // {status: '订单已取消', button: false, data: false},
+            // {status: '配送中', button: '查看订单', data: 'order.goExpress'},
+            // {status: '订单已完成', button: '评价一下', data: 'order.goScore'},
+            // {status: '订单已完成', button: '已评价', data: false},
+
+            {status: '等待接单', code: 10, button: '取消订单', data: 'order.goCancel'},
+            {status: '已接单', code: 20, button: '查看订单', data: 'order.goExpress'},
+            {status: '配送中', code: 30, button: '查看订单', data: 'order.goExpress'},
+            {status: '订单已完成', code: 40, button: '评价一下', data: 'order.goScore'},
+            {status: '用户已取消', code: 41, button: false, data: false},
+            {status: '已退款', code: 42, button: '查看退款', data: 'order.goRefund'},
+            {status: '商家拒单', code: 43, button: false, data: false}
         ],
 
         commentDataHandle: function(commentData) {
