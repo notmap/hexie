@@ -44,13 +44,21 @@ Page({
         this.checkSwiper(option);
 
         app.getComments(function(comments) {
-            console.log(comments)
+            // console.log(comments)
             self.setData({
                 comment: app.dataHandle.commentDataHandle(comments)
             });
         });
 
+        app.getHistoryOrder(function(historyOrder) {
+            // console.log(historyOrder)
+            // self.setData({
+            //     comment: app.dataHandle.commentDataHandle(comments)
+            // });
+        });
         
+
+
 
         // console.log(app.globalData.comment)
 

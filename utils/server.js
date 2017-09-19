@@ -42,6 +42,12 @@ module.exports = {
 		}, success, fail);
 	},
 
+	getPromotion: function(shopId, success, fail) {  // ok
+		this.request('/wx/shop/promotion', 'post', {
+			shopId: shopId
+		}, success, fail);
+	},
+
 	getClassify: function(shopId, success, fail) {  // ok
 		this.request('/wx/category/products', 'post', {
 			shopId: shopId
@@ -110,6 +116,12 @@ module.exports = {
 
 	postDefaultAddress: function(addressId, success, fail) {
 		this.request('/wx/address/default', 'post', {
+			addressId: addressId
+		}, success, fail);
+	},
+
+	postComments: function(addressId, success, fail) {   // 未完成
+		this.request('/wx/comments/create', 'post', {
 			addressId: addressId
 		}, success, fail);
 	}

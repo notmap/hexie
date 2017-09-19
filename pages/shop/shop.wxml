@@ -6,7 +6,7 @@
 		<text class="header-express ellipsis">{{shop.express}}</text>
 		<text class="header-welcome ellipsis">{{shop.welcome}}</text>
 		<view class="header-promotion">
-			<text class="header-discount" wx:for="{{shop.promotion}}" wx:key="full">满{{item.full}}减{{item.discount}}</text>
+			<text class="header-discount" wx:for="{{shop.promotion}}" wx:key="amount">满{{item.amount}}减{{item.discount}}</text>
 		</view>
 		<view class="header-shopinfo" data-fun="header.goShopInfo" bindtap="onEvent"></view>
 	</view>

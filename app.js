@@ -38,9 +38,11 @@ App({
     dataInit: function() { // 商铺数据初始化 
 
         // this.getComments();
-
     	// this.getShopInfo();
         // this.getProduct();
+        // this.getHistoryOrder();
+
+
         this.setGlobalData(require('./shop_data.js'));
     },
 
@@ -117,7 +119,7 @@ App({
 
 	getShopInfo: function(cb) {   // ok 
         var self = this;
-    	server.getShopInfo('100011', function(res) {
+    	server.getShopInfo(this.globalData.shopId, function(res) {
     		// console.log('ShopInfo', res)
 
             var shopInfo = res.data.data;
@@ -126,12 +128,11 @@ App({
                 serviceTel: 'phone',
                 deliverType: 'express',
                 notice: 'welcome',
-                deliverFee: 'expressFee'
+                deliverFee: 'expressFee',
+                minAmount: 'minimum'
             });
             shopInfo.loaded = false;
-            shopInfo.minimum = 15;
             shopInfo.express = shopInfo.express ? '蜂鸟配送' : '商家配送';
-            shopInfo.score = 4.6;
             shopInfo.photo = [  
                 'http://www.legaoshuo.com/hexie/shop_photo/1.jpg',
                 'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
@@ -139,10 +140,15 @@ App({
                 'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
                 'http://www.legaoshuo.com/hexie/shop_photo/1.jpg'
             ];
-            shopInfo.promotion = [{full: 20, discount: 5}, {full: 40, discount: 15}];
-            // console.log(shopInfo);
-            self.globalData.shop = shopInfo;
-            if(cb) cb(shopInfo);
+
+            server.getPromotion(self.globalData.shopId, function(res) {
+                // console.log(res.data.data);
+                var promotion = res.data.data;
+                shopInfo.promotion = res.data.data;
+
+                self.globalData.shop = shopInfo;
+                if(cb) cb(shopInfo);
+            });
     	});
     },
 
@@ -161,7 +167,7 @@ App({
         }
 
         var self = this;
-        server.getClassify('100011', function(res) {
+        server.getClassify(this.globalData.shopId, function(res) {
             // console.log('Classify', res)
 
             var classify = res.data.data;
@@ -188,7 +194,7 @@ App({
 
     getProduct: function(cb) {   // ok 
         var self = this;
-        server.getProduct('100011', function(res) {
+        server.getProduct(this.globalData.shopId, function(res) {
             // console.log('Product', res)
 
             var product = res.data.data;
@@ -206,7 +212,7 @@ App({
     getComments: function(cb) {   // ok
         var self = this;
         var page = 1, size = 10;
-        server.getComments('100011', page, size, function(res) {
+        server.getComments(this.globalData.shopId, page, size, function(res) {
             // console.log('Comments', res)
 
             var comments = res.data.data;
@@ -223,6 +229,34 @@ App({
             // console.log(comments);
 
             cb && cb(comments);
+        });
+    },
+
+    getHistoryOrder: function(cb) {   // ok 
+
+        var self = this;
+        var openId = wx.getStorageSync('openid'),
+            page = 1,
+            size = 10;
+
+        // console.log(openId);
+        // console.log(this.globalData.shopId);
+
+        server.getHistoryOrder(this.globalData.shopId, openId, page, size, function(res) {
+            // console.log('HistoryOrder', res)
+
+
+
+            var historyOrder = res.data.data;
+            // self.modifyObject(product, {
+            //     fullImage: 'img',
+            //     boxcost: 'boxFee'
+            // });
+            // console.log(product)
+            // self.globalData.product = product;
+
+            // self.getClassify(product, cb)
+            cb && cb(historyOrder)
         });
     },
 
