@@ -36,7 +36,12 @@ Page({
         return {
             id: address.id,
             user: `${address.user} ${address.phone}`,
-            address: `${address.area}${address.address}`
+            address: `${address.area}${address.address}`,
+            raw: app.modifyObject(address, {
+                area: 'district',
+                phone: 'mobile',
+                user: 'contact'
+            })
         };
     },
 
@@ -45,19 +50,23 @@ Page({
         addressArr.forEach((value, index, arr) => {
             value.id == active && (addressActive = value);
         });
+        // console.log(addressActive)
         return this.getAddress(addressActive);
     },
 
     getOrder: function(list, product) {
+        // console.log(list);
+        // console.log(product);
+
         var order = [];
         for (let id in list) {
             order.push({
-                id: product[id].id,
-                img: product[id].img,
+                productId: product[id].id,
+                fullImage: product[id].img,
                 name: product[id].name,
                 price: product[id].price,
                 remark: '常规',
-                amount: list[id]
+                quantity: list[id]
             });
         }
         return order;
@@ -70,24 +79,24 @@ Page({
         });
         discount = discount ? discount : 0;
         return {
-            boxfee: boxfee,
-            total: count,
-            discount: discount,
-            money: calc.sub(calc.add(calc.add(total, boxfee), shop.expressFee), discount)      
+            totalBoxcost: boxfee,
+            totalQuantity: count,
+            totalDiscount: discount,
+            totalAmount: calc.sub(calc.add(calc.add(total, boxfee), shop.expressFee), discount)      
         };
     },
 
-    getOrderCode: function() {
-        var stamp = new Date().getTime();
-        var random = parseInt(Math.random()*1000000);
-        return `${stamp}${random}`;
-    },
+    // getOrderCode: function() {
+    //     var stamp = new Date().getTime();
+    //     var random = parseInt(Math.random()*1000000);
+    //     return `${stamp}${random}`;
+    // },
 
     postOrder: function(order, addressId, cb) {
         var productIds = '', quantitys = '';
         order.map((item, index, arr) => {
-            productIds += `,${item.id}`;
-            quantitys += `,${item.amount}`;
+            productIds += `,${item.productId}`;
+            quantitys += `,${item.quantity}`;
         });
         productIds = productIds.substring(1);
         quantitys = quantitys.substring(1);
@@ -96,23 +105,41 @@ Page({
 
     checkout: function() {
 
+        var self = this; 
         this.postOrder(this.data.order, this.data.address.id, function(res) {
-            console.log(res);
+            // console.log(res.data.data);
+            var order = res.data.data;
+            order.orderAddress = self.data.address.raw;
+            order.orderProductList = self.data.order;
+            order.order = {
+                goods: self.data.order,
+                checkout: self.data.checkout
+            };
+            wx.redirectTo({url: `../express/express?order=${JSON.stringify(order)}&new=1`});
         });
 
-        var orderCode = this.getOrderCode();
-        var order = {
-            id: 0,
-            status: 10, // 配送中
-            orderCode: orderCode,
-            order: {
-                goods: this.data.order,
-                checkout: this.data.checkout,
-                address: this.data.address
-            }
-        };
+    
 
-        wx.redirectTo({url: `../express/express?order=${JSON.stringify(order)}&new=1`});
+        // var orderCode = this.getOrderCode();
+        // var order = {
+        //     id: 0,
+        //     status: 10, 
+        //     // orderCode: orderCode,
+        //     order: {
+        //         goods: this.data.order,
+        //         checkout: this.data.checkout,
+        //         address: this.data.address
+        //     },
+
+        //     createTime:,
+        //     deliverAmount: 5,
+        //     realityAmount:  this.data.checkout.money,
+        //     totalBoxcost: this.data.checkout.boxfee,
+        //     totalDiscount: this.data.checkout.discount,
+        //     totalQuantity:  this.data.checkout.total
+        // };
+
+        // wx.redirectTo({url: `../express/express?order=${JSON.stringify(order)}&new=1`});
     }
 });
 

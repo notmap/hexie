@@ -99,8 +99,11 @@ Page({
             });
         }
 
-
         // wx.navigateTo({url: `../test/test`});  // 测试用页面
+    },
+
+    onHide: function() {
+        this.setData({cartHidden: true});
     },
 
     checkSwiper: function(option) {

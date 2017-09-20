@@ -194,8 +194,6 @@ App({
             size = 10;
 
         server.getHistoryOrder(this.globalData.shopId, openId, page, size, function(res) {
-            // console.log('HistoryOrder', res)
-
             var historyOrder = res.data.data;
             historyOrder.map((item, index, arr) => {
                 item.order = {
@@ -212,6 +210,7 @@ App({
 
             // self.globalData.historyOrder = historyOrder;
             cb && cb(historyOrder)
+            console.log('HistoryOrder', res.data.data[0])
         });
     },
 

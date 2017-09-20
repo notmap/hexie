@@ -3,7 +3,7 @@ var app = getApp();
 Page({
 	onLoad: function (option) {
         var order = JSON.parse(option.order);
-        console.log(order)
+        // console.log(order)
         this.setOrderData(order);
         option.new && this.updateHistory(order);
     },
@@ -15,10 +15,10 @@ Page({
             shop: app.globalData.shop,
             expressInfo: {
                 target: `${order.orderAddress.address} ${order.orderAddress.contact} ${order.orderAddress.mobile}`,
-                code: order.orderCode ? order.orderCode : 'miss order code',
-                time: `${app.getDate(new Date(timestamp), '-')} ${app.getTime(new Date(timestamp))}`,
-                arrival: app.getTime(new Date(timestamp + 30*60*1000), true),
-                cancelTime: app.getTime(new Date(timestamp + 5*60*1000), true)
+                code: order.id,
+                time: `${app.getDate(new Date(order.createTime), '-')} ${app.getTime(new Date(order.createTime))}`,
+                arrival: app.getTime(new Date(order.createTime + 30*60*1000), true),
+                cancelTime: app.getTime(new Date(order.createTime + 5*60*1000), true)
             }
         });
     },

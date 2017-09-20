@@ -58,7 +58,7 @@
 				<view class="debug">
 				    <view class="history-order" wx:for="{{history}}" wx:key="id">
 				        <view class="history-head">
-				            <image class="history-logo" src="{{shop.logo}}"/>
+				            <image class="history-logo" src="{{shop.logo}}" wx:if="{{shop.logo}}" />
 				            <text class="history-name">{{shop.name}}</text>
 				            <text class="history-status">{{item.status}}</text>
 				        </view>

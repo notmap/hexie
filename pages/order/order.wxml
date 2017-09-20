@@ -17,11 +17,11 @@
         </view>
 
         <view class="order-unit" wx:for="{{order}}" wx:key="{{id}}">
-            <image class="order-unit-img" src="{{item.img}}"/>
+            <image class="order-unit-img" src="{{item.fullImage}}"/>
             <view class="order-unit-box">
                 <text class="order-unit-name">{{item.name}}</text>
                 <text class="order-unit-remark">{{item.remark}}</text>
-                <text class="order-unit-amount">x{{item.amount}}</text>
+                <text class="order-unit-amount">x{{item.quantity}}</text>
             </view>
             <text class="order-unit-price">￥{{item.price}}</text>
         </view>
@@ -29,7 +29,7 @@
         <view class="order-bottom">
             <view class="order-bottom-unit">
                 <text class="order-bottom-key">餐盒费</text>
-                <text class="order-bottom-value">￥{{boxfee}}</text>
+                <text class="order-bottom-value">￥{{checkout.totalBoxcost}}</text>
             </view>
             <view class="order-bottom-unit">
                 <text class="order-bottom-key">配送费</text>
@@ -37,16 +37,16 @@
             </view>
             <view class="order-bottom-unit">
                 <text class="order-bottom-key">满减优惠</text>
-                <text class="order-bottom-value">-￥{{checkout.discount}}</text>
+                <text class="order-bottom-value">-￥{{checkout.totalDiscount}}</text>
             </view>
         </view>
     </view>
 </scroll-view>
 
 <view class="checkout">
-    <text class="checkout-discount">已优惠￥{{checkout.discount}}</text>
+    <text class="checkout-discount">已优惠￥{{checkout.totalDiscount}}</text>
     <button class="checkout-button" bindtap="checkout">提交订单</button>
-    <text class="checkout-money">￥{{checkout.money}}</text>
+    <text class="checkout-money">￥{{checkout.totalAmount}}</text>
     <text class="checkout-tip">合计</text>
 </view>
 
