@@ -60,7 +60,7 @@ module.exports = {
 		}, success, fail);
 	},
 
-	getHistoryOrder: function(shopId, openId, page, size, success, fail) {  // getHistoryOrder
+	getHistoryOrder: function(shopId, openId, page, size, success, fail) {  // ok
 		this.request('/wx/order/entire', 'post', {
 			shopId: shopId,
 			openId: openId,
@@ -129,6 +129,16 @@ module.exports = {
 			headimage: headimage,
 			score: score,
 			content: content
+		}, success, fail);
+	},
+
+	postOrder: function(shopId, openId, productIds, quantitys, addressId, success, fail) {  // ing
+		this.request('/wx/order/create', 'post', {
+			shopId: shopId,
+			openId: openId,
+			productIds: productIds,
+			quantitys: quantitys,
+			addressId: addressId
 		}, success, fail);
 	}
 }

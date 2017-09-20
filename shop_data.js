@@ -195,7 +195,7 @@ module.exports = {
                         name: '超级麻辣烫',
                         img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
                         price: 12,
-                        amount: 1,
+                        quantity: 1,
                         remark: "常规"
                     },
                     {
@@ -203,7 +203,7 @@ module.exports = {
                         name: '好吃的炒饭',
                         img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
                         price: 6,
-                        amount: 1,
+                        quantity: 1,
                         remark: "常规"
                     },
                     {
@@ -211,15 +211,15 @@ module.exports = {
                         name: '养生拌饭',
                         img: 'http://www.legaoshuo.com/hexie/good/3.jpg',
                         price: 8,
-                        amount: 2,
+                        quantity: 2,
                         remark: "常规"
                     }
                 ],
                 checkout: {
-                    boxfee: 2.5,
-                    discount: 10,
-                    total: 4,
-                    money: 56.50
+                    totalBoxcost: 2.5,
+                    totalDiscount: 10,
+                    totalQuantity: 4,
+                    totalAmount: 56.50
                 }
             }
         },    
@@ -233,7 +233,7 @@ module.exports = {
                         name: '超级麻辣烫',
                         img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
                         price: 12,
-                        amount: 1,
+                        quantity: 1,
                         remark: "常规"
                     },
                     {
@@ -241,7 +241,7 @@ module.exports = {
                         name: '好吃的炒饭',
                         img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
                         price: 6,
-                        amount: 1,
+                        quantity: 1,
                         remark: "常规"
                     },
                     {
@@ -249,15 +249,15 @@ module.exports = {
                         name: '养生拌饭',
                         img: 'http://www.legaoshuo.com/hexie/good/3.jpg',
                         price: 8,
-                        amount: 2,
+                        quantity: 2,
                         remark: "常规"
                     }
                 ],
                 checkout: {
-                    boxfee: 2.5,
-                    discount: 10,
-                    total: 4,
-                    money: 56.50
+                    totalBoxcost: 2.5,
+                    totalDiscount: 10,
+                    totalQuantity: 4,
+                    totalAmount: 56.50
                 }
             }
         },    
@@ -271,7 +271,7 @@ module.exports = {
                         name: '超级麻辣烫',
                         img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
                         price: 12,
-                        amount: 1,
+                        quantity: 1,
                         remark: "常规"
                     },
                     {
@@ -279,7 +279,7 @@ module.exports = {
                         name: '好吃的炒饭',
                         img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
                         price: 6,
-                        amount: 1,
+                        quantity: 1,
                         remark: "常规"
                     },
                     {
@@ -287,15 +287,15 @@ module.exports = {
                         name: '养生拌饭',
                         img: 'http://www.legaoshuo.com/hexie/good/3.jpg',
                         price: 8,
-                        amount: 2,
+                        quantity: 2,
                         remark: "常规"
                     }
                 ],
                 checkout: {
-                    boxfee: 2.5,
-                    discount: 10,
-                    total: 4,
-                    money: 56.50
+                    totalBoxcost: 2.5,
+                    totalDiscount: 10,
+                    totalQuantity: 4,
+                    totalAmount: 56.50
                 }
             }
         },    
@@ -309,7 +309,7 @@ module.exports = {
                         name: '超级麻辣烫',
                         img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
                         price: 12,
-                        amount: 1,
+                        quantity: 1,
                         remark: "常规"
                     },
                     {
@@ -317,7 +317,7 @@ module.exports = {
                         name: '好吃的炒饭',
                         img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
                         price: 6,
-                        amount: 1,
+                        quantity: 1,
                         remark: "常规"
                     },
                     {
@@ -325,15 +325,15 @@ module.exports = {
                         name: '养生拌饭',
                         img: 'http://www.legaoshuo.com/hexie/good/3.jpg',
                         price: 8,
-                        amount: 2,
+                        quantity: 2,
                         remark: "常规"
                     }
                 ],
                 checkout: {
-                    boxfee: 2.5,
-                    discount: 10,
-                    total: 4,
-                    money: 56.50
+                    totalBoxcost: 2.5,
+                    totalDiscount: 10,
+                    totalQuantity: 4,
+                    totalAmount: 56.50
                 }
             }
         },
@@ -347,7 +347,7 @@ module.exports = {
                         name: '好吃的炒饭',
                         img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
                         price: 6,
-                        amount: 1,
+                        quantity: 1,
                         remark: "常规"
                     },
                     {
@@ -355,15 +355,15 @@ module.exports = {
                         name: '养生拌饭',
                         img: 'http://www.legaoshuo.com/hexie/good/3.jpg',
                         price: 8,
-                        amount: 2,
+                        quantity: 2,
                         remark: "常规"
                     }
                 ],
                 checkout: {
-                    boxfee: 2.0,
-                    discount: 10,
-                    total: 3,
-                    money: 56.50
+                    totalBoxcost: 2.0,
+                    totalDiscount: 10,
+                    totalQuantity: 3,
+                    totalAmount: 56.50
                 }
             }
         },
@@ -377,15 +377,15 @@ module.exports = {
                         name: '超级麻辣烫',
                         img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
                         price: 12,
-                        amount: 1,
+                        quantity: 1,
                         remark: "常规"
                     }
                 ],
                 checkout: {
-                    boxfee: 1.2,
-                    discount: 10,
-                    total: 1,
-                    money: 56.50
+                    totalBoxcost: 1.2,
+                    totalDiscount: 10,
+                    totalQuantity: 1,
+                    totalAmount: 56.50
                 }
             }
         },
@@ -399,7 +399,7 @@ module.exports = {
                         name: '超级麻辣烫',
                         img: 'http://www.legaoshuo.com/hexie/good/1.jpg',
                         price: 12,
-                        amount: 1,
+                        quantity: 1,
                         remark: "常规"
                     },
                     {
@@ -407,15 +407,15 @@ module.exports = {
                         name: '好吃的炒饭',
                         img: 'http://www.legaoshuo.com/hexie/good/2.jpg',
                         price: 6,
-                        amount: 1,
+                        quantity: 1,
                         remark: "常规"
                     }
                 ],
                 checkout: {
-                    boxfee: 2.2,
-                    discount: 10,
-                    total: 2,
-                    money: 56.50
+                    totalBoxcost: 2.2,
+                    totalDiscount: 10,
+                    totalQuantity: 2,
+                    totalAmount: 56.50
                 }
             }
         }

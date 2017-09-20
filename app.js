@@ -4,20 +4,14 @@ const scoreShow = require('./utils/score_show/score_show.js');
 App({
 	onLaunch: function() {
         this.getExtConfig();
-        this.login();
-		// this.checkSession();   // 是否需要验证
-        this.dataInit();
-
-        // function proFunc() {
-        //     return new Promise((resolve, reject) => {
-        //         // get some data or err
-        //         if(data) resolve(data) 
-        //         else reject(err)
-        //     });
-        // }
-        // proFunc().then(function(data) {}, function(err) {})
-
+        this.login();  
 	},
+
+    createPromise: function(todo) {
+        return new Promise((resolve, reject) => {
+                todo(resolve, reject);
+        });
+    },
 
     checkSession: function() { 
         wx.checkSession({
@@ -36,40 +30,11 @@ App({
         });
     },
 
-    dataInit: function() { // 商铺数据初始化 
-
-        // this.getComments();
-    	// this.getShopInfo();
-        // this.getProduct();
-        // this.getHistoryOrder();
-
-
-        this.setGlobalData(require('./shop_data.js'));
-    },
-
-    setGlobalData: function(shopData) {
-
-    	// 内容数据 [店铺信息, 分类信息, 产品信息, 评论信息, 历史订单 ]
-        // this.globalData.classify = shopData.classify;
-        // this.globalData.product = shopData.product;
-
-        // this.globalData.comment = this.dataHandle.commentDataHandle(shopData.comment);
-        this.globalData.history = this.dataHandle.historyDataHandle(shopData.history);
-
-        // 样式数据
-        // this.globalData.classifySeleted = shopData.classify[0].id;
-        // this.globalData.heightArr = this.dataHandle.classifyDataHandle(shopData.classify);
-    },
-
-    getExtConfig: function() { // 第三方平台相关调试
+    getExtConfig: function() { 
         var self = this;
         if (wx.getExtConfig) {
             wx.getExtConfig({
                 success: function(res) {
-                    // console.log(res.extConfig)
-                    // console.log(res.extConfig.name)
-                    // console.log(res.extConfig.attr.host)
-                    // console.log(res.extConfig.attr.shopId)
                     self.globalData.shopId = res.extConfig.attr.shopId;
                 }
             });
@@ -90,13 +55,12 @@ App({
 		wx.getUserInfo({
 			success: (res) => {
                 this.postUserInfo(res);
-                this.getUserAddress();  
                 this.globalData.userInfo = res.userInfo;
             }
 		});
 	},
 
-	getUserAddress: function() {
+	getUserAddress: function(cb) {
 		var self = this;
         function dataHandle(data) {
         	self.modifyObject(data, {contact: 'user', mobile: 'phone'});
@@ -111,18 +75,17 @@ App({
         }
         var openId = wx.getStorageSync('openid');
         server.getUserAddress(openId, function(res) {
-            // console.log('UserAddress', res);
             var addressInfo = dataHandle(res.data.items);
+            cb && cb(addressInfo);
             self.globalData.addressArr = addressInfo.addressArr;
             self.globalData.active = addressInfo.active;
+            // console.log('UserAddress', addressInfo);
         });
     },
 
 	getShopInfo: function(cb) {   // ok 
         var self = this;
     	server.getShopInfo(this.globalData.shopId, function(res) {
-    		// console.log('ShopInfo', res)
-
             var shopInfo = res.data.data;
             self.modifyObject(shopInfo, {
                 fullCover: 'logo',
@@ -143,20 +106,17 @@ App({
             ];
 
             server.getPromotion(self.globalData.shopId, function(res) {
-                // console.log(res.data.data);
                 var promotion = res.data.data;
                 shopInfo.promotion = res.data.data;
-
-                self.globalData.shop = shopInfo;
                 if(cb) cb(shopInfo);
+                self.globalData.shop = shopInfo;
+                // console.log('shopInfo', shopInfo);
             });
     	});
     },
 
     getClassify: function(allProduct, cb) {   // ok 
-
-        function converProductId(classify) {
-            // 转换产品ID到产品所在的组下标
+        function converProductId(classify) {  // 转换产品ID到产品所在的组下标
             classify.map((item, index, arr) => {
                 item.product = item.product.map((item2, index, arr) => {
                     allProduct.map((item3, index, arr) => {
@@ -169,8 +129,6 @@ App({
 
         var self = this;
         server.getClassify(this.globalData.shopId, function(res) {
-            // console.log('Classify', res)
-
             var classify = res.data.data;
             self.modifyObject(classify, {
                 products: 'product'
@@ -181,32 +139,28 @@ App({
                 });
                 item.id = 'c' + item.id;
             });
-
             converProductId(classify);
-            // console.log(classify);
+            if(cb) cb(allProduct, classify);
             self.globalData.product = allProduct;
             self.globalData.classify = classify;
             self.globalData.classifySeleted = classify[0].id;
             self.globalData.heightArr = self.dataHandle.classifyDataHandle(classify);
-
-            if(cb) cb(allProduct, classify);
+            // console.log('allProduct', allProduct)
+            // console.log('Classify', classify)
         });
     },
 
     getProduct: function(cb) {   // ok 
         var self = this;
         server.getProduct(this.globalData.shopId, function(res) {
-            // console.log('Product', res)
-
             var product = res.data.data;
             self.modifyObject(product, {
                 fullImage: 'img',
                 boxcost: 'boxFee'
             });
-            // console.log(product)
+            self.getClassify(product, cb);
             // self.globalData.product = product;
-
-            self.getClassify(product, cb)
+            // console.log('getProduct', product)
         });
     },
 
@@ -234,29 +188,29 @@ App({
     },
 
     getHistoryOrder: function(cb) {   // ok 
-
         var self = this;
         var openId = wx.getStorageSync('openid'),
             page = 1,
             size = 10;
 
-        // console.log(openId);
-        // console.log(this.globalData.shopId);
-
         server.getHistoryOrder(this.globalData.shopId, openId, page, size, function(res) {
             // console.log('HistoryOrder', res)
 
-
-
             var historyOrder = res.data.data;
-            // self.modifyObject(product, {
-            //     fullImage: 'img',
-            //     boxcost: 'boxFee'
-            // });
-            // console.log(product)
-            // self.globalData.product = product;
+            historyOrder.map((item, index, arr) => {
+                item.order = {
+                    goods: item.orderProductList,
+                    checkout: {
+                        totalBoxcost: item.totalBoxcost,
+                        totalDiscount: item.totalDiscount,
+                        totalQuantity: item.totalQuantity,
+                        totalAmount: item.realityAmount,
+                        orderNumber: item.id
+                    }
+                };
+            });
 
-            // self.getClassify(product, cb)
+            // self.globalData.historyOrder = historyOrder;
             cb && cb(historyOrder)
         });
     },
@@ -288,10 +242,25 @@ App({
         });  
     },
 
+    postOrder: function(productIds, quantitys, addressId, cb) { 
+        var shopId = this.globalData.shopId,
+            openId = wx.getStorageSync('openid'),
+            productIds = productIds,  // '29,30'
+            quantitys = quantitys,  // '2,5'
+            addressId = addressId;  // 1001
+
+        server.postOrder(shopId, openId, productIds, quantitys, addressId, function(res){
+            cb && cb(res);
+            // console.log('postOrder', res);
+        });  
+    },
 
 
 
-    // 2017091800057   orderId
+
+
+
+
 
 
 
@@ -348,7 +317,7 @@ App({
             // {status: '订单已完成', button: '评价一下', data: 'order.goScore'},
             // {status: '订单已完成', button: '已评价', data: false},
 
-            {status: '等待接单', code: 10, button: '取消订单', data: 'order.goCancel'},
+            {status: '等待接单', code: 10, button: '查看订单', data: 'order.goExpress'},
             {status: '已接单', code: 20, button: '查看订单', data: 'order.goExpress'},
             {status: '配送中', code: 30, button: '查看订单', data: 'order.goExpress'},
             {status: '订单已完成', code: 40, button: '评价一下', data: 'order.goScore'},
@@ -365,12 +334,24 @@ App({
         },
 
         historyDataHandle: function(historyData) {
-            return historyData.map((value, index, arr) => {
-                value.order.goods.length > 3 ? value.fold = true : value.fold = false;
-                value.button = this.orderStatus[value.status].button;
-                value.data = this.orderStatus[value.status].data;
-                value.status = this.orderStatus[value.status].status;
-                return value;
+
+            var self = this;
+            function converOrderStatus(order) {
+                order.map((item, index, arr) => {
+                    self.orderStatus.map((item2, index, arr) => {
+                        item.status == item2.code && (item.status = index); 
+                    });
+                });
+            }
+            converOrderStatus(historyData);
+            // console.log(historyData);
+
+            return historyData.map((item, index, arr) => {
+                item.order.goods.length > 3 ? item.fold = true : item.fold = false;
+                item.button = this.orderStatus[item.status].button;
+                item.data = this.orderStatus[item.status].data;
+                item.status = this.orderStatus[item.status].status;
+                return item;
             });
         },
 
@@ -390,14 +371,7 @@ App({
         }
     },
 
-    globalData: {
-        // 店铺信息@
-        // 产品分类信息@ 
-        // 产品信息@
-        // 历史订单
-        // 评论信息
-        // 用户地址信息
-    }
+    globalData: {}
 })
 
 

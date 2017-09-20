@@ -33,7 +33,7 @@ Page({
 
     postDefaultAddress: function(addressId) {
         server.postDefaultAddress(addressId, function() {
-            console.log('the defaults address has reseted')
+            console.log('addressreset')
         });
     },
 

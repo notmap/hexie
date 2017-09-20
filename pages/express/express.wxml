@@ -17,23 +17,23 @@
         <image class="progress-status-icon" src="../../imgs/status1.png" />
         <text class="progress-status-text">支付成功</text>
         <text class="progress-status-tip">5分钟内商家未接单, 将自动取消</text>
-        <text class="progress-status-time">17:26</text>
+        <text class="progress-status-time">{{expressInfo.cancelTime}}</text>
     </view>
 </view>
 
 <view class="order">
     <view class="order-head">
-        <image class="order-head-logo" src="{{shop.logo}}"/>
+        <image class="order-head-logo" src="{{shop.logo}}" wx:if="{{shop.logo}}" />
         <text class="order-head-name">{{shop.name}}</text>
         <text class="order-head-express">{{shop.express}}</text>
     </view>
 
-    <view class="order-unit" wx:for="{{order.order.goods}}" wx:key="{{id}}">
-        <image class="order-unit-img" src="{{item.img}}"/>
+    <view class="order-unit" wx:for="{{order.orderProductList}}" wx:key="{{id}}">
+        <image class="order-unit-img" src="{{item.fullImage}}"/>
         <view class="order-unit-box">
             <text class="order-unit-name">{{item.name}}</text>
-            <text class="order-unit-remark">{{item.remark}}</text>
-            <text class="order-unit-amount">x{{item.amount}}</text>
+            <text class="order-unit-remark">{{item.remark ? item.remark : '方圆'}}</text>
+            <text class="order-unit-amount">x{{item.quantity}}</text>
         </view>
         <text class="order-unit-price">￥{{item.price}}</text>
     </view>
@@ -41,20 +41,20 @@
     <view class="order-bottom">
         <view class="order-bottom-unit">
             <text class="order-bottom-key">餐盒费</text>
-            <text class="order-bottom-value">￥{{order.order.checkout.boxfee}}</text>
+            <text class="order-bottom-value">￥{{order.totalBoxcost}}</text>
         </view>
         <view class="order-bottom-unit">
             <text class="order-bottom-key">配送费</text>
-            <text class="order-bottom-value">￥{{shop.expressFee}}</text>
+            <text class="order-bottom-value">￥{{order.deliverAmount}}</text>
         </view>
         <view class="order-bottom-unit">
             <text class="order-bottom-key">满减优惠</text>
-            <text class="order-bottom-value">-￥{{order.order.checkout.discount}}</text>
+            <text class="order-bottom-value">-￥{{order.totalDiscount}}</text>
         </view>
         <view class="order-bottom-total">
-            <text class="order-bottom-money">￥{{order.order.checkout.money}}</text>
+            <text class="order-bottom-money">￥{{order.realityAmount}}</text>
             <text class="order-bottom-tip">小计</text>
-            <text class="order-bottom-discount">已优惠￥{{order.order.checkout.discount}}</text>
+            <text class="order-bottom-discount">已优惠￥{{order.totalDiscount}}</text>
         </view>
     </view>
 </view>

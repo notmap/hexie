@@ -39,11 +39,6 @@
                 <text class="order-bottom-key">满减优惠</text>
                 <text class="order-bottom-value">-￥{{checkout.discount}}</text>
             </view>
-            <!-- <view class="order-bottom-total">
-                <text class="order-bottom-money">￥56</text>
-                <text class="order-bottom-tip">小计</text>
-                <text class="order-bottom-discount">已优惠￥9</text>
-            </view> -->
         </view>
     </view>
 </scroll-view>

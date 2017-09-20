@@ -1,8 +1,9 @@
-const md5 = require('../../utils/md5.js');
-var app = getApp()
+// const md5 = require('../../utils/md5.js');
+var app = getApp();
 Page({
 	onLoad: function (option) {
         var order = JSON.parse(option.order);
+        console.log(order)
         this.setOrderData(order);
         option.new && this.updateHistory(order);
     },
@@ -13,10 +14,11 @@ Page({
             order: order,
             shop: app.globalData.shop,
             expressInfo: {
-                target: `${order.order.address.address} ${order.order.address.user}`,
-                code: order.orderCode,
+                target: `${order.orderAddress.address} ${order.orderAddress.contact} ${order.orderAddress.mobile}`,
+                code: order.orderCode ? order.orderCode : 'miss order code',
                 time: `${app.getDate(new Date(timestamp), '-')} ${app.getTime(new Date(timestamp))}`,
-                arrival: app.getTime(new Date(timestamp + 10*60*1000), true)
+                arrival: app.getTime(new Date(timestamp + 30*60*1000), true),
+                cancelTime: app.getTime(new Date(timestamp + 5*60*1000), true)
             }
         });
     },

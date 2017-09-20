@@ -65,11 +65,11 @@
 				        <view class="history-main">
 				            <view class="history-list" wx:for="{{item.order.goods}}" wx:key="id" wx:if="{{index < 3}}">
 				                <text class="history-good">{{item.name}}</text>
-				                <text class="history-amount">x{{item.amount}}</text>
+				                <text class="history-amount">x{{item.quantity}}</text>
 				            </view>
 				            <view class="history-summary">
 				                <text class="history-fold" wx:if="{{item.fold}}">......</text>
-				                <text class="history-info">共{{item.order.checkout.total}}件商品，实付￥{{item.order.checkout.money}}</text>
+				                <text class="history-info">共{{item.order.checkout.totalQuantity}}件商品，实付￥{{item.order.checkout.totalAmount}}</text>
 				            </view>
 				        </view>
 				        <view class="history-bottom" wx:if="{{item.button}}">

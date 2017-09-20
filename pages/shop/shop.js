@@ -1,7 +1,6 @@
 const md5 = require('../../utils/md5.js');
 const ImgLoader = require('../../utils/img_loader/img_loader.js');
 const calc = require('../../utils/calculation.js');
-// const server = require('../../utils/server');
 
 var app = getApp();
 Page({
@@ -18,7 +17,9 @@ Page({
 			count: 0,
 			total: 0,
 			list: {}
-		}
+		},
+
+        history: []
 	},
 
 	onLoad: function (option) {
@@ -42,8 +43,6 @@ Page({
             });
             self.loadImages(product);
         });
-        this.setMainData(app.globalData);
-        this.checkSwiper(option);
 
         app.getComments(function(comments) {
             // console.log(comments)
@@ -54,18 +53,18 @@ Page({
 
         app.getHistoryOrder(function(historyOrder) {
             // console.log(historyOrder)
-            // self.setData({
-            //     comment: app.dataHandle.commentDataHandle(comments)
-            // });
+            self.setData({
+                history: app.dataHandle.historyDataHandle(historyOrder)
+            });
         });
-        
 
-
+        this.checkSwiper(option);
 	},
 
     onShow: function(option) {
 
         var history = wx.getStorageSync('history');
+
         if(history) {
             var arr = [];
             arr.push(history);
@@ -111,21 +110,6 @@ Page({
                 show: true
             },
         });
-    },
-
-    setMainData: function(data) {
-        this.setData({
-            // shop: data.shop,
-            // classify: data.classify,
-            // product: this.addImgStatus(data.product),
-            // comment: data.comment,
-            history: data.history,
-            // classifySeleted: data.classifySeleted,
-            // heightArr: data.heightArr,
-            // difference: `差￥${data.shop.minimum}起送`
-        });
-
-        // console.log(app.globalData.classifySeleted)
     },
 
 	loadImages(imgObj) {

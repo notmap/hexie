@@ -2,28 +2,23 @@ const calc = require('../../utils/calculation.js');
 var app = getApp()
 Page({
 	onLoad: function (option) {
-
         var cart = JSON.parse(option.data),
             product = app.globalData.product,
-            addressArr = app.globalData.addressArr,
-            active = app.globalData.active,
-            address,
-            shop,
-            order,
-            checkout;
-
-        addressArr && (address = this.getActiveAddress(addressArr, active));
-        
-        shop = app.globalData.shop,
-        order = this.getOrder(cart.list, product);
-        checkout = this.getDiscount(shop.promotion, cart.total, cart.boxfee, shop, cart.count);
+            shop = app.globalData.shop,
+            order = this.getOrder(cart.list, product),
+            checkout = this.getDiscount(shop.promotion, cart.total, cart.boxfee, shop, cart.count);
 
         this.setData({
-            address: address,
             shop: shop,
             order: order,
             boxfee: cart.boxfee,
             checkout: checkout
+        });
+
+        app.getUserAddress((res) => {   
+            this.setData({
+                address: this.getActiveAddress(res.addressArr, res.active)
+            });
         });
     },
 
@@ -39,6 +34,7 @@ Page({
 
     getAddress: function(address) {
         return {
+            id: address.id,
             user: `${address.user} ${address.phone}`,
             address: `${address.area}${address.address}`
         };
@@ -53,18 +49,16 @@ Page({
     },
 
     getOrder: function(list, product) {
-        var index = 1,
-            order = [];
+        var order = [];
         for (let id in list) {
             order.push({
-                id: index,
+                id: product[id].id,
                 img: product[id].img,
                 name: product[id].name,
                 price: product[id].price,
                 remark: '常规',
                 amount: list[id]
             });
-            index ++;
         }
         return order;
     },
@@ -72,7 +66,7 @@ Page({
     getDiscount: function(promotion, total, boxfee, shop, count) {
         var discount;
         promotion.forEach((val) => {
-            total >= val.full && (discount = val.discount);
+            total >= val.amount && (discount = val.discount);
         });
         discount = discount ? discount : 0;
         return {
@@ -89,11 +83,27 @@ Page({
         return `${stamp}${random}`;
     },
 
+    postOrder: function(order, addressId, cb) {
+        var productIds = '', quantitys = '';
+        order.map((item, index, arr) => {
+            productIds += `,${item.id}`;
+            quantitys += `,${item.amount}`;
+        });
+        productIds = productIds.substring(1);
+        quantitys = quantitys.substring(1);
+        app.postOrder(productIds, quantitys, addressId, cb);
+    },
+
     checkout: function() {
+
+        this.postOrder(this.data.order, this.data.address.id, function(res) {
+            console.log(res);
+        });
+
         var orderCode = this.getOrderCode();
         var order = {
             id: 0,
-            status: 1, // 配送中
+            status: 10, // 配送中
             orderCode: orderCode,
             order: {
                 goods: this.data.order,
@@ -101,6 +111,7 @@ Page({
                 address: this.data.address
             }
         };
+
         wx.redirectTo({url: `../express/express?order=${JSON.stringify(order)}&new=1`});
     }
 });
