@@ -1,4 +1,4 @@
-// const md5 = require('../../utils/md5.js');
+const dateFormat = require('../../utils/dateFormat');
 var app = getApp();
 Page({
 	onLoad: function (option) {
@@ -16,9 +16,9 @@ Page({
             expressInfo: {
                 target: `${order.orderAddress.address} ${order.orderAddress.contact} ${order.orderAddress.mobile}`,
                 code: order.id,
-                time: `${app.getDate(new Date(order.createTime), '-')} ${app.getTime(new Date(order.createTime))}`,
-                arrival: app.getTime(new Date(order.createTime + 30*60*1000), true),
-                cancelTime: app.getTime(new Date(order.createTime + 5*60*1000), true)
+                time: `${dateFormat.getDate(new Date(order.createTime), '-')} ${dateFormat.getTime(new Date(order.createTime))}`,
+                arrival: dateFormat.getTime(new Date(order.createTime + 30*60*1000), true),
+                cancelTime: dateFormat.getTime(new Date(order.createTime + 5*60*1000), true)
             }
         });
     },

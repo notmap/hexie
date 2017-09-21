@@ -1,4 +1,4 @@
-<import src="../../utils/scoreShow/scoreShow.wxml" />
+<import src="../component/score_show/score_show.wxml" />
 <view class="container">
 	<view class="header {{scrollDown ? 'header-hidden' : ''}}">
 		<image class="header-logo" src="{{shop.logo}}" wx:if="{{shop.loaded}}"></image>
@@ -6,7 +6,7 @@
 		<text class="header-express ellipsis">{{shop.express}}</text>
 		<text class="header-welcome ellipsis">{{shop.welcome}}</text>
 		<view class="header-promotion">
-			<text class="header-discount" wx:for="{{shop.promotion}}" wx:key="amount">满{{item.amount}}减{{item.discount}}</text>
+			<text class="header-discount" wx:for="{{shop.promotion}}" wx:key="item.id">满{{item.amount}}减{{item.discount}}</text>
 		</view>
 		<view class="header-shopinfo" data-fun="header.goShopInfo" bindtap="onEvent"></view>
 	</view>
@@ -122,5 +122,5 @@
 	</view>
 </view>
 
-<import src="../../utils/imgLoader/imgLoader.wxml"/>
+<import src="../component/img_loader/img_loader.wxml"/>
 <template is="img-loader" data="{{ imgLoadList }}"></template>

@@ -1,5 +1,5 @@
 const md5 = require('../../utils/md5.js');
-const ImgLoader = require('../../utils/imgLoader/imgLoader.js');
+const ImgLoader = require('../component/img_loader/img_loader.js');
 const calc = require('../../utils/calculation.js');
 
 var app = getApp();

@@ -1,4 +1,4 @@
-const scoreShow = require('../../utils/scoreShow/scoreShow.js');
+const scoreShow = require('../component/score_show/score_show.js');
 var app = getApp()
 Page({
 	onLoad: function (options) {

@@ -1,4 +1,5 @@
 const calc = require('../../utils/calculation.js');
+const arrtModify = require('../../utils/arrtModify');
 var app = getApp()
 Page({
 	onLoad: function (option) {
@@ -37,7 +38,7 @@ Page({
             id: address.id,
             user: `${address.user} ${address.phone}`,
             address: `${address.area}${address.address}`,
-            raw: app.modifyObject(address, {
+            raw: arrtModify(address, {
                 area: 'district',
                 phone: 'mobile',
                 user: 'contact'

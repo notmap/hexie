@@ -1,5 +1,5 @@
 var clone = require('../../utils/deepClone.js');
-var server = require('../../utils/server');
+var server = require('../../model/server');
 
 var app = getApp()
 Page({

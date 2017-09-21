@@ -1,4 +1,4 @@
-var server = require('../../utils/server');
+var server = require('../../model/server');
 var app = getApp()
 Page({
 	onLoad: function (options) {

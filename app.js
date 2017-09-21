@@ -1,11 +1,14 @@
-const server = require('./utils/server');
-const scoreShow = require('./utils/scoreShow/scoreShow.js');
+
+const server = require('./model/server');
+const dateFormat = require('./utils/dateFormat');
+const arrtModify = require('./utils/arrtModify');
+const scoreShow = require('./pages/component/score_show/score_show.js');
 
 App({
-	onLaunch: function() {
+    onLaunch: function() {
         this.getExtConfig();
         this.login();  
-	},
+    },
 
     getExtConfig: function() { 
         var self = this;
@@ -17,6 +20,13 @@ App({
             });
         }
     },
+
+    // checkSession: function() {  
+    //     wx.checkSession({
+    //         success: () => {this.getUserInfo();},
+    //         fail: () => {this.login();}
+    //     })
+    // },
 
     login: function() {
         wx.login({
@@ -46,10 +56,10 @@ App({
         }); 
     },
 
-	getUserAddress: function(cb) {
-		var self = this;
+    getUserAddress: function(cb) {
+        var self = this;
         function dataHandle(data) {
-        	self.modifyObject(data, {contact: 'user', mobile: 'phone'});
+            arrtModify(data, {contact: 'user', mobile: 'phone'});
             var active;
             data.map((item, index, arr) => {
                 if(item.defaults) active = item.id;
@@ -69,11 +79,11 @@ App({
         });
     },
 
-	getShopInfo: function(cb) {   
+    getShopInfo: function(cb) {   
         var self = this;
-    	server.getShopInfo(this.globalData.shopId, function(res) {
+        server.getShopInfo(this.globalData.shopId, function(res) {
             var shopInfo = res.data.data;
-            self.modifyObject(shopInfo, {
+            arrtModify(shopInfo, {
                 fullCover: 'logo',
                 serviceTel: 'phone',
                 deliverType: 'express',
@@ -98,14 +108,14 @@ App({
                 self.globalData.shop = shopInfo;
                 // console.log('shopInfo', shopInfo);
             });
-    	});
+        });
     },
 
     getProduct: function(cb) {  
         var self = this;
         server.getProduct(this.globalData.shopId, function(res) {
             var product = res.data.data;
-            self.modifyObject(product, {
+            arrtModify(product, {
                 fullImage: 'img',
                 boxcost: 'boxFee'
             });
@@ -128,7 +138,7 @@ App({
         var self = this;
         server.getClassify(this.globalData.shopId, function(res) {
             var classify = res.data.data;
-            self.modifyObject(classify, {
+            arrtModify(classify, {
                 products: 'product'
             });
             classify.map((item, index, arr) => {
@@ -153,13 +163,13 @@ App({
         var page = 1, size = 10;
         server.getComments(this.globalData.shopId, page, size, function(res) {
             var comments = res.data.data;
-            self.modifyObject(comments, {
+            arrtModify(comments, {
                 headimage: 'avatar',
                 nicknameStr: 'name',
                 createTime: 'time'
             });
             comments.map((item, index, arr) => {
-                item.time = self.getDate(item.time, '.')
+                item.time = dateFormat.getDate(item.time, '.')
             });
             cb && cb(comments);
             self.globalData.comments = comments;
@@ -196,7 +206,7 @@ App({
             nickname = res.userInfo.nickName,
             headimage = res.userInfo.avatarUrl;
         server.postUserInfo(openId, shopId, nickname, headimage, function(res){
-            console.log('postUserInfo', res);
+            // console.log('postUserInfo', res);
         });  
     },
 
@@ -225,50 +235,7 @@ App({
         });  
     },
 
-
-
-
-
-
-
-
-    getDate: function(timeStamp, delimiter) { // timeStamp 缺省就获取当前时间
-        var date =  new Date(timeStamp);
-        var year = date.getFullYear();
-        var month = (date.getMonth() + 1) < 10 ? `0${date.getMonth() + 1}` : (date.getMonth() + 1);
-        var day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-        return `${year}${delimiter}${month}${delimiter}${day}`;
-    },
-
-    getTime: function(timeStamp, arrival) {
-        var date =  new Date(timeStamp);
-        var hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
-        var minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-        var seconds = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
-        return arrival ? `${hours}:${minutes}` : `${hours}:${minutes}:${seconds}`;
-    },
-
-    modifyObject: function(obj, arrtObj) {
-    	// obj => 需要修改是属性的对象  arrObj => 修改的属性
-    	if(Array.isArray(obj)) {
-    		obj.map((item, index, arr) => {
-    			for(let i in arrtObj) {
-		    		item[arrtObj[i]] = item[i];
-		    		delete item[i];
-		    	}
-		    	return item;
-    		});
-    	} 
-    	else {
-    		for(let i in arrtObj) {
-	    		obj[arrtObj[i]] = obj[i];
-	    		delete obj[i];
-	    	}
-    	}
-    	return obj;
-    },
-
-	dataHandle: {
+    dataHandle: {
         productSection: {  // 商品区的高度  单位是rpx
             classify: 74,
             unit: 152,
@@ -277,11 +244,6 @@ App({
         },
 
         orderStatus: [
-            // {status: '订单已取消', button: false, data: false},
-            // {status: '配送中', button: '查看订单', data: 'order.goExpress'},
-            // {status: '订单已完成', button: '评价一下', data: 'order.goScore'},
-            // {status: '订单已完成', button: '已评价', data: false},
-
             {status: '等待接单', code: 10, button: '查看订单', data: 'order.goExpress'},
             {status: '已接单', code: 20, button: '查看订单', data: 'order.goExpress'},
             {status: '配送中', code: 30, button: '查看订单', data: 'order.goExpress'},
@@ -336,21 +298,5 @@ App({
         }
     },
 
-    globalData: {},
-
-
-    checkSession: function() {   // ignore
-        wx.checkSession({
-            success: () => {this.getUserInfo();},
-            fail: () => {this.login();}
-        })
-    },
-
-    createPromise: function(todo) {
-        return new Promise((resolve, reject) => {
-                todo(resolve, reject);
-        });
-    }
+    globalData: {}
 })
-
-

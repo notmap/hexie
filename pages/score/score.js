@@ -1,4 +1,6 @@
-const scoreShow = require('../../utils/scoreShow/scoreShow.js');
+const scoreShow = require('../component/score_show/score_show.js');
+const dateFormat = require('../../utils/dateFormat');
+
 var app = getApp()
 Page({
 	onLoad: function (option) {
@@ -56,7 +58,7 @@ Page({
                     avatar: app.globalData.userInfo.avatarUrl,
                     name: app.globalData.userInfo.nickName,
                     score: score,
-                    time: app.getDate(new Date(), '.'),
+                    time: dateFormat.getDate(new Date(), '.'),
                     content: content
                 }
             });
