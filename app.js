@@ -11,11 +11,15 @@ App({
     },
 
     getExtConfig: function() { 
+        // 当前调试的 Appid 是第三方平台的 3rdMiniProgramAppid
+        // extEnable 为true
         var self = this;
         if (wx.getExtConfig) {
             wx.getExtConfig({
                 success: function(res) {
-                    self.globalData.shopId = res.extConfig.attr.shopId;
+                    console.log('extConfig', res.extConfig);
+                    // self.globalData.shopId = res.extConfig.attr.shopId;
+                    self.globalData.shopId = '100011';
                 }
             });
         }
@@ -153,7 +157,7 @@ App({
             self.globalData.classify = classify;
             self.globalData.classifySeleted = classify[0].id;
             self.globalData.heightArr = self.dataHandle.classifyDataHandle(classify);
-            console.log('allProduct', allProduct)
+            // console.log('allProduct', allProduct)
             // console.log('Classify', classify)
         });
     },
