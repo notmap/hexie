@@ -7,29 +7,6 @@ App({
         this.login();  
 	},
 
-    createPromise: function(todo) {
-        return new Promise((resolve, reject) => {
-                todo(resolve, reject);
-        });
-    },
-
-    checkSession: function() { 
-        wx.checkSession({
-            success: () => {this.getUserInfo();},
-            fail: () => {this.login();}
-        })
-    },
-
-    login: function() {
-        wx.login({
-            success: (res) => {
-                // console.log(res.code)
-                this.getUserInfo();
-                this.getOpenid(res);
-            }
-        });
-    },
-
     getExtConfig: function() { 
         var self = this;
         if (wx.getExtConfig) {
@@ -41,6 +18,24 @@ App({
         }
     },
 
+    login: function() {
+        wx.login({
+            success: (res) => {  // get the login code
+                this.getUserInfo();
+                this.getOpenid(res);
+            }
+        });
+    },
+
+    getUserInfo: function() {
+        wx.getUserInfo({
+            success: (res) => {
+                this.postUserInfo(res);
+                this.globalData.userInfo = res.userInfo;
+            }
+        });
+    },
+
     getOpenid: function(res) {
         server.getOpenid(res.code, this.globalData.shopId, function(res){
             console.log(`Openid: ${res.data.openid}`);
@@ -50,15 +45,6 @@ App({
             });
         }); 
     },
-
-	getUserInfo: function() {
-		wx.getUserInfo({
-			success: (res) => {
-                this.postUserInfo(res);
-                this.globalData.userInfo = res.userInfo;
-            }
-		});
-	},
 
 	getUserAddress: function(cb) {
 		var self = this;
@@ -83,7 +69,7 @@ App({
         });
     },
 
-	getShopInfo: function(cb) {   // ok 
+	getShopInfo: function(cb) {   
         var self = this;
     	server.getShopInfo(this.globalData.shopId, function(res) {
             var shopInfo = res.data.data;
@@ -115,8 +101,20 @@ App({
     	});
     },
 
-    getClassify: function(allProduct, cb) {   // ok 
-        function converProductId(classify) {  // 转换产品ID到产品所在的组下标
+    getProduct: function(cb) {  
+        var self = this;
+        server.getProduct(this.globalData.shopId, function(res) {
+            var product = res.data.data;
+            self.modifyObject(product, {
+                fullImage: 'img',
+                boxcost: 'boxFee'
+            });
+            self.getClassify(product, cb);
+        });
+    },
+
+    getClassify: function(allProduct, cb) {   // 转换产品ID到产品所在的组下标
+        function converProductId(classify) {  
             classify.map((item, index, arr) => {
                 item.product = item.product.map((item2, index, arr) => {
                     allProduct.map((item3, index, arr) => {
@@ -150,49 +148,28 @@ App({
         });
     },
 
-    getProduct: function(cb) {   // ok 
-        var self = this;
-        server.getProduct(this.globalData.shopId, function(res) {
-            var product = res.data.data;
-            self.modifyObject(product, {
-                fullImage: 'img',
-                boxcost: 'boxFee'
-            });
-            self.getClassify(product, cb);
-            // self.globalData.product = product;
-            // console.log('getProduct', product)
-        });
-    },
-
-    getComments: function(cb) {   // ok
+    getComments: function(cb) {
         var self = this;
         var page = 1, size = 10;
         server.getComments(this.globalData.shopId, page, size, function(res) {
-            // console.log('Comments', res)
-
             var comments = res.data.data;
             self.modifyObject(comments, {
                 headimage: 'avatar',
                 nicknameStr: 'name',
                 createTime: 'time'
             });
-
             comments.map((item, index, arr) => {
                 item.time = self.getDate(item.time, '.')
             });
-
-            // console.log(comments);
-
             cb && cb(comments);
+            self.globalData.comments = comments;
+            // console.log('Comments', comments)
         });
     },
 
-    getHistoryOrder: function(cb) {   // ok 
+    getHistoryOrder: function(cb) {
         var self = this;
-        var openId = wx.getStorageSync('openid'),
-            page = 1,
-            size = 10;
-
+        var openId = wx.getStorageSync('openid'), page = 1, size = 10;
         server.getHistoryOrder(this.globalData.shopId, openId, page, size, function(res) {
             var historyOrder = res.data.data;
             historyOrder.map((item, index, arr) => {
@@ -207,27 +184,23 @@ App({
                     }
                 };
             });
-
-            // self.globalData.historyOrder = historyOrder;
             cb && cb(historyOrder)
-            console.log('HistoryOrder', res.data.data[0])
+            self.globalData.historyOrder = historyOrder;
+            // console.log('HistoryOrder', historyOrder)
         });
     },
 
-    postUserInfo: function(res) {  // 提交用户信息（店铺id 昵称 头像）
+    postUserInfo: function(res) {
         var openId = wx.getStorageSync('openid'),
             shopId = this.globalData.shopId,
             nickname = res.userInfo.nickName,
             headimage = res.userInfo.avatarUrl;
-
         server.postUserInfo(openId, shopId, nickname, headimage, function(res){
-            // console.log('5839: userinfo has posted');
+            console.log('postUserInfo', res);
         });  
     },
 
-
     postComments: function(score, content) { 
-
         var shopId = this.globalData.shopId,
             openId = wx.getStorageSync('openid'),
             orderId = '2017091800057',
@@ -235,7 +208,6 @@ App({
             headimage = this.globalData.userInfo.avatarUrl,
             score = score,
             content = content;
-
         server.postComments(shopId, openId, orderId, nickname, headimage, score, content, function(res){
             console.log('postComments', res);
         });  
@@ -244,20 +216,14 @@ App({
     postOrder: function(productIds, quantitys, addressId, cb) { 
         var shopId = this.globalData.shopId,
             openId = wx.getStorageSync('openid'),
-            productIds = productIds,  // '29,30'
-            quantitys = quantitys,  // '2,5'
-            addressId = addressId;  // 1001
-
+            productIds = productIds,                // '29,30'
+            quantitys = quantitys,                  // '2,5'
+            addressId = addressId;                  // 1001
         server.postOrder(shopId, openId, productIds, quantitys, addressId, function(res){
             cb && cb(res);
             // console.log('postOrder', res);
         });  
     },
-
-
-
-
-
 
 
 
@@ -370,7 +336,21 @@ App({
         }
     },
 
-    globalData: {}
+    globalData: {},
+
+
+    checkSession: function() {   // ignore
+        wx.checkSession({
+            success: () => {this.getUserInfo();},
+            fail: () => {this.login();}
+        })
+    },
+
+    createPromise: function(todo) {
+        return new Promise((resolve, reject) => {
+                todo(resolve, reject);
+        });
+    }
 })
 
 
