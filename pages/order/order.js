@@ -34,6 +34,7 @@ Page({
     },
 
     getAddress: function(address) {
+        // console.log(address)
         return {
             id: address.id,
             user: `${address.user} ${address.phone}`,

@@ -18,8 +18,7 @@ App({
             wx.getExtConfig({
                 success: function(res) {
                     console.log('extConfig', res.extConfig);
-                    // self.globalData.shopId = res.extConfig.attr.shopId;
-                    self.globalData.shopId = '100011';
+                    self.globalData.shopId = res.extConfig.attr.shopId;
                 }
             });
         }
@@ -115,9 +114,10 @@ App({
         });
     },
 
-    getProduct: function(cb) {  
+    getProduct: function(cb) {
         var self = this;
         server.getProduct(this.globalData.shopId, function(res) {
+            console.log(res);
             var product = res.data.data;
             arrtModify(product, {
                 fullImage: 'img',
@@ -302,5 +302,7 @@ App({
         }
     },
 
-    globalData: {}
+    globalData: {
+        shopId: '100011'
+    }
 })
