@@ -1,4 +1,4 @@
-<import src="../../utils/score_show/score_show.wxml" />
+<import src="../../utils/scoreShow/scoreShow.wxml" />
 <view class="container">
 	<view class="header {{scrollDown ? 'header-hidden' : ''}}">
 		<image class="header-logo" src="{{shop.logo}}" wx:if="{{shop.loaded}}"></image>
@@ -122,5 +122,5 @@
 	</view>
 </view>
 
-<import src="../../utils/img_loader/img_loader.wxml"/>
+<import src="../../utils/imgLoader/imgLoader.wxml"/>
 <template is="img-loader" data="{{ imgLoadList }}"></template>

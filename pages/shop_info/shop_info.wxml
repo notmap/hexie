@@ -1,4 +1,4 @@
-<import src="../../utils/score_show/score_show.wxml" />
+<import src="../../utils/scoreShow/scoreShow.wxml" />
 <view class="header">
     <image class="header-logo" src="{{shop.logo}}" wx:if="{{shop.logo}}"></image>
     <text class="header-name ellipsis">{{shop.name}}</text>

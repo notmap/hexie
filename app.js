@@ -1,5 +1,5 @@
 const server = require('./utils/server');
-const scoreShow = require('./utils/score_show/score_show.js');
+const scoreShow = require('./utils/scoreShow/scoreShow.js');
 
 App({
 	onLaunch: function() {

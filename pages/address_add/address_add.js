@@ -1,4 +1,4 @@
-var clone = require('../../utils/deepclone.js');
+var clone = require('../../utils/deepClone.js');
 var server = require('../../utils/server');
 
 var app = getApp()

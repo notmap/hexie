@@ -9,11 +9,11 @@ module.exports = {
         return `${year}${delimiter}${month}${delimiter}${day}`;
     },
     
-    getTime(timeStamp, arrival) {
+    getTime(timeStamp, needSeconds) {
         var date =  new Date(timeStamp);
         var hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
         var minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
         var seconds = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
-        return arrival ? `${hours}:${minutes}` : `${hours}:${minutes}:${seconds}`;
+        return needSeconds ? `${hours}:${minutes}` : `${hours}:${minutes}:${seconds}`;
     }
 }
