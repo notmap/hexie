@@ -6,26 +6,36 @@ var app = getApp();
 Page({
 
 	data: {
-		specHidden: true,
-		cartHidden: true,
-        orderEnable: false,
-		swiper: {
+        specHidden: true,       // 规格
+        cartHidden: true,       // 购物车 
+        orderEnable: false,     // 是否可结算
+        swiper: {               // 选项卡选中和显示
             current: '0',
             show: false
         },
-		cart: {
-			count: 0,
-			total: 0,
-			list: {}
-		},
+        cart: {                 // 购物车数据
+            count: 0,
+            total: 0,
+            list: {}
+        },
+        difference: '',         // 差￥15起送
+        classifySeleted: '',    // 分类选中
 
-        history: []
+        shop: {},               // 店铺信息数据
+        history: [],            // 历史订单数据
+        classify: [],           // 分类数据
+        heightArr: [],          // 分类高度数据
+        product: [],            // 产品数据
+        comment: []             // 评分数据
 	},
 
-	onLoad: function (option) {
-        var self = this;
-        self.imgLoader = new ImgLoader(self, self.imageOnLoad.bind(self));
+	onLoad: function(option) {
 
+        // console.log('shop onload');
+
+        this.initImgLoader();
+
+        var self = this;
         app.getShopInfo(function(shopInfo) {
             self.setData({
                 shop: shopInfo,
@@ -45,20 +55,18 @@ Page({
         });
 
         app.getComments(function(comments) {
-            // console.log(comments)
             self.setData({
                 comment: app.dataHandle.commentDataHandle(comments)
             });
         });
 
         app.getHistoryOrder(function(historyOrder) {
-            // console.log(historyOrder)
             self.setData({
                 history: app.dataHandle.historyDataHandle(historyOrder)
             });
         });
 
-        this.checkSwiper(option);
+        // this.checkSwiper(option);
 	},
 
     onShow: function(option) {
@@ -69,7 +77,6 @@ Page({
             var arr = [];
             arr.push(history);
             var newHistory = app.dataHandle.historyDataHandle(arr)[0];
-            // console.log(newHistory);
             this.data.history.unshift(newHistory)
             this.setData({
                 history: this.data.history
@@ -99,23 +106,43 @@ Page({
             });
         }
 
-        // wx.navigateTo({url: `../test/test`});  // 测试用页面
+        // wx.navigateTo({url: `../test_page/test_page`});  // 测试用页面
     },
 
     onHide: function() {
         this.setData({cartHidden: true});
     },
 
-    checkSwiper: function(option) {
-        option.swiper && this.setData({
-            swiper: {
-                current: option.swiper,
-                show: true
-            },
+    // checkSwiper: function(option) {
+    //     console.log('@function checkSwiper')
+    //     option.swiper && this.setData({
+    //         swiper: {
+    //             current: option.swiper,
+    //             show: true
+    //         },
+    //     });
+    // },
+
+    initImgLoader: function() {
+        this.imgLoader = new ImgLoader(this, (err, data) => {
+            if(this.data.product) {
+                var productData = this.data.product.map(item => {
+                    if (item.img == data.src)
+                        item.loaded = true
+                    return item
+                })
+                this.setData({product: productData});
+            }
+            if(this.data.shop) {
+                var  shopData = this.data.shop;
+                shopData.logo == data.src && (shopData.loaded = true);
+                this.setData({shop: shopData});
+            }
         });
     },
 
 	loadImages(imgObj) {
+        
         if(Array.isArray(imgObj)) {
             imgObj.forEach(item => {
                 this.imgLoader.load(item.img)
@@ -123,24 +150,6 @@ Page({
         }
         else {
             this.imgLoader.load(imgObj);  //this.data.shop.logo
-        }
-    },
-
-    imageOnLoad(err, data) { // 图片加载完成的cb
-
-        if(this.data.product) {
-            var productData = this.data.product.map(item => {
-                if (item.img == data.src)
-                    item.loaded = true
-                return item
-            })
-            this.setData({product: productData});
-        }
-
-        if(this.data.shop) {
-            var  shopData = this.data.shop;
-            shopData.logo == data.src && (shopData.loaded = true);
-            this.setData({shop: shopData});
         }
     },
 
@@ -301,7 +310,6 @@ Page({
 
 	checkout: function (e) {
         var data = JSON.stringify(this.data.cart);
-        // console.log(data);
         wx.navigateTo({url: `../order/order?data=${data}`});
 	}
 });

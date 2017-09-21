@@ -153,7 +153,7 @@ App({
             self.globalData.classify = classify;
             self.globalData.classifySeleted = classify[0].id;
             self.globalData.heightArr = self.dataHandle.classifyDataHandle(classify);
-            // console.log('allProduct', allProduct)
+            console.log('allProduct', allProduct)
             // console.log('Classify', classify)
         });
     },
@@ -244,7 +244,7 @@ App({
         },
 
         orderStatus: [
-            {status: '等待接单', code: 10, button: '查看订单', data: 'order.goExpress'},
+            {status: '等待接单', code: 10, button: '查看订单', data: 'order.goScore'},
             {status: '已接单', code: 20, button: '查看订单', data: 'order.goExpress'},
             {status: '配送中', code: 30, button: '查看订单', data: 'order.goExpress'},
             {status: '订单已完成', code: 40, button: '评价一下', data: 'order.goScore'},

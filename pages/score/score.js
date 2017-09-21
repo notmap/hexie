@@ -48,7 +48,7 @@ Page({
             content = this.data.content;
             
         if(score && content) {
-            console.log('what the fuck')
+            // console.log('what the fuck')
             app.postComments(score.score, content);
             wx.setStorage({
                 key: 'comment',

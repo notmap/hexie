@@ -16,7 +16,6 @@ class ImgLoader {
 
         if (callback) this.callbacks[src] = callback
         if (imgInfo) {
-            console.log(8888)
             this._runCallback(null, {
                 src: src,
                 width: imgInfo.width,
@@ -29,7 +28,7 @@ class ImgLoader {
         }
     }
 
-    _imgOnLoad(ev) {  //下滑线表示私有
+    _imgOnLoad(ev) {  // 私有属性
         let src = ev.currentTarget.dataset.src,
             width = ev.detail.width,
             height = ev.detail.height;
