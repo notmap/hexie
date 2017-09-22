@@ -18,7 +18,7 @@ App({
             wx.getExtConfig({
                 success: function(res) {
                     console.log('extConfig', res.extConfig);
-                    self.globalData.shopId = res.extConfig.attr.shopId;
+                    // self.globalData.shopId = res.extConfig.attr.shopId;
                 }
             });
         }
@@ -74,10 +74,13 @@ App({
         }
         var openId = wx.getStorageSync('openid');
         server.getUserAddress(openId, function(res) {
-            var addressInfo = dataHandle(res.data.items);
-            cb && cb(addressInfo);
-            self.globalData.addressArr = addressInfo.addressArr;
-            self.globalData.active = addressInfo.active;
+
+            console.log(res.data)  // 服务器又出问题
+
+            // var addressInfo = dataHandle(res.data.items);
+            // cb && cb(addressInfo);
+            // self.globalData.addressArr = addressInfo.addressArr;
+            // self.globalData.active = addressInfo.active;
             // console.log('UserAddress', addressInfo);
         });
     },
@@ -117,7 +120,6 @@ App({
     getProduct: function(cb) {
         var self = this;
         server.getProduct(this.globalData.shopId, function(res) {
-            console.log(res);
             var product = res.data.data;
             arrtModify(product, {
                 fullImage: 'img',
@@ -152,6 +154,13 @@ App({
                 item.id = 'c' + item.id;
             });
             converProductId(classify);
+
+
+            classify.map((item, index, arr) => {   // 临时的数据处理
+                item.product = item.product.slice(0,5);
+            });
+
+
             if(cb) cb(allProduct, classify);
             self.globalData.product = allProduct;
             self.globalData.classify = classify;

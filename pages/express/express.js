@@ -3,7 +3,6 @@ var app = getApp();
 Page({
 	onLoad: function (option) {
         var order = JSON.parse(option.order);
-        // console.log(order)
         this.setOrderData(order);
         option.new && this.updateHistory(order);
     },

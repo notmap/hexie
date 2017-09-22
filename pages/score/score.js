@@ -4,11 +4,6 @@ const dateFormat = require('../../utils/dateFormat');
 var app = getApp()
 Page({
 	onLoad: function (option) {
-        // console.log(option.id);
-
-        // console.log(app.globalData.shop)
-
-
         this.setData({
             order: option.id,
             shop: app.globalData.shop

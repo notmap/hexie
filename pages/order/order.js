@@ -17,6 +17,10 @@ Page({
         });
 
         app.getUserAddress((res) => {   
+            console.log(res.addressArr)
+            console.log(res.active)
+            console.log(this.getActiveAddress(res.addressArr, res.active))
+
             this.setData({
                 address: this.getActiveAddress(res.addressArr, res.active)
             });
@@ -87,13 +91,7 @@ Page({
             totalAmount: calc.sub(calc.add(calc.add(total, boxfee), shop.expressFee), discount)      
         };
     },
-
-    // getOrderCode: function() {
-    //     var stamp = new Date().getTime();
-    //     var random = parseInt(Math.random()*1000000);
-    //     return `${stamp}${random}`;
-    // },
-
+    
     postOrder: function(order, addressId, cb) {
         var productIds = '', quantitys = '';
         order.map((item, index, arr) => {
