@@ -1,4 +1,5 @@
 const calc = require('../../utils/calculation.js');
+const deepClone = require('../../utils/deepClone.js');
 const arrtModify = require('../../utils/arrtModify');
 var app = getApp()
 Page({
@@ -17,10 +18,6 @@ Page({
         });
 
         app.getUserAddress((res) => {   
-            console.log(res.addressArr)
-            console.log(res.active)
-            console.log(this.getActiveAddress(res.addressArr, res.active))
-
             this.setData({
                 address: this.getActiveAddress(res.addressArr, res.active)
             });
@@ -38,12 +35,11 @@ Page({
     },
 
     getAddress: function(address) {
-        // console.log(address)
         return {
             id: address.id,
             user: `${address.user} ${address.phone}`,
             address: `${address.area}${address.address}`,
-            raw: arrtModify(address, {
+            raw: arrtModify(deepClone.deepClone(address), {
                 area: 'district',
                 phone: 'mobile',
                 user: 'contact'
@@ -56,14 +52,10 @@ Page({
         addressArr.forEach((value, index, arr) => {
             value.id == active && (addressActive = value);
         });
-        // console.log(addressActive)
         return this.getAddress(addressActive);
     },
 
     getOrder: function(list, product) {
-        // console.log(list);
-        // console.log(product);
-
         var order = [];
         for (let id in list) {
             order.push({
@@ -107,7 +99,6 @@ Page({
 
         var self = this; 
         this.postOrder(this.data.order, this.data.address.id, function(res) {
-            // console.log(res.data.data);
             var order = res.data.data;
             order.orderAddress = self.data.address.raw;
             order.orderProductList = self.data.order;

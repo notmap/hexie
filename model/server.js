@@ -19,7 +19,7 @@ module.exports = {
 	    })
 	},
 
-	getOpenid: function(code, shopId, success, fail) {  // ok
+	getOpenId: function(code, shopId, success, fail) {  // ok
 		// var app = getApp();
 		this.request('/wx/wechat/openid', 'post', {
 			// rd_session: app.rd_session,
@@ -106,7 +106,8 @@ module.exports = {
 				openId: openId,
 				shopId: shopId,
 				contact: contact,
-				district: district,
+				mobile:　mobile,
+				area: area,
 				address: address,
 				lat: lat,
 				lng: lng

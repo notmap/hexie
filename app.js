@@ -6,61 +6,56 @@ const scoreShow = require('./pages/component/score_show/score_show.js');
 
 App({
     onLaunch: function() {
-        this.getExtConfig();
-        this.login();  
+        this.getShopId();
+        this.getOpenId();  
+        this.getUserInfo();
     },
 
-    getExtConfig: function() { 
-        // 当前调试的 Appid 是第三方平台的 3rdMiniProgramAppid
-        // extEnable 为true
-        var self = this;
-        if (wx.getExtConfig) {
-            wx.getExtConfig({
-                success: function(res) {
-                    console.log('extConfig', res.extConfig);
-                    // self.globalData.shopId = res.extConfig.attr.shopId;
+    getShopId: function(promise) { // 当前Appid为第三方平台3rdMiniProgramAppid  && extEnable为true
+        this.globalData.pShopId || (this.globalData.pShopId = new Promise((resolve, reject) => {
+            var self = this;
+            if (wx.getExtConfig) {
+                wx.getExtConfig({
+                    success: function(res) {
+                        console.log('extConfig', res.extConfig);
+                        self.globalData.shopId = res.extConfig.attr.shopId;
+                        return resolve(res.extConfig.attr.shopId);
+                    }
+                });
+            }
+        }));
+        return this.globalData.pShopId;
+    },
+
+    getOpenId: function(promise) {
+        this.globalData.pOpenId || (this.globalData.pOpenId = new Promise((resolve, reject) => {
+            wx.login({ // 获取登陆凭证code
+                success: (res) => {  
+                    server.getOpenId(res.code, this.globalData.shopId, (res) => {
+                        console.log(`Openid: ${res.data.openid}`);
+                        this.globalData.openId = res.data.openid;
+                        return resolve(res.data.openid);
+                    });
                 }
             });
-        }
+        }));
+        return this.globalData.pOpenId;
     },
 
-    // checkSession: function() {  
-    //     wx.checkSession({
-    //         success: () => {this.getUserInfo();},
-    //         fail: () => {this.login();}
-    //     })
-    // },
-
-    login: function() {
-        wx.login({
-            success: (res) => {  // get the login code
-                this.getUserInfo();
-                this.getOpenid(res);
-            }
-        });
-    },
-
-    getUserInfo: function() {
-        wx.getUserInfo({
-            success: (res) => {
-                this.postUserInfo(res);
-                this.globalData.userInfo = res.userInfo;
-            }
-        });
-    },
-
-    getOpenid: function(res) {
-        server.getOpenid(res.code, this.globalData.shopId, function(res){
-            console.log(`Openid: ${res.data.openid}`);
-            wx.setStorage({
-                key: 'openid',
-                data: res.data.openid
+    getUserInfo: function(promise) {
+        this.globalData.pUserInfo || (this.globalData.pUserInfo = new Promise((resolve, reject) => {
+            wx.getUserInfo({
+                success: (res) => {
+                    this.postUserInfo(res);
+                    this.globalData.userInfo = res.userInfo;
+                    return resolve(res.userInfo);
+                }
             });
-        }); 
+        }));
+        return this.globalData.pUserInfo;
     },
 
     getUserAddress: function(cb) {
-        var self = this;
         function dataHandle(data) {
             arrtModify(data, {contact: 'user', mobile: 'phone'});
             var active;
@@ -72,22 +67,18 @@ App({
                 active: active
             };
         }
-        var openId = wx.getStorageSync('openid');
-        server.getUserAddress(openId, function(res) {
-
-            console.log(res.data)  // 服务器又出问题
-
-            // var addressInfo = dataHandle(res.data.items);
-            // cb && cb(addressInfo);
-            // self.globalData.addressArr = addressInfo.addressArr;
-            // self.globalData.active = addressInfo.active;
+        var openId = this.globalData.openId;
+        server.getUserAddress(openId, (res) => {
+            var addressInfo = dataHandle(res.data.items);
+            cb && cb(addressInfo);
+            this.globalData.addressArr = addressInfo.addressArr;
+            this.globalData.active = addressInfo.active;
             // console.log('UserAddress', addressInfo);
         });
     },
 
     getShopInfo: function(cb) {   
-        var self = this;
-        server.getShopInfo(this.globalData.shopId, function(res) {
+        server.getShopInfo(this.globalData.shopId, (res) => {
             var shopInfo = res.data.data;
             arrtModify(shopInfo, {
                 fullCover: 'logo',
@@ -107,25 +98,24 @@ App({
                 'http://www.legaoshuo.com/hexie/shop_photo/1.jpg'
             ];
 
-            server.getPromotion(self.globalData.shopId, function(res) {
+            server.getPromotion(this.globalData.shopId, (res) => {
                 var promotion = res.data.data;
                 shopInfo.promotion = res.data.data;
                 if(cb) cb(shopInfo);
-                self.globalData.shop = shopInfo;
+                this.globalData.shop = shopInfo;
                 // console.log('shopInfo', shopInfo);
             });
         });
     },
 
     getProduct: function(cb) {
-        var self = this;
-        server.getProduct(this.globalData.shopId, function(res) {
+        server.getProduct(this.globalData.shopId, (res) => {
             var product = res.data.data;
             arrtModify(product, {
                 fullImage: 'img',
                 boxcost: 'boxFee'
             });
-            self.getClassify(product, cb);
+            this.getClassify(product, cb);
         });
     },
 
@@ -141,8 +131,7 @@ App({
             });
         }
 
-        var self = this;
-        server.getClassify(this.globalData.shopId, function(res) {
+        server.getClassify(this.globalData.shopId, (res) => {
             var classify = res.data.data;
             arrtModify(classify, {
                 products: 'product'
@@ -162,19 +151,18 @@ App({
 
 
             if(cb) cb(allProduct, classify);
-            self.globalData.product = allProduct;
-            self.globalData.classify = classify;
-            self.globalData.classifySeleted = classify[0].id;
-            self.globalData.heightArr = self.dataHandle.classifyDataHandle(classify);
+            this.globalData.product = allProduct;
+            this.globalData.classify = classify;
+            this.globalData.classifySeleted = classify[0].id;
+            this.globalData.heightArr = this.dataHandle.classifyDataHandle(classify);
             // console.log('allProduct', allProduct)
             // console.log('Classify', classify)
         });
     },
 
     getComments: function(cb) {
-        var self = this;
         var page = 1, size = 10;
-        server.getComments(this.globalData.shopId, page, size, function(res) {
+        server.getComments(this.globalData.shopId, page, size, (res) => {
             var comments = res.data.data;
             arrtModify(comments, {
                 headimage: 'avatar',
@@ -185,36 +173,40 @@ App({
                 item.time = dateFormat.getDate(item.time, '.')
             });
             cb && cb(comments);
-            self.globalData.comments = comments;
+            this.globalData.comments = comments;
             // console.log('Comments', comments)
         });
     },
 
     getHistoryOrder: function(cb) {
-        var self = this;
-        var openId = wx.getStorageSync('openid'), page = 1, size = 10;
-        server.getHistoryOrder(this.globalData.shopId, openId, page, size, function(res) {
-            var historyOrder = res.data.data;
-            historyOrder.map((item, index, arr) => {
-                item.order = {
-                    goods: item.orderProductList,
-                    checkout: {
-                        totalBoxcost: item.totalBoxcost,
-                        totalDiscount: item.totalDiscount,
-                        totalQuantity: item.totalQuantity,
-                        totalAmount: item.realityAmount,
-                        orderNumber: item.id
-                    }
-                };
+        Promise.all([this.getOpenId(), this.getShopId()]).then((arr) => {
+            var openId = arr[0],
+                shopId = arr[1],
+                page = 1, 
+                size = 10;
+            server.getHistoryOrder(shopId, openId, page, size, (res) => {
+                var historyOrder = res.data.data;
+                historyOrder.map((item, index, arr) => {
+                    item.order = {
+                        goods: item.orderProductList,
+                        checkout: {
+                            totalBoxcost: item.totalBoxcost,
+                            totalDiscount: item.totalDiscount,
+                            totalQuantity: item.totalQuantity,
+                            totalAmount: item.realityAmount,
+                            orderNumber: item.id
+                        }
+                    };
+                });
+                cb && cb(historyOrder)
+                this.globalData.historyOrder = historyOrder;
+                // console.log('HistoryOrder', historyOrder)
             });
-            cb && cb(historyOrder)
-            self.globalData.historyOrder = historyOrder;
-            // console.log('HistoryOrder', historyOrder)
         });
     },
 
     postUserInfo: function(res) {
-        var openId = wx.getStorageSync('openid'),
+        var openId = this.globalData.openId,
             shopId = this.globalData.shopId,
             nickname = res.userInfo.nickName,
             headimage = res.userInfo.avatarUrl;
@@ -225,7 +217,7 @@ App({
 
     postComments: function(score, content) { 
         var shopId = this.globalData.shopId,
-            openId = wx.getStorageSync('openid'),
+            openId = this.globalData.openId,
             orderId = '2017091800057',
             nickname = this.globalData.userInfo.nickName,
             headimage = this.globalData.userInfo.avatarUrl,
@@ -238,7 +230,7 @@ App({
 
     postOrder: function(productIds, quantitys, addressId, cb) { 
         var shopId = this.globalData.shopId,
-            openId = wx.getStorageSync('openid'),
+            openId = this.globalData.openId,
             productIds = productIds,                // '29,30'
             quantitys = quantitys,                  // '2,5'
             addressId = addressId;                  // 1001
@@ -312,6 +304,13 @@ App({
     },
 
     globalData: {
-        shopId: '100011'
+        // shopId: '100011'
     }
+
+    // ,checkSession: function() {  
+    //     wx.checkSession({
+    //         success: () => {this.getUserInfo();},
+    //         fail: () => {this.login();}
+    //     })
+    // }
 })
