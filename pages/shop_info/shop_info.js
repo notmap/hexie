@@ -2,7 +2,7 @@ const scoreShow = require('../component/score_show/score_show.js');
 var app = getApp()
 Page({
 	onLoad: function (options) {
-        // console.log(app.globalData.shop)
+
         this.setData({
             shop: app.globalData.shop,
             photo: this.photoDataHandle(app.globalData.shop.photo),

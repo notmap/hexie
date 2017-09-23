@@ -17,7 +17,7 @@ Page({
             checkout: checkout
         });
 
-        app.getUserAddress((res) => {   
+        app.getUserAddress().then((res) => {   
             this.setData({
                 address: this.getActiveAddress(res.addressArr, res.active)
             });

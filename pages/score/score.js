@@ -40,11 +40,12 @@ Page({
     jump: function(e) {
 
         var score = scoreShow.calcScore(this.data.score),
-            content = this.data.content;
+            content = this.data.content,
+            orderId = this.data.order;
             
         if(score && content) {
             // console.log('what the fuck')
-            app.postComments(score.score, content);
+            app.postComments(orderId, score.score, content);
             wx.setStorage({
                 key: 'comment',
                 data: {

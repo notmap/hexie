@@ -3,19 +3,27 @@ var app = getApp()
 Page({
 	onLoad: function (options) {
 
-        app.globalData.addressArr && this.setData({
-            rawAddressArr: app.globalData.addressArr,
-            addressArr: this.getAddress(app.globalData.addressArr),
-            active: app.globalData.active
+        app.getUserAddress().then((res) => {   
+            this.setData({
+                rawAddressArr: res.addressArr,
+                addressArr: this.getAddress(res.addressArr),
+                active: res.active
+            });
         });
+
+        // app.globalData.addressArr && this.setData({
+        //     rawAddressArr: app.globalData.addressArr,
+        //     addressArr: this.getAddress(app.globalData.addressArr),
+        //     active: app.globalData.active
+        // });
     },
 
     onShow: function (options) {
-        app.globalData.addressArr && this.setData({
-            rawAddressArr: app.globalData.addressArr,
-            addressArr: this.getAddress(app.globalData.addressArr),
-            active: app.globalData.active
-        })
+        // app.globalData.addressArr && this.setData({
+        //     rawAddressArr: app.globalData.addressArr,
+        //     addressArr: this.getAddress(app.globalData.addressArr),
+        //     active: app.globalData.active
+        // })
     },
 
     getAddress: function(addressArr) {

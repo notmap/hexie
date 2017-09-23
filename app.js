@@ -9,16 +9,19 @@ App({
         this.getShopId();
         this.getOpenId();  
         this.getUserInfo();
+
+
+        this.getUserAddress();
+        this.getShopInfo();
     },
 
-    getShopId: function(promise) { // 当前Appid为第三方平台3rdMiniProgramAppid  && extEnable为true
+    getShopId: function() { 
         this.globalData.pShopId || (this.globalData.pShopId = new Promise((resolve, reject) => {
             var self = this;
-            if (wx.getExtConfig) {
+            if (wx.getExtConfig) {  // Appid==3rdMiniProgramAppid && extEnable==true
                 wx.getExtConfig({
                     success: function(res) {
-                        console.log('extConfig', res.extConfig);
-                        self.globalData.shopId = res.extConfig.attr.shopId;
+                        console.log(`shopId: ${res.extConfig.attr.shopId}`);
                         return resolve(res.extConfig.attr.shopId);
                     }
                 });
@@ -27,27 +30,34 @@ App({
         return this.globalData.pShopId;
     },
 
-    getOpenId: function(promise) {
-        this.globalData.pOpenId || (this.globalData.pOpenId = new Promise((resolve, reject) => {
-            wx.login({ // 获取登陆凭证code
-                success: (res) => {  
-                    server.getOpenId(res.code, this.globalData.shopId, (res) => {
-                        console.log(`Openid: ${res.data.openid}`);
-                        this.globalData.openId = res.data.openid;
-                        return resolve(res.data.openid);
-                    });
-                }
+    getOpenId: function() {
+        this.globalData.pOpenId || (this.globalData.pOpenId = Promise.all([this.getShopId()]).then((arr) => {
+            return new Promise((resolve, reject) => {
+                wx.login({
+                    success: (res) => {  
+                        console.log(`loginCode: ${res.code}`)
+                        server.getOpenId(res.code, arr[0], (res) => {
+                            console.log(`openId: ${res.data.openid}`);
+                            return resolve(res.data.openid);
+                        });
+                    }
+                });
             });
         }));
-        return this.globalData.pOpenId;
+
+        // setTimeout(() => {
+        //     console.log(this.globalData.pOpenId)
+        // }, 3000)
+        return this.globalData.pOpenId;        
     },
 
-    getUserInfo: function(promise) {
+    getUserInfo: function() {
         this.globalData.pUserInfo || (this.globalData.pUserInfo = new Promise((resolve, reject) => {
             wx.getUserInfo({
                 success: (res) => {
-                    this.postUserInfo(res);
-                    this.globalData.userInfo = res.userInfo;
+                    console.log(`userInfo: ${res.userInfo.nickName}`)
+                    this.postUserInfo(res.userInfo);
+                    // this.globalData.userInfo = res.userInfo;
                     return resolve(res.userInfo);
                 }
             });
@@ -56,125 +66,155 @@ App({
     },
 
     getUserAddress: function(cb) {
-        function dataHandle(data) {
-            arrtModify(data, {contact: 'user', mobile: 'phone'});
-            var active;
-            data.map((item, index, arr) => {
-                if(item.defaults) active = item.id;
+        this.globalData.pUserAddress || (this.globalData.pUserAddress = Promise.all([this.getOpenId()]).then((arr) => {
+            return new Promise((resolve, reject) => {
+                server.getUserAddress(arr[0], (res) => {
+                    console.log(`userAddress: ${res.data.items[0].address}`)
+                    var addressInfo = dataHandle(res.data.items);
+                    // cb && cb(addressInfo);
+                    return resolve(addressInfo);
+
+                    // this.globalData.addressArr = addressInfo.addressArr;
+                    // this.globalData.active = addressInfo.active;
+                });
             });
-            return {
-                addressArr: data, 
-                active: active
-            };
-        }
-        var openId = this.globalData.openId;
-        server.getUserAddress(openId, (res) => {
-            var addressInfo = dataHandle(res.data.items);
-            cb && cb(addressInfo);
-            this.globalData.addressArr = addressInfo.addressArr;
-            this.globalData.active = addressInfo.active;
-            // console.log('UserAddress', addressInfo);
-        });
+
+            function dataHandle(data) {
+                arrtModify(data, {contact: 'user', mobile: 'phone'});
+                var active;
+                data.map((item, index, arr) => {
+                    if(item.defaults) active = item.id;
+                });
+                return {
+                    addressArr: data, 
+                    active: active
+                };
+            }
+        }));
+
+        // setTimeout(() => {
+        //     console.log(this.globalData.pUserAddress)
+        // }, 3000)
+        return this.globalData.pUserAddress;
     },
 
     getShopInfo: function(cb) {   
-        server.getShopInfo(this.globalData.shopId, (res) => {
-            var shopInfo = res.data.data;
-            arrtModify(shopInfo, {
-                fullCover: 'logo',
-                serviceTel: 'phone',
-                deliverType: 'express',
-                notice: 'welcome',
-                deliverFee: 'expressFee',
-                minAmount: 'minimum'
-            });
-            shopInfo.loaded = false;
-            shopInfo.express = shopInfo.express ? '蜂鸟配送' : '商家配送';
-            shopInfo.photo = [  
-                'http://www.legaoshuo.com/hexie/shop_photo/1.jpg',
-                'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
-                'http://www.legaoshuo.com/hexie/shop_photo/3.jpg',
-                'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
-                'http://www.legaoshuo.com/hexie/shop_photo/1.jpg'
-            ];
+        this.globalData.pShopInfo || (this.globalData.pShopInfo = Promise.all([this.getShopId()]).then((arr) => {
+            return new Promise((resolve, reject) => {
+                var shopId = arr[0];
+                server.getShopInfo(shopId, (res) => {
+                    var shopInfo = res.data.data;
+                    arrtModify(shopInfo, {
+                        fullCover: 'logo',
+                        serviceTel: 'phone',
+                        deliverType: 'express',
+                        notice: 'welcome',
+                        deliverFee: 'expressFee',
+                        minAmount: 'minimum'
+                    });
+                    shopInfo.loaded = false;
+                    shopInfo.express = shopInfo.express ? '蜂鸟配送' : '商家配送';
+                    shopInfo.photo = [  
+                        'http://www.legaoshuo.com/hexie/shop_photo/1.jpg',
+                        'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
+                        'http://www.legaoshuo.com/hexie/shop_photo/3.jpg',
+                        'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
+                        'http://www.legaoshuo.com/hexie/shop_photo/1.jpg'
+                    ];
 
-            server.getPromotion(this.globalData.shopId, (res) => {
-                var promotion = res.data.data;
-                shopInfo.promotion = res.data.data;
-                if(cb) cb(shopInfo);
-                this.globalData.shop = shopInfo;
-                // console.log('shopInfo', shopInfo);
+                    server.getPromotion(shopId, (res) => {
+                        var promotion = res.data.data;
+                        shopInfo.promotion = res.data.data;
+                        // if(cb) cb(shopInfo);
+                        // this.globalData.shop = shopInfo;
+                        return resolve(shopInfo);
+                    });
+                });
             });
-        });
+        }));
+
+        setTimeout(() => {
+            console.log(this.globalData.pShopInfo)
+        }, 3000)
+        return this.globalData.pShopInfo;
     },
 
     getProduct: function(cb) {
-        server.getProduct(this.globalData.shopId, (res) => {
-            var product = res.data.data;
-            arrtModify(product, {
-                fullImage: 'img',
-                boxcost: 'boxFee'
+        Promise.all([this.getShopId()]).then((arr) => {
+            var shopId  = arr[0];
+            server.getProduct(shopId, (res) => {
+                var product = res.data.data;
+                arrtModify(product, {
+                    fullImage: 'img',
+                    boxcost: 'boxFee'
+                });
+                this.getClassify(product, cb);
             });
-            this.getClassify(product, cb);
         });
     },
 
     getClassify: function(allProduct, cb) {   // 转换产品ID到产品所在的组下标
-        function converProductId(classify) {  
-            classify.map((item, index, arr) => {
-                item.product = item.product.map((item2, index, arr) => {
-                    allProduct.map((item3, index, arr) => {
-                        if(item3.id == item2) item2 = index;
+        Promise.all([this.getShopId()]).then((arr) => {
+            var shopId = arr[0];
+            server.getClassify(shopId, (res) => {
+                var classify = res.data.data;
+                arrtModify(classify, {
+                    products: 'product'
+                });
+                classify.map((item, index, arr) => {
+                    item.product = item.product.map((item, index, arr) => {
+                        return item.id
                     });
-                    return item2;
+                    item.id = 'c' + item.id;
                 });
-            });
-        }
+                converProductId(classify);
 
-        server.getClassify(this.globalData.shopId, (res) => {
-            var classify = res.data.data;
-            arrtModify(classify, {
-                products: 'product'
-            });
-            classify.map((item, index, arr) => {
-                item.product = item.product.map((item, index, arr) => {
-                    return item.id
+                classify.map((item, index, arr) => {   // 临时的数据处理
+                    item.product = item.product.slice(0,5);
                 });
-                item.id = 'c' + item.id;
+
+                if(cb) cb(allProduct, classify);
+                this.globalData.product = allProduct;
+                this.globalData.classify = classify;
+                this.globalData.classifySeleted = classify[0].id;
+                this.globalData.heightArr = this.dataHandle.classifyDataHandle(classify);
+                // console.log('allProduct', allProduct)
+                // console.log('Classify', classify)
             });
-            converProductId(classify);
 
-
-            classify.map((item, index, arr) => {   // 临时的数据处理
-                item.product = item.product.slice(0,5);
-            });
-
-
-            if(cb) cb(allProduct, classify);
-            this.globalData.product = allProduct;
-            this.globalData.classify = classify;
-            this.globalData.classifySeleted = classify[0].id;
-            this.globalData.heightArr = this.dataHandle.classifyDataHandle(classify);
-            // console.log('allProduct', allProduct)
-            // console.log('Classify', classify)
-        });
+            function converProductId(classify) {  
+                classify.map((item, index, arr) => {
+                    item.product = item.product.map((item2, index, arr) => {
+                        allProduct.map((item3, index, arr) => {
+                            if(item3.id == item2) item2 = index;
+                        });
+                        return item2;
+                    });
+                });
+            }
+        });    
     },
 
     getComments: function(cb) {
-        var page = 1, size = 10;
-        server.getComments(this.globalData.shopId, page, size, (res) => {
-            var comments = res.data.data;
-            arrtModify(comments, {
-                headimage: 'avatar',
-                nicknameStr: 'name',
-                createTime: 'time'
+        Promise.all([this.getShopId()]).then((arr) => {
+            var shopId = arr[0],
+                page = 1, 
+                size = 10;
+
+            server.getComments(shopId, page, size, (res) => {
+                var comments = res.data.data;
+                arrtModify(comments, {
+                    headimage: 'avatar',
+                    nicknameStr: 'name',
+                    createTime: 'time'
+                });
+                comments.map((item, index, arr) => {
+                    item.time = dateFormat.getDate(item.time, '.')
+                });
+                cb && cb(comments);
+                this.globalData.comments = comments;
+                // console.log('Comments', comments)
             });
-            comments.map((item, index, arr) => {
-                item.time = dateFormat.getDate(item.time, '.')
-            });
-            cb && cb(comments);
-            this.globalData.comments = comments;
-            // console.log('Comments', comments)
         });
     },
 
@@ -205,39 +245,39 @@ App({
         });
     },
 
-    postUserInfo: function(res) {
-        var openId = this.globalData.openId,
-            shopId = this.globalData.shopId,
-            nickname = res.userInfo.nickName,
-            headimage = res.userInfo.avatarUrl;
-        server.postUserInfo(openId, shopId, nickname, headimage, function(res){
-            // console.log('postUserInfo', res);
+    postUserInfo: function(userInfo) {
+        Promise.all([this.getOpenId(), this.getShopId()]).then((arr) => {
+            var openId = arr[0],
+                shopId = arr[1],
+                nickname = userInfo.nickName,
+                headimage = userInfo.avatarUrl;
+            server.postUserInfo(openId, shopId, nickname, headimage, function(res){
+                console.log(`postUserInfo: ${res.statusCode}`);
+            });
+        }); 
+    },
+
+    postComments: function(orderId, score, content) { 
+        Promise.all([this.getShopId(), this.getOpenId(), this.getUserInfo()]).then((arr) => {
+            var shopId = arr[0],
+                openId = arr[1],
+                nickname = arr[2].nickName,
+                headimage = arr[2].avatarUrl;
+            server.postComments(shopId, openId, orderId, nickname, headimage, score, content, function(res){
+                console.log('postComments', res);
+            });  
         });  
     },
 
-    postComments: function(score, content) { 
-        var shopId = this.globalData.shopId,
-            openId = this.globalData.openId,
-            orderId = '2017091800057',
-            nickname = this.globalData.userInfo.nickName,
-            headimage = this.globalData.userInfo.avatarUrl,
-            score = score,
-            content = content;
-        server.postComments(shopId, openId, orderId, nickname, headimage, score, content, function(res){
-            console.log('postComments', res);
-        });  
-    },
-
-    postOrder: function(productIds, quantitys, addressId, cb) { 
-        var shopId = this.globalData.shopId,
-            openId = this.globalData.openId,
-            productIds = productIds,                // '29,30'
-            quantitys = quantitys,                  // '2,5'
-            addressId = addressId;                  // 1001
-        server.postOrder(shopId, openId, productIds, quantitys, addressId, function(res){
-            cb && cb(res);
-            // console.log('postOrder', res);
-        });  
+    postOrder: function(productIds, quantitys, addressId, cb) { // productIds=>'29,30' quantitys=>'2,5'
+        Promise.all([this.getShopId(), this.getOpenId()]).then((arr) => {
+            var shopId = arr[0],
+                openId = arr[1];
+            server.postOrder(shopId, openId, productIds, quantitys, addressId, function(res){
+                cb && cb(res);
+                console.log('postOrder', res);
+            });
+        }); 
     },
 
     dataHandle: {
@@ -303,9 +343,7 @@ App({
         }
     },
 
-    globalData: {
-        // shopId: '100011'
-    }
+    globalData: {}
 
     // ,checkSession: function() {  
     //     wx.checkSession({
