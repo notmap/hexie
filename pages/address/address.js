@@ -2,7 +2,6 @@ var server = require('../../model/server');
 var app = getApp()
 Page({
 	onLoad: function (options) {
-
         app.getUserAddress().then((res) => {   
             this.setData({
                 rawAddressArr: res.addressArr,
@@ -10,20 +9,18 @@ Page({
                 active: res.active
             });
         });
-
-        // app.globalData.addressArr && this.setData({
-        //     rawAddressArr: app.globalData.addressArr,
-        //     addressArr: this.getAddress(app.globalData.addressArr),
-        //     active: app.globalData.active
-        // });
     },
 
     onShow: function (options) {
-        // app.globalData.addressArr && this.setData({
-        //     rawAddressArr: app.globalData.addressArr,
-        //     addressArr: this.getAddress(app.globalData.addressArr),
-        //     active: app.globalData.active
-        // })
+        if(!app.globalData.pUserAddress) {
+            app.getUserAddress().then((res) => {   
+                this.setData({
+                    rawAddressArr: res.addressArr,
+                    addressArr: this.getAddress(res.addressArr),
+                    active: res.active
+                });
+            });
+        }
     },
 
     getAddress: function(addressArr) {
@@ -37,16 +34,18 @@ Page({
         });
     },
 
-    postDefaultAddress: function(addressId) {
+    postDefaultAddress: function(addressId, cb) {
         server.postDefaultAddress(addressId, function() {
             console.log('addressreset')
+            cb && cb();
         });
     },
 
     setActive: function(e) {
-        app.globalData.active = e.currentTarget.id;
-        this.postDefaultAddress(e.currentTarget.id);
-        wx.navigateBack();
+        this.postDefaultAddress(e.currentTarget.id, function() {
+            delete app.globalData.pUserAddress;
+            wx.navigateBack();
+        });
     },
 
     jump: function(e) {

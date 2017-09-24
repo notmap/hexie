@@ -31,37 +31,41 @@ Page({
 
 	onLoad: function(option) {
 
-        // console.log('shop onload');
+        console.log('shop onLoad');
 
         this.initImgLoader();
 
-        var self = this;
-        app.getShopInfo(function(shopInfo) {
-            self.setData({
+        app.getShopInfo().then((shopInfo) => {
+            this.setData({
                 shop: shopInfo,
                 difference: `差￥${shopInfo.minimum}起送`
             });
-            self.loadImages(shopInfo.logo);
+            this.loadImages(shopInfo.logo);
         });
 
-        app.getProduct(function(product, classify) {
-            self.setData({
+        app.getProduct().then((product) => {
+            this.setData({
+                product: this.addImgStatus(product)
+            });
+            this.loadImages(product);
+        });
+
+        app.getClassify().then((classify) => {
+            this.setData({
                 classify: classify,
-                product: self.addImgStatus(product),
                 classifySeleted: classify[0].id,
                 heightArr: app.dataHandle.classifyDataHandle(classify)
             });
-            self.loadImages(product);
         });
 
-        app.getComments(function(comments) {
-            self.setData({
+        app.getComments().then((comments) => {
+            this.setData({
                 comment: app.dataHandle.commentDataHandle(comments)
             });
         });
 
-        app.getHistoryOrder(function(historyOrder) {
-            self.setData({
+        app.getHistoryOrder().then((historyOrder) => {
+            this.setData({
                 history: app.dataHandle.historyDataHandle(historyOrder)
             });
         });
@@ -71,40 +75,71 @@ Page({
 
     onShow: function(option) {
 
-        var history = wx.getStorageSync('history');
-
-        if(history) {
-            var arr = [];
-            arr.push(history);
-            var newHistory = app.dataHandle.historyDataHandle(arr)[0];
-            this.data.history.unshift(newHistory)
-            this.setData({
-                history: this.data.history
-            });
-            wx.removeStorage({key: 'history'});
-            this.setData({
-                swiper: {
-                    current: 2,
-                    show: true
-                }
-            });
-        }
-        
-        var comment = wx.getStorageSync('comment');
-        if(comment) {
-            this.order.historyModify(this, comment.order);
-            this.data.comment.unshift(comment);
-            this.setData({
-                comment: this.data.comment
-            });
-            wx.removeStorage({key: 'comment'});
+        if(!app.globalData.pComments) {
             this.setData({
                 swiper: {
                     current: 1,
                     show: true
                 }
             });
+            app.getComments().then((comments) => {
+                this.setData({
+                    comment: app.dataHandle.commentDataHandle(comments)
+                });
+            });
         }
+
+        if(!app.globalData.pHistoryOrder) {
+            this.setData({
+                swiper: {
+                    current: 2,
+                    show: true
+                }
+            });
+            app.getHistoryOrder().then((historyOrder) => {
+                this.setData({
+                    history: app.dataHandle.historyDataHandle(historyOrder)
+                });
+            });
+        }
+
+
+
+
+        // var history = wx.getStorageSync('history');
+
+        // if(history) {
+        //     var arr = [];
+        //     arr.push(history);
+        //     var newHistory = app.dataHandle.historyDataHandle(arr)[0];
+        //     this.data.history.unshift(newHistory)
+        //     this.setData({
+        //         history: this.data.history
+        //     });
+        //     wx.removeStorage({key: 'history'});
+        //     this.setData({
+        //         swiper: {
+        //             current: 2,
+        //             show: true
+        //         }
+        //     });
+        // }
+        
+        // var comment = wx.getStorageSync('comment');
+        // if(comment) {
+        //     this.order.historyModify(this, comment.order);
+        //     this.data.comment.unshift(comment);
+        //     this.setData({
+        //         comment: this.data.comment
+        //     });
+        //     wx.removeStorage({key: 'comment'});
+        //     this.setData({
+        //         swiper: {
+        //             current: 1,
+        //             show: true
+        //         }
+        //     });
+        // }
 
         // wx.navigateTo({url: `../test_page/test_page`});  // 测试用页面
     },
@@ -112,16 +147,6 @@ Page({
     onHide: function() {
         this.setData({cartHidden: true});
     },
-
-    // checkSwiper: function(option) {
-    //     console.log('@function checkSwiper')
-    //     option.swiper && this.setData({
-    //         swiper: {
-    //             current: option.swiper,
-    //             show: true
-    //         },
-    //     });
-    // },
 
     initImgLoader: function() {
         this.imgLoader = new ImgLoader(this, (err, data) => {
@@ -312,4 +337,14 @@ Page({
         var data = JSON.stringify(this.data.cart);
         wx.navigateTo({url: `../order/order?data=${data}`});
 	}
+
+    // ,checkSwiper: function(option) {
+    //     console.log('@function checkSwiper')
+    //     option.swiper && this.setData({
+    //         swiper: {
+    //             current: option.swiper,
+    //             show: true
+    //         },
+    //     });
+    // }
 });

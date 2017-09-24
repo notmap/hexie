@@ -4,30 +4,36 @@ const arrtModify = require('../../utils/arrtModify');
 var app = getApp()
 Page({
 	onLoad: function (option) {
-        var cart = JSON.parse(option.data),
-            product = app.globalData.product,
-            shop = app.globalData.shop,
-            order = this.getOrder(cart.list, product),
-            checkout = this.getDiscount(shop.promotion, cart.total, cart.boxfee, shop, cart.count);
-
+        var cart = JSON.parse(option.data);
         this.setData({
-            shop: shop,
-            order: order,
-            boxfee: cart.boxfee,
-            checkout: checkout
+            boxfee: cart.boxfee
         });
-
         app.getUserAddress().then((res) => {   
             this.setData({
                 address: this.getActiveAddress(res.addressArr, res.active)
             });
         });
+        app.getShopInfo().then((shopInfo) => {
+            this.setData({
+                shop: shopInfo,
+                checkout: this.getDiscount(shopInfo.promotion, cart.total, cart.boxfee, shopInfo, cart.count)
+            });
+        });
+        app.getProduct().then((product) => {
+            this.setData({
+                order: this.getOrder(cart.list, product)
+            });
+        });
     },
 
     onShow: function (option) {
-        app.globalData.addressArr && this.setData({
-            address: this.getActiveAddress(app.globalData.addressArr, app.globalData.active)
-        });
+        if(!app.globalData.pUserAddress) {
+            app.getUserAddress().then((res) => {   
+                this.setData({
+                    address: this.getActiveAddress(res.addressArr, res.active)
+                });
+            });
+        }
     },
 
     goAddress: function() {
@@ -96,7 +102,6 @@ Page({
     },
 
     checkout: function() {
-
         var self = this; 
         this.postOrder(this.data.order, this.data.address.id, function(res) {
             var order = res.data.data;
@@ -108,29 +113,6 @@ Page({
             };
             wx.redirectTo({url: `../express/express?order=${JSON.stringify(order)}&new=1`});
         });
-
-    
-
-        // var orderCode = this.getOrderCode();
-        // var order = {
-        //     id: 0,
-        //     status: 10, 
-        //     // orderCode: orderCode,
-        //     order: {
-        //         goods: this.data.order,
-        //         checkout: this.data.checkout,
-        //         address: this.data.address
-        //     },
-
-        //     createTime:,
-        //     deliverAmount: 5,
-        //     realityAmount:  this.data.checkout.money,
-        //     totalBoxcost: this.data.checkout.boxfee,
-        //     totalDiscount: this.data.checkout.discount,
-        //     totalQuantity:  this.data.checkout.total
-        // };
-
-        // wx.redirectTo({url: `../express/express?order=${JSON.stringify(order)}&new=1`});
     }
 });
 

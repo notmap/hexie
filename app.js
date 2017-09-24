@@ -9,10 +9,12 @@ App({
         this.getShopId();
         this.getOpenId();  
         this.getUserInfo();
-
-
         this.getUserAddress();
         this.getShopInfo();
+        this.getProduct();
+        this.getClassify();
+        this.getComments();
+        this.getHistoryOrder();
     },
 
     getShopId: function() { 
@@ -133,116 +135,145 @@ App({
             });
         }));
 
-        setTimeout(() => {
-            console.log(this.globalData.pShopInfo)
-        }, 3000)
+        // setTimeout(() => {
+        //     console.log(this.globalData.pShopInfo)
+        // }, 3000)
         return this.globalData.pShopInfo;
     },
 
-    getProduct: function(cb) {
-        Promise.all([this.getShopId()]).then((arr) => {
-            var shopId  = arr[0];
-            server.getProduct(shopId, (res) => {
-                var product = res.data.data;
-                arrtModify(product, {
-                    fullImage: 'img',
-                    boxcost: 'boxFee'
+    getProduct: function(cb) {  
+        this.globalData.pProduct || (this.globalData.pProduct = Promise.all([this.getShopId()]).then((arr) => {
+            return new Promise((resolve, reject) => {
+                var shopId  = arr[0];
+                server.getProduct(shopId, (res) => {
+                    var product = res.data.data;
+                    arrtModify(product, {
+                        fullImage: 'img',
+                        boxcost: 'boxFee'
+                    });
+                    // this.getClassify(product, cb);
+                    return resolve(product);
                 });
-                this.getClassify(product, cb);
             });
-        });
+        }));
+        // setTimeout(() => {
+        //     console.log(this.globalData.pProduct)
+        // }, 3000)
+        return this.globalData.pProduct;
     },
 
-    getClassify: function(allProduct, cb) {   // 转换产品ID到产品所在的组下标
-        Promise.all([this.getShopId()]).then((arr) => {
-            var shopId = arr[0];
-            server.getClassify(shopId, (res) => {
-                var classify = res.data.data;
-                arrtModify(classify, {
-                    products: 'product'
-                });
-                classify.map((item, index, arr) => {
-                    item.product = item.product.map((item, index, arr) => {
-                        return item.id
+    getClassify: function(cb) {   
+        this.globalData.pClassify || (this.globalData.pClassify = Promise.all([this.getShopId(), this.getProduct()]).then((arr) => {
+            return new Promise((resolve, reject) => {
+                var shopId = arr[0],
+                    allProduct = arr[1];
+                server.getClassify(shopId, (res) => {
+                    var classify = res.data.data;
+
+                    arrtModify(classify, {
+                        products: 'product'
                     });
-                    item.id = 'c' + item.id;
-                });
-                converProductId(classify);
-
-                classify.map((item, index, arr) => {   // 临时的数据处理
-                    item.product = item.product.slice(0,5);
-                });
-
-                if(cb) cb(allProduct, classify);
-                this.globalData.product = allProduct;
-                this.globalData.classify = classify;
-                this.globalData.classifySeleted = classify[0].id;
-                this.globalData.heightArr = this.dataHandle.classifyDataHandle(classify);
-                // console.log('allProduct', allProduct)
-                // console.log('Classify', classify)
-            });
-
-            function converProductId(classify) {  
-                classify.map((item, index, arr) => {
-                    item.product = item.product.map((item2, index, arr) => {
-                        allProduct.map((item3, index, arr) => {
-                            if(item3.id == item2) item2 = index;
+                    classify.map((item, index, arr) => {
+                        item.product = item.product.map((item, index, arr) => {
+                            return item.id
                         });
-                        return item2;
+                        item.id = 'c' + item.id;
                     });
+                    converProductId(classify, allProduct);
+
+                    // classify.map((item, index, arr) => {   // 临时的数据处理
+                    //     item.product = item.product.slice(0,5);
+                    // });
+
+                    // if(cb) cb(allProduct, classify);
+                    return resolve(classify);
+
+                    // this.globalData.product = allProduct;
+                    // this.globalData.classify = classify;
+                    // this.globalData.classifySeleted = classify[0].id;
+                    // this.globalData.heightArr = this.dataHandle.classifyDataHandle(classify);
                 });
-            }
-        });    
+
+                function converProductId(classify, allProduct) {   // 转换产品ID到产品所在的组下标
+                    classify.map((item, index, arr) => {
+                        item.product = item.product.map((item2, index, arr) => {
+                            allProduct.map((item3, index, arr) => {
+                                if(item3.id == item2) item2 = index;
+                            });
+                            return item2;
+                        });
+                    });
+                }
+            });
+        }));    
+        // setTimeout(() => {
+        //     console.log(this.globalData.pClassify)
+        // }, 3000)
+        return this.globalData.pClassify;
     },
 
     getComments: function(cb) {
-        Promise.all([this.getShopId()]).then((arr) => {
-            var shopId = arr[0],
-                page = 1, 
-                size = 10;
+        this.globalData.pComments || (this.globalData.pComments = Promise.all([this.getShopId()]).then((arr) => {
+            return new Promise((resolve, reject) => {
+                var shopId = arr[0],
+                    page = 1, 
+                    size = 10;
 
-            server.getComments(shopId, page, size, (res) => {
-                var comments = res.data.data;
-                arrtModify(comments, {
-                    headimage: 'avatar',
-                    nicknameStr: 'name',
-                    createTime: 'time'
+                server.getComments(shopId, page, size, (res) => {
+                    var comments = res.data.data;
+                    arrtModify(comments, {
+                        headimage: 'avatar',
+                        nicknameStr: 'name',
+                        createTime: 'time'
+                    });
+                    comments.map((item, index, arr) => {
+                        item.time = dateFormat.getDate(item.time, '.')
+                    });
+                    cb && cb(comments);
+                    return resolve(comments);
+                    // this.globalData.comments = comments;
+                    // console.log('Comments', comments)
                 });
-                comments.map((item, index, arr) => {
-                    item.time = dateFormat.getDate(item.time, '.')
-                });
-                cb && cb(comments);
-                this.globalData.comments = comments;
-                // console.log('Comments', comments)
             });
-        });
+        }));
+        // setTimeout(() => {
+        //     console.log(this.globalData.pComments)
+        // }, 3000)
+        return this.globalData.pComments;
     },
 
     getHistoryOrder: function(cb) {
-        Promise.all([this.getOpenId(), this.getShopId()]).then((arr) => {
-            var openId = arr[0],
-                shopId = arr[1],
-                page = 1, 
-                size = 10;
-            server.getHistoryOrder(shopId, openId, page, size, (res) => {
-                var historyOrder = res.data.data;
-                historyOrder.map((item, index, arr) => {
-                    item.order = {
-                        goods: item.orderProductList,
-                        checkout: {
-                            totalBoxcost: item.totalBoxcost,
-                            totalDiscount: item.totalDiscount,
-                            totalQuantity: item.totalQuantity,
-                            totalAmount: item.realityAmount,
-                            orderNumber: item.id
-                        }
-                    };
+        this.globalData.pHistoryOrder || (this.globalData.pHistoryOrder = Promise.all([this.getOpenId(), this.getShopId()]).then((arr) => {
+            return new Promise((resolve, reject) => {
+                var openId = arr[0],
+                    shopId = arr[1],
+                    page = 1, 
+                    size = 10;
+                server.getHistoryOrder(shopId, openId, page, size, (res) => {
+                    var historyOrder = res.data.data;
+                    historyOrder.map((item, index, arr) => {
+                        item.order = {
+                            goods: item.orderProductList,
+                            checkout: {
+                                totalBoxcost: item.totalBoxcost,
+                                totalDiscount: item.totalDiscount,
+                                totalQuantity: item.totalQuantity,
+                                totalAmount: item.realityAmount,
+                                orderNumber: item.id
+                            }
+                        };
+                    });
+                    cb && cb(historyOrder)
+                    return resolve(historyOrder);
+                    // this.globalData.historyOrder = historyOrder;
+                    // console.log('HistoryOrder', historyOrder)
                 });
-                cb && cb(historyOrder)
-                this.globalData.historyOrder = historyOrder;
-                // console.log('HistoryOrder', historyOrder)
             });
-        });
+        }));
+        // setTimeout(() => {
+        //     console.log(this.globalData.pHistoryOrder)
+        // }, 3000)
+        return this.globalData.pHistoryOrder;
     },
 
     postUserInfo: function(userInfo) {
@@ -257,7 +288,7 @@ App({
         }); 
     },
 
-    postComments: function(orderId, score, content) { 
+    postComments: function(orderId, score, content, cb) { 
         Promise.all([this.getShopId(), this.getOpenId(), this.getUserInfo()]).then((arr) => {
             var shopId = arr[0],
                 openId = arr[1],
@@ -265,6 +296,7 @@ App({
                 headimage = arr[2].avatarUrl;
             server.postComments(shopId, openId, orderId, nickname, headimage, score, content, function(res){
                 console.log('postComments', res);
+                cb && cb(res);
             });  
         });  
     },
@@ -275,7 +307,7 @@ App({
                 openId = arr[1];
             server.postOrder(shopId, openId, productIds, quantitys, addressId, function(res){
                 cb && cb(res);
-                console.log('postOrder', res);
+                // console.log('postOrder', res);
             });
         }); 
     },

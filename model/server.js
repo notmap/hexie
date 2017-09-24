@@ -19,7 +19,7 @@ module.exports = {
 	    })
 	},
 
-	getOpenId: function(code, shopId, success, fail) {  // ok
+	getOpenId: function(code, shopId, success, fail) {
 		// var app = getApp();
 		this.request('/wx/wechat/openid', 'post', {
 			// rd_session: app.rd_session,
@@ -30,37 +30,37 @@ module.exports = {
 		}, success, fail);
 	},
 
-	getUserAddress: function(openId, success, fail) {  // ok
+	getUserAddress: function(openId, success, fail) {
 		this.request('/wx/address/entire', 'post', {
 			openId: openId
 		}, success, fail);
 	},
 
-	getShopInfo: function(shopId, success, fail) {  // ok
+	getShopInfo: function(shopId, success, fail) {
 		this.request('/wx/shop/infor', 'post', {
 			shopId: shopId
 		}, success, fail);
 	},
 
-	getPromotion: function(shopId, success, fail) {  // ok
+	getPromotion: function(shopId, success, fail) {
 		this.request('/wx/shop/promotion', 'post', {
 			shopId: shopId
 		}, success, fail);
 	},
 
-	getClassify: function(shopId, success, fail) {  // ok
+	getClassify: function(shopId, success, fail) {
 		this.request('/wx/category/products', 'post', {
 			shopId: shopId
 		}, success, fail);
 	},
 
-	getProduct: function(shopId, success, fail) {  // ok
+	getProduct: function(shopId, success, fail) {
 		this.request('/wx/product/entire', 'post', {
 			shopId: shopId
 		}, success, fail);
 	},
 
-	getHistoryOrder: function(shopId, openId, page, size, success, fail) {  // ok
+	getHistoryOrder: function(shopId, openId, page, size, success, fail) {
 		this.request('/wx/order/entire', 'post', {
 			shopId: shopId,
 			openId: openId,
@@ -69,7 +69,7 @@ module.exports = {
 		}, success, fail);
 	},
 
-	getComments: function(shopId, page, size, success, fail) {  // ok
+	getComments: function(shopId, page, size, success, fail) {
 		this.request('/wx/comments/byshopid', 'post', {
 			shopId: shopId,
 			page: page,
@@ -77,7 +77,7 @@ module.exports = {
 		}, success, fail);
 	},
 
-	postUserInfo: function(openId, shopId, nickname, headimage, success, fail) {  // ok
+	postUserInfo: function(openId, shopId, nickname, headimage, success, fail) {
 		this.request('/wx/wechat/register', 'post', {
 			openId: openId,
 			shopId: shopId,
@@ -86,7 +86,7 @@ module.exports = {
 		}, success, fail);
 	},
 
-	postUserAddress: function(openId, shopId, id, contact, mobile, area, address, lat, lng, success, fail) {  // ok
+	postUserAddress: function(openId, shopId, id, contact, mobile, area, address, lat, lng, success, fail) {
 		var app = getApp();
 		if(id) {
 			this.request('/wx/address/merged', 'post', {
@@ -115,13 +115,13 @@ module.exports = {
 		}
 	},
 
-	postDefaultAddress: function(addressId, success, fail) {  // ok
+	postDefaultAddress: function(addressId, success, fail) {
 		this.request('/wx/address/default', 'post', {
 			addressId: addressId
 		}, success, fail);
 	},
 
-	postComments: function(shopId, openId, orderId, nickname, headimage, score, content, success, fail) {  // ok
+	postComments: function(shopId, openId, orderId, nickname, headimage, score, content, success, fail) {
 		this.request('/wx/comments/create', 'post', {
 			shopId: shopId,
 			openId: openId,
@@ -133,7 +133,7 @@ module.exports = {
 		}, success, fail);
 	},
 
-	postOrder: function(shopId, openId, productIds, quantitys, addressId, success, fail) {  // ing
+	postOrder: function(shopId, openId, productIds, quantitys, addressId, success, fail) {
 		this.request('/wx/order/create', 'post', {
 			shopId: shopId,
 			openId: openId,

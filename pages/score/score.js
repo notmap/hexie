@@ -4,15 +4,16 @@ const dateFormat = require('../../utils/dateFormat');
 var app = getApp()
 Page({
 	onLoad: function (option) {
-        this.setData({
-            order: option.id,
-            shop: app.globalData.shop
+        app.getShopInfo().then((shopInfo) => {
+            this.setData({
+                order: option.id,
+                shop: shopInfo
+            });
         });
-    },
-
-	onShow: function() {
         this.calcScore(this.data.score);
     },
+
+	onShow: function() {},
 
     setScore: function(e) {
         var score = e.currentTarget.dataset.score;
@@ -44,20 +45,10 @@ Page({
             orderId = this.data.order;
             
         if(score && content) {
-            // console.log('what the fuck')
-            app.postComments(orderId, score.score, content);
-            wx.setStorage({
-                key: 'comment',
-                data: {
-                    order: this.data.order,
-                    id: 0,
-                    avatar: app.globalData.userInfo.avatarUrl,
-                    name: app.globalData.userInfo.nickName,
-                    score: score,
-                    time: dateFormat.getDate(new Date(), '.'),
-                    content: content
-                }
+            app.postComments(orderId, score.score, content, function(res) {
+                console.log('comments has post');
             });
+            delete app.globalData.pComments;
             wx.navigateBack();
         }
         else {

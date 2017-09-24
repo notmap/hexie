@@ -2,11 +2,12 @@ const scoreShow = require('../component/score_show/score_show.js');
 var app = getApp()
 Page({
 	onLoad: function (options) {
-
-        this.setData({
-            shop: app.globalData.shop,
-            photo: this.photoDataHandle(app.globalData.shop.photo),
-            score: scoreShow.calcScore(app.globalData.shop.score)
+        app.getShopInfo().then((shopInfo) => {
+            this.setData({
+                shop: shopInfo,
+                photo: this.photoDataHandle(shopInfo.photo),
+                score: scoreShow.calcScore(shopInfo.score)
+            });
         });
     },
 
