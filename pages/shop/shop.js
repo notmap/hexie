@@ -51,6 +51,7 @@ Page({
         });
 
         app.getClassify().then((classify) => {
+            // console.log(classify);
             this.setData({
                 classify: classify,
                 classifySeleted: classify[0].id,
@@ -102,44 +103,6 @@ Page({
                 });
             });
         }
-
-
-
-
-        // var history = wx.getStorageSync('history');
-
-        // if(history) {
-        //     var arr = [];
-        //     arr.push(history);
-        //     var newHistory = app.dataHandle.historyDataHandle(arr)[0];
-        //     this.data.history.unshift(newHistory)
-        //     this.setData({
-        //         history: this.data.history
-        //     });
-        //     wx.removeStorage({key: 'history'});
-        //     this.setData({
-        //         swiper: {
-        //             current: 2,
-        //             show: true
-        //         }
-        //     });
-        // }
-        
-        // var comment = wx.getStorageSync('comment');
-        // if(comment) {
-        //     this.order.historyModify(this, comment.order);
-        //     this.data.comment.unshift(comment);
-        //     this.setData({
-        //         comment: this.data.comment
-        //     });
-        //     wx.removeStorage({key: 'comment'});
-        //     this.setData({
-        //         swiper: {
-        //             current: 1,
-        //             show: true
-        //         }
-        //     });
-        // }
 
         // wx.navigateTo({url: `../test_page/test_page`});  // 测试用页面
     },
@@ -215,25 +178,18 @@ Page({
 
 	menu: {
 		onScroll: function (self, e) {
-            var sectionWidth = 570;
-			if(e.type == 'scroll') {
-				e.detail.scrollTop > 10 && !self.data.scrollDown && self.setData({scrollDown: true});
-                if(e.detail.scrollTop < 10 && self.data.scrollDown) {
-                    self.setData({classifyViewed: self.data.classify[0].id});
-                    setTimeout(function() {
-                        self.setData({
-                            scrollDown: false
-                        });
-                    }, 700);
-                }
-			}
 
-			if(e.type == 'tap') {self.setData({scrollDown: true});}
-			var scale = e.detail.scrollWidth / sectionWidth; // rpx和px的比例
-			var scrollTop = e.detail.scrollTop / scale + 200; // 转rpx 200rpx 是提前量
-
-			var classifySeleted;
-            // console.log(self.data.heightArr)
+			e.detail.scrollTop > 10 && !self.data.scrollDown && self.setData({scrollDown: true});
+            if(e.detail.scrollTop < 10 && self.data.scrollDown) {
+                // self.setData({classifyViewed: self.data.classify[0].id});
+                setTimeout(function() {
+                    self.setData({scrollDown: false});
+                }, 700);
+            }
+			
+			var scale = e.detail.scrollWidth / 570,            // rpx和px的比例 sectionWidth=>570
+                scrollTop = e.detail.scrollTop / scale + 200,  // 转rpx 200rpx 是提前量
+                classifySeleted;
 			self.data.heightArr.forEach((item) => {
 				scrollTop > item.sectionTop && (classifySeleted = item.id);
 			});
@@ -241,8 +197,8 @@ Page({
 		},
 
 		switchClassify: function (self, e) {
-            // console.log(e.target.dataset.id)
-			this.onScroll(self, e);
+            // console.log(e.target.dataset.id);
+			// this.onScroll(self, e);
             self.setData({
                 classifyViewed: e.target.dataset.id,
                 classifySeleted: e.target.dataset.id
