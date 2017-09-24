@@ -9,12 +9,12 @@ App({
         this.getShopId();
         this.getOpenId();  
         this.getUserInfo();
-        this.getUserAddress();
         this.getShopInfo();
         this.getProduct();
         this.getClassify();
         this.getComments();
         this.getHistoryOrder();
+        this.getUserAddress();
     },
 
     getShopId: function() { 
