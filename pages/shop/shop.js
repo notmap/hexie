@@ -187,7 +187,7 @@ Page({
                 }, 700);
             }
 
-            console.log(self.classifyFlag)
+            // console.log(self.classifyFlag)
             if(!self.classifyFlag) {
     			var scale = e.detail.scrollWidth / 570,            // rpx和px的比例 sectionWidth=>570
                     scrollTop = e.detail.scrollTop / scale + 200,  // 转rpx 200rpx 是提前量
@@ -198,7 +198,7 @@ Page({
     			self.setData({classifySeleted: classifySeleted});
             }
             self.classifyFlag = undefined;
-            console.log(self.classifyFlag)
+            // console.log(self.classifyFlag)
 		},
 
 		switchClassify: function (self, e) {
@@ -211,7 +211,9 @@ Page({
                 classifyViewed: e.target.dataset.id,
                 classifySeleted: e.target.dataset.id
             });
-		}
+		},
+
+        swiperForbid: function(e) {}
 	},
 
     order: {

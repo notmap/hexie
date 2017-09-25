@@ -18,7 +18,7 @@
 	</view>
 
 	<swiper class="main" current="{{swiper.current}}" data-fun="tab.switchTab" bindchange="onEvent">
-		<swiper-item class="menu">
+		<swiper-item class="menu" data-fun="menu.swiperForbid" catchtouchmove="onEvent">
 			<scroll-view class="classify" scroll-y="true">
 				<view class="classify-unit {{classifySeleted == item.id ? 'classify-active' : ''}}" wx:for="{{classify}}" wx:key="id" data-id="{{item.id}}" data-fun="menu.switchClassify" bindtap="onEvent">
 					<text class="classify-name">{{item.name}}</text>
@@ -40,7 +40,7 @@
 				</view>
 			</scroll-view>
 		</swiper-item>
-		<swiper-item>
+		<swiper-item data-fun="menu.swiperForbid" catchtouchmove="onEvent">
 			<scroll-view class="comment" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent" wx:if="{{swiper.show}}">
 				<view class="debug">
 					<view class="comment-unit" wx:for="{{comment}}" wx:key="id">
@@ -55,7 +55,7 @@
 				</view>
 			</scroll-view>
 		</swiper-item>
-		<swiper-item>
+		<swiper-item data-fun="menu.swiperForbid" catchtouchmove="onEvent">
 			<scroll-view class="history" scroll-y="true" data-fun="menu.onScroll" bindscroll="onEvent" wx:if="{{swiper.show}}">
 				<view class="debug">
 				    <view class="history-order" wx:for="{{history}}" wx:key="id">
