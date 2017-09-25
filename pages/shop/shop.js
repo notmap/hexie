@@ -186,17 +186,25 @@ Page({
                     self.setData({scrollDown: false});
                 }, 700);
             }
-			
-			var scale = e.detail.scrollWidth / 570,            // rpx和px的比例 sectionWidth=>570
-                scrollTop = e.detail.scrollTop / scale + 200,  // 转rpx 200rpx 是提前量
-                classifySeleted;
-			self.data.heightArr.forEach((item) => {
-				scrollTop > item.sectionTop && (classifySeleted = item.id);
-			});
-			self.setData({classifySeleted: classifySeleted});
+
+            console.log(self.classifyFlag)
+            if(!self.classifyFlag) {
+    			var scale = e.detail.scrollWidth / 570,            // rpx和px的比例 sectionWidth=>570
+                    scrollTop = e.detail.scrollTop / scale + 200,  // 转rpx 200rpx 是提前量
+                    classifySeleted;
+    			self.data.heightArr.forEach((item) => {
+    				scrollTop > item.sectionTop && (classifySeleted = item.id);
+    			});
+    			self.setData({classifySeleted: classifySeleted});
+            }
+            self.classifyFlag = undefined;
+            console.log(self.classifyFlag)
 		},
 
 		switchClassify: function (self, e) {
+
+            self.classifyFlag = true;     // 左侧分类列表BUG
+            // console.log(e)
             // console.log(e.target.dataset.id);
 			// this.onScroll(self, e);
             self.setData({
