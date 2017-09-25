@@ -249,6 +249,7 @@ Page({
 			var id = e.target.dataset.id;
 			self.data.cart.list[id] = (self.data.cart.list[id] || 0) + 1;
 			this.countCart(self);
+            // console.log(self.data.cart)
 		},
 
 		reduceCart: function (self, e) {

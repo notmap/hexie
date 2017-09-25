@@ -234,7 +234,27 @@
 	/*background-color: blue;*/
 }
 
-.product-addCart {
+.product-reduce {
+	position: absolute;
+	right: 138rpx;
+	bottom: 22rpx;
+	width: 50rpx;
+	height: 50rpx;
+	/*background-color: red;*/
+}
+
+.product-num {
+	position: absolute;
+	right: 88rpx;
+	bottom: 22rpx;
+	width: 50rpx;
+	line-height: 50rpx;
+	font-size: 30rpx;
+	/*background: red;*/
+	text-align: center;
+}
+
+.product-add {
 	position: absolute;
 	right: 38rpx;
 	bottom: 22rpx;

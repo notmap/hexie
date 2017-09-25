@@ -1,6 +1,6 @@
 <import src="../component/score_show/score_show.wxml" />
 <view class="container">
-	<view class="header {{scrollDown ? 'header-hidden' : ''}}">
+	<view class="header {{scrollDown ? 'header-hidden' : ''}}" data-fun="header.goShopInfo" bindtap="onEvent">
 		<image class="header-logo" src="{{shop.logo}}" wx:if="{{shop.loaded}}"></image>
 		<text class="header-name ellipsis">{{shop.name}}</text>
 		<text class="header-express ellipsis">{{shop.express}}</text>
@@ -8,7 +8,7 @@
 		<view class="header-promotion">
 			<text class="header-discount" wx:for="{{shop.promotion}}" wx:key="item.id">满{{item.amount}}减{{item.discount}}</text>
 		</view>
-		<view class="header-shopinfo" data-fun="header.goShopInfo" bindtap="onEvent"></view>
+		<view class="header-shopinfo"></view>
 	</view>
 
 	<view class="tab">
@@ -32,7 +32,9 @@
 							<image class="product-img" src="{{product[id].img}}" wx:if="{{product[id].loaded}}"></image>
 							<text class="product-name ellipsis">{{product[id].name}}</text>
 							<text class="product-price">￥{{product[id].price}}</text>
-							<image class="product-addCart" src="../../imgs/add.png" data-fun="cart.addCart" bindtap="onEvent" data-id="{{id}}"></image>
+							<image hidden="{{!cart.list[id]}}" class="product-reduce" src="../../imgs/reduce.png" data-fun="cart.reduceCart" bindtap="onEvent" data-id="{{id}}"></image>
+							<text class="product-num">{{cart.list[id]}}</text>
+							<image class="product-add" src="../../imgs/add.png" data-fun="cart.addCart" bindtap="onEvent" data-id="{{id}}"></image>
 						</view>
 					</view>
 				</view>
@@ -81,7 +83,7 @@
 		</swiper-item>
 	</swiper>
 
-	<view class="spec" hidden="{{specHidden}}">
+	<!-- <view class="spec" hidden="{{specHidden}}">
 		<view class="spec-mask" data-fun="spec.hideSpec" bindtap="onEvent"></view>
 		<view class="spec-box">
 			<text class="spec-name">香浓奶茶</text>
@@ -99,7 +101,7 @@
 				<text class="spec-add">加入购物车</text>
 			</view>
 		</view>
-	</view>
+	</view> -->
 
 	<view class="cart" hidden="{{cartHidden || !cart.count}}">
 		<view class="cart-mask" data-fun="cart.toggleCartHidden" bindtap="onEvent"></view>
