@@ -141,5 +141,13 @@ module.exports = {
 			quantitys: quantitys,
 			addressId: addressId
 		}, success, fail);
+	},
+
+	postPayment: function(shopId, openId, orderId, success, fail) {
+		this.request('/wx/order/payment', 'post', {
+			shopId: shopId,
+			openId: openId,
+			orderId: orderId
+		}, success, fail);
 	}
 }

@@ -1,5 +1,5 @@
 
-module.exports = function(obj, arrtObj) { // obj => 需要修改是属性的对象  arrObj => 修改的属性
+module.exports = function(obj, arrtObj) { 
     if(Array.isArray(obj)) {
         obj.map((item, index, arr) => {
             for(let i in arrtObj) {

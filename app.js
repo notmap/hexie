@@ -39,6 +39,7 @@ App({
                     success: (res) => {  
                         console.log(`loginCode: ${res.code}`)
                         server.getOpenId(res.code, arr[0], (res) => {
+                            console.log(res)
                             console.log(`openId: ${res.data.openid}`);
                             return resolve(res.data.openid);
                         });
@@ -308,6 +309,17 @@ App({
             server.postOrder(shopId, openId, productIds, quantitys, addressId, function(res){
                 cb && cb(res);
                 // console.log('postOrder', res);
+            });
+        }); 
+    },
+
+    postPayment: function(orderId, cb) {  
+        Promise.all([this.getShopId(), this.getOpenId()]).then((arr) => {
+            var shopId = arr[0],
+                openId = arr[1];
+            server.postPayment(shopId, openId, orderId, function(res){
+                cb && cb(res);
+                // console.log('postPayment', res);
             });
         }); 
     },
