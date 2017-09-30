@@ -40,12 +40,8 @@ Page({
             // console.log(payment.signType)
             // console.log(payment.payInfo.paySign)
 
-
-           
-
-
             wx.requestPayment({
-                timeStamp: payment.payInfo.timeStamp.substring(0,10),
+                timeStamp: payment.payInfo.timeStamp,
                 nonceStr: payment.nonceStr,
                 package: payment.payInfo.package,
                 signType: payment.signType,
