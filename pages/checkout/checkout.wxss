@@ -1,0 +1,63 @@
+
+.order {
+	background-color: white;
+	height: 100rpx;
+	display: flex;
+	font-size: 32rpx;
+	padding: 0 40rpx;
+	margin-bottom: 20rpx;
+}
+
+.order .text-a {
+	flex: 70%;
+	line-height: 100rpx;
+}
+
+.order .text-b {
+	flex: 30%;
+	line-height: 100rpx;
+	text-align: right;
+}
+
+.payment {
+	display: flex;
+	background-color: white;
+	height: 100rpx;
+	padding: 0 40rpx;
+	align-items: center;
+}
+
+.payment .image-a {
+	width: 60rpx;
+	height: 60rpx;
+	border-radius: 6rpx;
+}
+
+.payment .text-a {
+	flex: 1;
+	padding-left: 20rpx;
+	font-size: 32rpx;
+}
+
+.payment .image-b {
+	width: 40rpx;
+	height: 40rpx;
+}
+
+
+.checkout {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100rpx;
+	background-color: #ffd300;
+	text-align: center;
+}
+
+.checkout .text-a {
+	line-height: 100rpx;
+	font-size: 32rpx;
+}
+
+/*#ffd300*/

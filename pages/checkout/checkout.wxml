@@ -1,0 +1,15 @@
+
+<view class="order">
+    <text class="text-a">麦当劳 外卖订单</text>
+    <text class="text-b">￥25.50</text>
+</view>
+
+<view class="payment">
+    <image class="image-a" src="../../imgs/wxpay2.png"></image>
+    <text class="text-a">微信支付</text>
+    <image class="image-b" src="../../imgs/status1.png"></image>
+</view>
+
+<view class="checkout" bindtap="checkout">
+    <text class="text-a">确认支付 ￥25.50</text>
+</view>

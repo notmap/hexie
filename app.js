@@ -20,7 +20,7 @@ App({
     getShopId: function() { 
         this.globalData.pShopId || (this.globalData.pShopId = new Promise((resolve, reject) => {
             var self = this;
-            if (wx.getExtConfig) {  // Appid==3rdMiniProgramAppid && extEnable==true
+            if (wx.getExtConfig) {  // extAppid==Appid && extEnable==true
                 wx.getExtConfig({
                     success: function(res) {
                         console.log(`shopId: ${res.extConfig.attr.shopId}`);
@@ -39,7 +39,6 @@ App({
                     success: (res) => {  
                         console.log(`loginCode: ${res.code}`)
                         server.getOpenId(res.code, arr[0], (res) => {
-                            console.log(res)
                             console.log(`openId: ${res.data.openid}`);
                             return resolve(res.data.openid);
                         });
@@ -47,10 +46,6 @@ App({
                 });
             });
         }));
-
-        // setTimeout(() => {
-        //     console.log(this.globalData.pOpenId)
-        // }, 3000)
         return this.globalData.pOpenId;        
     },
 
@@ -60,7 +55,6 @@ App({
                 success: (res) => {
                     console.log(`userInfo: ${res.userInfo.nickName}`)
                     this.postUserInfo(res.userInfo);
-                    // this.globalData.userInfo = res.userInfo;
                     return resolve(res.userInfo);
                 }
             });
@@ -72,13 +66,9 @@ App({
         this.globalData.pUserAddress || (this.globalData.pUserAddress = Promise.all([this.getOpenId()]).then((arr) => {
             return new Promise((resolve, reject) => {
                 server.getUserAddress(arr[0], (res) => {
-                    console.log(`userAddress: ${res.data.items[0].address}`)
+                    console.log(`userAddress: ${res.data.items[0]}`)
                     var addressInfo = dataHandle(res.data.items);
-                    // cb && cb(addressInfo);
                     return resolve(addressInfo);
-
-                    // this.globalData.addressArr = addressInfo.addressArr;
-                    // this.globalData.active = addressInfo.active;
                 });
             });
 
@@ -94,10 +84,6 @@ App({
                 };
             }
         }));
-
-        // setTimeout(() => {
-        //     console.log(this.globalData.pUserAddress)
-        // }, 3000)
         return this.globalData.pUserAddress;
     },
 
@@ -128,17 +114,11 @@ App({
                     server.getPromotion(shopId, (res) => {
                         var promotion = res.data.data;
                         shopInfo.promotion = res.data.data;
-                        // if(cb) cb(shopInfo);
-                        // this.globalData.shop = shopInfo;
                         return resolve(shopInfo);
                     });
                 });
             });
         }));
-
-        // setTimeout(() => {
-        //     console.log(this.globalData.pShopInfo)
-        // }, 3000)
         return this.globalData.pShopInfo;
     },
 
@@ -152,14 +132,10 @@ App({
                         fullImage: 'img',
                         boxcost: 'boxFee'
                     });
-                    // this.getClassify(product, cb);
                     return resolve(product);
                 });
             });
         }));
-        // setTimeout(() => {
-        //     console.log(this.globalData.pProduct)
-        // }, 3000)
         return this.globalData.pProduct;
     },
 
@@ -186,13 +162,7 @@ App({
                     //     item.product = item.product.slice(0,5);
                     // });
 
-                    // if(cb) cb(allProduct, classify);
                     return resolve(classify);
-
-                    // this.globalData.product = allProduct;
-                    // this.globalData.classify = classify;
-                    // this.globalData.classifySeleted = classify[0].id;
-                    // this.globalData.heightArr = this.dataHandle.classifyDataHandle(classify);
                 });
 
                 function converProductId(classify, allProduct) {   // 转换产品ID到产品所在的组下标
@@ -207,9 +177,6 @@ App({
                 }
             });
         }));    
-        // setTimeout(() => {
-        //     console.log(this.globalData.pClassify)
-        // }, 3000)
         return this.globalData.pClassify;
     },
 
@@ -232,14 +199,9 @@ App({
                     });
                     cb && cb(comments);
                     return resolve(comments);
-                    // this.globalData.comments = comments;
-                    // console.log('Comments', comments)
                 });
             });
         }));
-        // setTimeout(() => {
-        //     console.log(this.globalData.pComments)
-        // }, 3000)
         return this.globalData.pComments;
     },
 
@@ -266,14 +228,9 @@ App({
                     });
                     cb && cb(historyOrder)
                     return resolve(historyOrder);
-                    // this.globalData.historyOrder = historyOrder;
-                    // console.log('HistoryOrder', historyOrder)
                 });
             });
         }));
-        // setTimeout(() => {
-        //     console.log(this.globalData.pHistoryOrder)
-        // }, 3000)
         return this.globalData.pHistoryOrder;
     },
 
@@ -308,7 +265,6 @@ App({
                 openId = arr[1];
             server.postOrder(shopId, openId, productIds, quantitys, addressId, function(res){
                 cb && cb(res);
-                // console.log('postOrder', res);
             });
         }); 
     },
@@ -319,7 +275,6 @@ App({
                 openId = arr[1];
             server.postPayment(shopId, openId, orderId, function(res){
                 cb && cb(res);
-                // console.log('postPayment', res);
             });
         }); 
     },
@@ -360,7 +315,6 @@ App({
                 });
             }
             converOrderStatus(historyData);
-            // console.log(historyData);
 
             return historyData.map((item, index, arr) => {
                 item.order.goods.length > 3 ? item.fold = true : item.fold = false;

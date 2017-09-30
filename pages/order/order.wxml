@@ -6,7 +6,7 @@
             <text class="address-info-text ellipsis" wx:if="{{address}}">{{address.user}}</text>
             <text class="address-info-text ellipsis" wx:if="{{address}}">{{address.address}}</text>
         </view>
-        <text class="address-jump" bindtap="goAddress"></text>
+        <text class="address-jump" data-jump="address" bindtap="jump"></text>
     </view>
 
     <view class="order">

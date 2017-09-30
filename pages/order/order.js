@@ -9,9 +9,11 @@ Page({
             boxfee: cart.boxfee
         });
         app.getUserAddress().then((res) => {   
-            this.setData({
-                address: this.getActiveAddress(res.addressArr, res.active)
-            });
+            if(res.addressArr.length) {
+                this.setData({
+                    address: this.getActiveAddress(res.addressArr, res.active)
+                });
+            }
         });
         app.getShopInfo().then((shopInfo) => {
             this.setData({
@@ -36,8 +38,9 @@ Page({
         }
     },
 
-    goAddress: function() {
-        wx.navigateTo({url: '../address/address'});
+    jump: function(e) {
+        var target = e.currentTarget.dataset.jump;
+        wx.navigateTo({url: `../${target}/${target}`});
     },
 
     getAddress: function(address) {
@@ -76,6 +79,17 @@ Page({
         return order;
     },
 
+    getNewOrder: function(order) {
+        order.orderAddress = this.data.address.raw;
+        order.orderProductList = this.data.order;
+        order.order = {
+            goods: this.data.order,
+            checkout: this.data.checkout
+        };
+        app.globalData.newOrder = order;
+        return order;
+    },
+
     getDiscount: function(promotion, total, boxfee, shop, count) {
         var discount;
         promotion.forEach((val) => {
@@ -102,16 +116,15 @@ Page({
     },
 
     checkout: function() {
-        var self = this; 
-        this.postOrder(this.data.order, this.data.address.id, function(res) {
-            var order = res.data.data;
-            order.orderAddress = self.data.address.raw;
-            order.orderProductList = self.data.order;
-            order.order = {
-                goods: self.data.order,
-                checkout: self.data.checkout
-            };
-            wx.redirectTo({url: `../express/express?order=${JSON.stringify(order)}&new=1`});
+        this.postOrder(this.data.order, this.data.address.id, (res) => {
+
+            delete app.globalData.pHistoryOrder; 
+            var order = this.getNewOrder(res.data.data);
+
+            // wx.redirectTo({url: `../express/express?order=${JSON.stringify(order)}`});
+            // wx.navigateTo({url: `../checkout/checkout?order=${JSON.stringify(order)}`});
+            wx.redirectTo({url: `../checkout/checkout?order=${JSON.stringify(order)}`});
+            
         });
     }
 });

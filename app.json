@@ -2,10 +2,12 @@
 	"debug": false,
 
 	"pages": [
+		
 		"pages/shop/shop",
 		"pages/test_page/test_page",
 		"pages/shop_info/shop_info",
 		"pages/order/order",
+		"pages/checkout/checkout",
 		"pages/address/address",
 		"pages/address_add/address_add",
 		"pages/express/express",

@@ -4,7 +4,7 @@ var app = getApp();
 Page({
 	onLoad: function (option) {
         this.setOrderData(JSON.parse(option.order));
-        option.new && delete app.globalData.pHistoryOrder;
+        // option.new && delete app.globalData.pHistoryOrder;
     },
 
     setOrderData: function(order) {

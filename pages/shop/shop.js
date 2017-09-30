@@ -31,8 +31,6 @@ Page({
 
 	onLoad: function(option) {
 
-        console.log('shop onLoad');
-
         this.initImgLoader();
 
         app.getShopInfo().then((shopInfo) => {
