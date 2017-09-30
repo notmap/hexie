@@ -118,6 +118,8 @@ Page({
     checkout: function() {
         this.postOrder(this.data.order, this.data.address.id, (res) => {
 
+            // console.log(res)
+
             delete app.globalData.pHistoryOrder; 
             var order = this.getNewOrder(res.data.data);
 

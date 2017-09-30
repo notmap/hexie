@@ -93,6 +93,7 @@ App({
                 var shopId = arr[0];
                 server.getShopInfo(shopId, (res) => {
                     var shopInfo = res.data.data;
+                    // console.log('shopInfo', shopInfo);
                     arrtModify(shopInfo, {
                         fullCover: 'logo',
                         serviceTel: 'phone',

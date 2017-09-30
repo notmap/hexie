@@ -7,47 +7,31 @@ Page({
         this.setOrderData(JSON.parse(option.order));
     },
 
-    onShow: function (option) {
-
-    },
+    onShow: function (option) {},
 
     setOrderData: function(order) {
         app.getShopInfo().then((shopInfo) => {
             this.setData({
                 order: order,
-                shop: shopInfo,
-                expressInfo: {
-                    target: `${order.orderAddress.address} ${order.orderAddress.contact} ${order.orderAddress.mobile}`,
-                    code: order.id,
-                    time: `${dateFormat.getDate(new Date(order.createTime), '-')} ${dateFormat.getTime(new Date(order.createTime))}`,
-                    arrival: dateFormat.getTime(new Date(order.createTime + 30*60*1000), true),
-                    cancelTime: dateFormat.getTime(new Date(order.createTime + 5*60*1000), true)
-                }
+                shop: shopInfo
             });
         });
     },
 
     checkout: function() {
-        var orderId = this.data.order.id;
-        app.postPayment(orderId, function(res) {
+        var order = this.data.order;
+        app.postPayment(order.id, function(res) {
             var payment = res.data.data;
             payment.payInfo = JSON.parse(payment.payInfo);
-
-            // console.log(payment)
-            // console.log(payment.payInfo.timeStamp)
-            // console.log(payment.nonceStr)
-            // console.log(payment.payInfo.package)
-            // console.log(payment.signType)
-            // console.log(payment.payInfo.paySign)
-
             wx.requestPayment({
                 timeStamp: payment.payInfo.timeStamp,
-                nonceStr: payment.nonceStr,
+                nonceStr: payment.payInfo.nonceStr,
                 package: payment.payInfo.package,
-                signType: payment.signType,
                 paySign: payment.payInfo.paySign,
+                signType: payment.signType,
                 success: function(res) {
                 	console.log(res);
+                    wx.redirectTo({url: `../express/express?order=${JSON.stringify(order)}`});
                 },
                 fail: function(err) {
                 	console.log(err);

@@ -93,8 +93,14 @@ Page({
                 swiper: {
                     current: 2,
                     show: true
+                },
+                cart: {                 
+                    count: 0,
+                    total: 0,
+                    list: {}
                 }
             });
+
             app.getHistoryOrder().then((historyOrder) => {
                 this.setData({
                     history: app.dataHandle.historyDataHandle(historyOrder)

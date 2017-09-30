@@ -1,7 +1,7 @@
 
 <view class="order">
-    <text class="text-a">麦当劳 外卖订单</text>
-    <text class="text-b">￥25.50</text>
+    <text class="text-a">{{shop.name}} 外卖订单</text>
+    <text class="text-b">￥{{order.realityAmount}}</text>
 </view>
 
 <view class="payment">
@@ -11,5 +11,5 @@
 </view>
 
 <view class="checkout" bindtap="checkout">
-    <text class="text-a">确认支付 ￥25.50</text>
+    <text class="text-a">确认支付 ￥{{order.realityAmount}}</text>
 </view>
