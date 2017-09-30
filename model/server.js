@@ -149,5 +149,11 @@ module.exports = {
 			openId: openId,
 			orderId: orderId
 		}, success, fail);
+	},
+
+	postAddressRemove: function(addressId, success, fail) {
+		this.request('/wx/address/remove', 'post', {
+			addressId: addressId
+		}, success, fail);
 	}
 }

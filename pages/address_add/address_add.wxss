@@ -49,16 +49,23 @@
 	height: 100rpx;
 	background-color: #ffd300;
 	text-align: center;
+	display: flex;
 }
 
-.save-text {
+.save .text-a {
 	font-size: 28rpx;
 	font-weight: bold;
 	line-height: 100rpx;
 	color: #000;
+	flex: 3;
 }
 
-
-
-
-
+.save .text-b {
+	font-size: 28rpx;
+	font-weight: bold;
+	line-height: 100rpx;
+	color: #ddd;
+	flex: 1;
+	position: relative;
+	background-color: #4a4a4c;
+}

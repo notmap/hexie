@@ -36,7 +36,7 @@ Page({
 
     postDefaultAddress: function(addressId, cb) {
         server.postDefaultAddress(addressId, function() {
-            console.log('addressreset')
+            // console.log('addressreset')
             cb && cb();
         });
     },

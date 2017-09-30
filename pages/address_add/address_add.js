@@ -7,13 +7,15 @@ Page({
         if(option.data !== 'undefined') {
             this.setData({
                 address: JSON.parse(option.data),
-                handler: 'updateData'
+                handler: 'updateData',
+                removeButton: true
             });
         }
         else {
             this.setData({
                 address: {},
-                handler: 'addData'
+                handler: 'addData',
+                removeButton: false
             });
         }
     },
@@ -42,7 +44,7 @@ Page({
 
     postUserAddress: function(cb) {  // 提交用户信息（店铺id 昵称 头像）
         Promise.all([app.getOpenId(), app.getShopId()]).then((arr) => {
-            console.log(arr);
+            // console.log(arr);
             var openId = arr[0],
                 shopId = arr[1],
                 id = this.data.address.id,
@@ -59,10 +61,25 @@ Page({
             });  
         });
     },
+
+    postDefaultAddress: function(addressId, cb) {  // 新增设置默认
+        server.postDefaultAddress(addressId, function() {
+            cb && cb();
+        });
+    },
+
+    removeAddress: function(e) {
+        this.data.address.defaults && (app.globalData.removeDefaults = true);
+        app.postAddressRemove(this.data.address.id, () => {
+            delete app.globalData.pUserAddress;
+            wx.navigateBack();
+        })
+    },
  
     saveAddress: function(e) {
         if(this.valiData(this.data.address)) {
             this.postUserAddress((res) => {
+                // console.log(res)
                 delete app.globalData.pUserAddress;
                 wx.navigateBack();
             });

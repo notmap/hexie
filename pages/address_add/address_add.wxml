@@ -23,6 +23,7 @@
     <!-- <image class="unit-img" src="" /> -->
 </view>
 
-<view class="save" bindtap="saveAddress">
-    <text class="save-text">保存地址</text>
+<view class="save">
+    <text class="text-a" bindtap="saveAddress">保存地址</text>
+    <text class="text-b" bindtap="removeAddress" wx:if="{{removeButton}}">删除</text>
 </view>

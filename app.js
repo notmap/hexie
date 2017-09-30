@@ -280,6 +280,12 @@ App({
         }); 
     },
 
+    postAddressRemove: function(addressId, cb) {  
+        server.postAddressRemove(addressId, function(res){
+            cb && cb(res);
+        });
+    },
+
     dataHandle: {
         productSection: {  // 商品区的高度  单位是rpx
             classify: 74,

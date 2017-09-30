@@ -29,18 +29,32 @@ Page({
     },
 
     onShow: function (option) {
+        app.globalData.removeDefaults && delete app.globalData.pUserAddress;
         if(!app.globalData.pUserAddress) {
             app.getUserAddress().then((res) => {   
+                console.log(res)
                 this.setData({
                     address: this.getActiveAddress(res.addressArr, res.active)
                 });
             });
         }
+        delete app.globalData.removeDefaults;
     },
 
     jump: function(e) {
         var target = e.currentTarget.dataset.jump;
         wx.navigateTo({url: `../${target}/${target}`});
+    },
+
+    getActiveAddress: function(addressArr, active) {
+        var addressActive;
+        addressArr.forEach((value, index, arr) => {
+            value.id == active && (addressActive = value);
+        });
+        if(addressActive) {
+            return this.getAddress(addressActive);
+        }
+        else return;
     },
 
     getAddress: function(address) {
@@ -54,14 +68,6 @@ Page({
                 user: 'contact'
             })
         };
-    },
-
-    getActiveAddress: function(addressArr, active) {
-        var addressActive;
-        addressArr.forEach((value, index, arr) => {
-            value.id == active && (addressActive = value);
-        });
-        return this.getAddress(addressActive);
     },
 
     getOrder: function(list, product) {
@@ -116,18 +122,19 @@ Page({
     },
 
     checkout: function() {
-        this.postOrder(this.data.order, this.data.address.id, (res) => {
-
-            // console.log(res)
-
-            delete app.globalData.pHistoryOrder; 
-            var order = this.getNewOrder(res.data.data);
-
-            // wx.redirectTo({url: `../express/express?order=${JSON.stringify(order)}`});
-            // wx.navigateTo({url: `../checkout/checkout?order=${JSON.stringify(order)}`});
-            wx.redirectTo({url: `../checkout/checkout?order=${JSON.stringify(order)}`});
-            
-        });
+        if(!this.data.address) {
+            wx.showToast({
+                title: '请添加地址',
+                image: '../../imgs/warn5.png',
+                duration: 2000
+            });
+        }
+        else {
+            this.postOrder(this.data.order, this.data.address.id, (res) => {
+                delete app.globalData.pHistoryOrder; 
+                var order = this.getNewOrder(res.data.data);
+                wx.redirectTo({url: `../checkout/checkout?order=${JSON.stringify(order)}`});
+            });
+        }
     }
 });
-
