@@ -69,7 +69,7 @@ Page({
     },
 
     removeAddress: function(e) {
-        this.data.address.defaults && (app.globalData.removeDefaults = true);
+        this.data.address.defaults && (app.globalData.defaultsAddressChange = true);
         app.postAddressRemove(this.data.address.id, () => {
             delete app.globalData.pUserAddress;
             wx.navigateBack();
@@ -79,7 +79,8 @@ Page({
     saveAddress: function(e) {
         if(this.valiData(this.data.address)) {
             this.postUserAddress((res) => {
-                // console.log(res)
+                console.log(res)
+                app.globalData.defaultsAddressChange = true;
                 delete app.globalData.pUserAddress;
                 wx.navigateBack();
             });

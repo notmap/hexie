@@ -29,16 +29,19 @@ Page({
     },
 
     onShow: function (option) {
-        app.globalData.removeDefaults && delete app.globalData.pUserAddress;
+        console.log(app.globalData.defaultsAddressChange)
+        app.globalData.defaultsAddressChange && delete app.globalData.pUserAddress;
+        console.log(app.globalData.pUserAddress)
         if(!app.globalData.pUserAddress) {
             app.getUserAddress().then((res) => {   
-                console.log(res)
+                var address = this.getActiveAddress(res.addressArr, res.active);
+                !address && (address = '');
                 this.setData({
-                    address: this.getActiveAddress(res.addressArr, res.active)
+                    address: address
                 });
             });
         }
-        delete app.globalData.removeDefaults;
+        delete app.globalData.defaultsAddressChange;
     },
 
     jump: function(e) {

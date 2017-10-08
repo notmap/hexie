@@ -3,6 +3,7 @@ var app = getApp()
 Page({
 	onLoad: function (options) {
         app.getShopInfo().then((shopInfo) => {
+            console.log(shopInfo)
             this.setData({
                 shop: shopInfo,
                 photo: this.photoDataHandle(shopInfo.photo),

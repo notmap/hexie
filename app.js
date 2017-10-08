@@ -105,11 +105,9 @@ App({
                     shopInfo.loaded = false;
                     shopInfo.express = shopInfo.express ? '蜂鸟配送' : '商家配送';
                     shopInfo.photo = [  
-                        'http://www.legaoshuo.com/hexie/shop_photo/1.jpg',
-                        'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
-                        'http://www.legaoshuo.com/hexie/shop_photo/3.jpg',
-                        'http://www.legaoshuo.com/hexie/shop_photo/2.jpg',
-                        'http://www.legaoshuo.com/hexie/shop_photo/1.jpg'
+                        'http://qcloud.dpfile.com/pc/PHcxD4nCBlB8h6vezu-T9SCoYB2Xb7922dU_-sMF-UAEXDLgqdYkbuvgvsPMUAGUTYGVDmosZWTLal1WbWRW3A.jpg',
+                        'http://qcloud.dpfile.com/pc/dHPtV-DmneoXfV3QTvfUBrq__JZSaQN48srBMFA1pgyvfKHE67nJBl-ZP3TZ2_TTTYGVDmosZWTLal1WbWRW3A.jpg',
+                        'http://qcloud.dpfile.com/pc/FAIZWEBZbHjE5x12EfXJCMJ2qtZnU7MrD9k2wLsayjCNJJyLrOQU-SMeLn0eUv76TYGVDmosZWTLal1WbWRW3A.jpg'
                     ];
 
                     server.getPromotion(shopId, (res) => {
