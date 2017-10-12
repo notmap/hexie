@@ -1,4 +1,6 @@
+
 class ImgLoader {
+
     constructor(pageContext, defaultCallback) {
         this.page = pageContext;
         this.defaultCallback = defaultCallback || function(){};
@@ -28,7 +30,7 @@ class ImgLoader {
         }
     }
 
-    _imgOnLoad(ev) {  // 私有属性
+    _imgOnLoad(ev) {
         let src = ev.currentTarget.dataset.src,
             width = ev.detail.width,
             height = ev.detail.height;

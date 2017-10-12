@@ -1,3 +1,4 @@
+
 <scroll-view class="scrollbox" scroll-y="true">
     <view class="address">
         <image class="address-icon" src="../../imgs/address.png"/>
@@ -49,4 +50,3 @@
     <text class="checkout-money">￥{{checkout.totalAmount}}</text>
     <text class="checkout-tip">合计</text>
 </view>
-

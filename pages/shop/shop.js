@@ -1,10 +1,9 @@
-const md5 = require('../../utils/md5.js');
+
 const ImgLoader = require('../component/img_loader/img_loader.js');
 const calc = require('../../utils/calculation.js');
 
 var app = getApp();
 Page({
-
 	data: {
         specHidden: true,       // 规格
         cartHidden: true,       // 购物车 
@@ -20,7 +19,6 @@ Page({
         },
         difference: '',         // 差￥15起送
         classifySeleted: '',    // 分类选中
-
         shop: {},               // 店铺信息数据
         history: [],            // 历史订单数据
         classify: [],           // 分类数据
@@ -49,12 +47,13 @@ Page({
         });
 
         app.getClassify().then((classify) => {
-            // console.log(classify);
-            this.setData({
-                classify: classify,
-                classifySeleted: classify[0].id,
-                heightArr: app.dataHandle.classifyDataHandle(classify)
-            });
+            if(classify.length) {
+                this.setData({
+                    classify: classify,
+                    classifySeleted: classify[0].id,
+                    heightArr: app.dataHandle.classifyDataHandle(classify)
+                });
+            }
         });
 
         app.getComments().then((comments) => {
@@ -68,8 +67,6 @@ Page({
                 history: app.dataHandle.historyDataHandle(historyOrder)
             });
         });
-
-        // this.checkSwiper(option);
 	},
 
     onShow: function(option) {
@@ -100,15 +97,12 @@ Page({
                     list: {}
                 }
             });
-
             app.getHistoryOrder().then((historyOrder) => {
                 this.setData({
                     history: app.dataHandle.historyDataHandle(historyOrder)
                 });
             });
         }
-
-        // wx.navigateTo({url: `../test_page/test_page`});  // 测试用页面
     },
 
     onHide: function() {
@@ -134,14 +128,13 @@ Page({
     },
 
 	loadImages(imgObj) {
-        
         if(Array.isArray(imgObj)) {
             imgObj.forEach(item => {
                 this.imgLoader.load(item.img)
             })           
         }
         else {
-            this.imgLoader.load(imgObj);  //this.data.shop.logo
+            this.imgLoader.load(imgObj);
         }
     },
 
@@ -168,7 +161,7 @@ Page({
 
 	tab: {
 		switchTab: function(self, e) {
-			var active = e.target.dataset.tab || e.detail.current.toString(); // 注意数据类型
+			var active = e.target.dataset.tab || e.detail.current.toString();
 			if(active !== self.data.swiper.current) {
 				self.setData({
                     swiper: {
@@ -182,16 +175,12 @@ Page({
 
 	menu: {
 		onScroll: function (self, e) {
-
 			e.detail.scrollTop > 10 && !self.data.scrollDown && self.setData({scrollDown: true});
             if(e.detail.scrollTop < 10 && self.data.scrollDown) {
-                // self.setData({classifyViewed: self.data.classify[0].id});
                 setTimeout(function() {
                     self.setData({scrollDown: false});
                 }, 700);
             }
-
-            // console.log(self.classifyFlag)
             if(!self.classifyFlag) {
     			var scale = e.detail.scrollWidth / 570,            // rpx和px的比例 sectionWidth=>570
                     scrollTop = e.detail.scrollTop / scale + 200,  // 转rpx 200rpx 是提前量
@@ -202,15 +191,10 @@ Page({
     			self.setData({classifySeleted: classifySeleted});
             }
             self.classifyFlag = undefined;
-            // console.log(self.classifyFlag)
 		},
 
 		switchClassify: function (self, e) {
-
-            self.classifyFlag = true;     // 左侧分类列表BUG
-            // console.log(e)
-            // console.log(e.target.dataset.id);
-			// this.onScroll(self, e);
+            self.classifyFlag = true;     // 左侧分类列表BUG处理
             self.setData({
                 classifyViewed: e.target.dataset.id,
                 classifySeleted: e.target.dataset.id
@@ -255,7 +239,6 @@ Page({
 			var id = e.target.dataset.id;
 			self.data.cart.list[id] = (self.data.cart.list[id] || 0) + 1;
 			this.countCart(self);
-            // console.log(self.data.cart)
 		},
 
 		reduceCart: function (self, e) {
@@ -308,14 +291,4 @@ Page({
         var data = JSON.stringify(this.data.cart);
         wx.navigateTo({url: `../order/order?data=${data}`});
 	}
-
-    // ,checkSwiper: function(option) {
-    //     console.log('@function checkSwiper')
-    //     option.swiper && this.setData({
-    //         swiper: {
-    //             current: option.swiper,
-    //             show: true
-    //         },
-    //     });
-    // }
 });

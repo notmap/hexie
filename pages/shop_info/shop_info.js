@@ -1,5 +1,7 @@
+
 const scoreShow = require('../component/score_show/score_show.js');
-var app = getApp()
+var app = getApp();
+
 Page({
 	onLoad: function (options) {
         app.getShopInfo().then((shopInfo) => {
@@ -37,4 +39,3 @@ Page({
         })
     }
 });
-

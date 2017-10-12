@@ -1,9 +1,7 @@
 
-
 /*--------------------------------address--------------------------------*/
 
 .unit {
-	/*height: 80rpx;*/
 	padding: 28rpx;
 	background-color: white;
 	margin-bottom: 2rpx;
@@ -13,7 +11,6 @@
 .unit-text {
 	display: block;
 	float: left;
-	/*background-color: red;*/
 	font-size: 28rpx;
 	line-height: 56rpx;
 	width: 140rpx;
@@ -22,7 +19,6 @@
 .unit-input {
 	display: block;
 	float: left;
-	/*background-color: green;*/
 	font-size: 28rpx;
 	width: 480rpx;
 	height: 56rpx;
@@ -31,15 +27,12 @@
 .unit-img {
 	display: block;
 	float: right;
-	/*background-color: red;*/
 	width: 32rpx;
 	height: 32rpx;
 	padding: 12rpx 0;
 }
 
-
 /*--------------------------------add--------------------------------*/
-
 
 .save {
 	position: absolute;

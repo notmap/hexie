@@ -1,5 +1,4 @@
 
-
 <view class="progress">
     <view class="progress-bar">
         <text class="progress-dot-active"></text>

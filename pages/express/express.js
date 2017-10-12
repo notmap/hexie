@@ -1,10 +1,10 @@
 
 const dateFormat = require('../../utils/dateFormat');
 var app = getApp();
+
 Page({
 	onLoad: function (option) {
         this.setOrderData(JSON.parse(option.order));
-        // option.new && delete app.globalData.pHistoryOrder;
     },
 
     setOrderData: function(order) {

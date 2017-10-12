@@ -44,7 +44,6 @@
 	height: 40rpx;
 }
 
-
 .checkout {
 	position: absolute;
 	left: 0;
@@ -59,5 +58,3 @@
 	line-height: 100rpx;
 	font-size: 32rpx;
 }
-
-/*#ffd300*/

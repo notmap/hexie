@@ -1,5 +1,0 @@
-
-
-<image src="{{logo}}" mode="aspectFill"></image>
-
-<!-- <image wx:if="{{logo}}" src="{{logo}}" mode="aspectFill"></image> -->

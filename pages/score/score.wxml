@@ -1,6 +1,4 @@
 
-
-
 <view class="score">
     <view class="score-shop">
         <image class="score-shop-logo" src="{{shop.logo}}" wx:if="{{shop.logo}}"></image>
@@ -16,6 +14,3 @@
 <view class="submit" data-jump="shop" bindtap="jump">
     <text class="submit-text">发布评价</text>
 </view>
-
-
-

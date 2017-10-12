@@ -1,3 +1,4 @@
+
 .header {
 	position: relative;
 	background: #ffd300;
@@ -46,7 +47,6 @@
 	font-size: 24rpx;
 	line-height: 24rpx;
 	position: relative;
-	/*background-color: green;*/
 }
 
 .header-promotion:after {
@@ -71,7 +71,6 @@
 	position: absolute;
 	top: 0;
 	right: 0;
-	/*background-color: red;*/
 }
 
 .header-shopinfo:after {
@@ -87,9 +86,7 @@
     left: 36rpx;
 }
 
-
 /*-----------------------------------------tab-----------------------------------------*/
-
 
 .tab {
 	height: 80rpx;
@@ -116,9 +113,7 @@
 	background-color: #ffd300;
 }
 
-
 /*-----------------------------------------menu-----------------------------------------*/
-
 
 .main {
 	height: 100%;
@@ -132,14 +127,12 @@
 .classify {
 	width: 180rpx;
 	background: #efefef;
-	/*height: 100%;*/
 	height: calc( 100% - 80rpx );
 }
 
 .classify-unit {
 	padding: 50rpx 30rpx;
 	text-align: center;
-	/*background-color: red;*/
 }
 
 .classify-unit:last-child {
@@ -157,19 +150,16 @@
 	line-height: 48rpx;
 	text-align: center;
 	pointer-events: none;
-	/*background-color: yellow;*/
 }
 
 .product {
 	-webkit-flex: 1;
 	background: #ffffff;
-	/*background-color: red;*/
 	height: calc( 100% - 80rpx );
 }
 
 .product-section {
 	padding-bottom: 16rpx;
-	/*background-color: green;*/
 	border-bottom: 2rpx solid #eeeeee;
 }
 
@@ -183,7 +173,6 @@
 	font-size: 30rpx;
 	line-height: 30rpx;
 	position: relative;
-	/*background-color: blue;*/
 }
 
 .product-classify:after {
@@ -201,8 +190,6 @@
 	padding: 16rpx 32rpx;
 	font-size: 36rpx;
 	line-height: 40rpx;
-	/*background-color: red;*/
-	/*margin-bottom: 2rpx; */
 	height: 120rpx;
 }
 
@@ -221,7 +208,6 @@
 	font-weight: bold;
 	line-height: 60rpx;
 	width: 360rpx;
-	/*background-color: green;*/
 }
 
 .product-price {
@@ -231,7 +217,6 @@
 	font-size: 32rpx;
 	line-height: 60rpx;
 	width: 360rpx;
-	/*background-color: blue;*/
 }
 
 .product-reduce {
@@ -240,7 +225,6 @@
 	bottom: 22rpx;
 	width: 50rpx;
 	height: 50rpx;
-	/*background-color: red;*/
 }
 
 .product-num {
@@ -250,7 +234,6 @@
 	width: 50rpx;
 	line-height: 50rpx;
 	font-size: 30rpx;
-	/*background: red;*/
 	text-align: center;
 }
 
@@ -260,18 +243,12 @@
 	bottom: 22rpx;
 	width: 50rpx;
 	height: 50rpx;
-	/*background-color: red;*/
 }
-
 
 /*-----------------------------------------comment-----------------------------------------*/
 
-
-
 .comment{
 	height: calc( 100% - 80rpx );
-	/*height: 1000rpx;*/
-	/*background-color: red;*/
 }
 
 .comment-unit {
@@ -282,7 +259,6 @@
 
 .comment-meta {
 	height: 80rpx;
-	/*background-color: red;*/
 }
 
 .comment-avatar {
@@ -300,7 +276,6 @@
 	font-size: 28rpx;
 	line-height: 48rpx;
 	width: 400rpx;
-	/*background-color: green;*/
 }
 
 .comment .score-show {
@@ -309,7 +284,6 @@
 	font-size: 24rpx;
 	line-height: 32rpx;
 	width: 400rpx;
-	/*background-color: blue;*/
 }
 
 .comment-time {
@@ -317,7 +291,6 @@
 	float: right;
 	font-size: 28rpx;
 	line-height: 48rpx;
-	/*background-color: yellow;*/
 }
 
 .comment-content {
@@ -327,9 +300,7 @@
 	padding-top: 20rpx;
 }
 
-
 /*-----------------------------------------history-----------------------------------------*/
-
 
 .history {
 	height: calc( 100% - 80rpx );
@@ -431,9 +402,7 @@
 	padding: 0 20rpx;
 }
 
-
 /*-----------------------------------------spec-----------------------------------------*/
-
 
 .spec{
 	position: absolute;
@@ -464,7 +433,6 @@
 	text-align: center;
 	font-size: 32rpx;
 	line-height: 80rpx;
-	/*background-color: red;*/
 }
 
 .spec-label {
@@ -475,14 +443,12 @@
 	border-radius: 6rpx;
 	border: 2rpx solid #dddddd;
 	margin: 0 0 20rpx 20rpx;
-	/*background-color: red;*/
 }
 
 .spec-bottom {
 	width: 100%;
 	height: 100rpx;
 	background-color: #eeeeee;
-	/*background-color: red;*/
 	position: absolute;
 	bottom: 0;
 	border-bottom-right-radius: 8rpx;
@@ -511,9 +477,7 @@
 	border-bottom-right-radius: 8rpx;
 }
 
-
 /*-----------------------------------------cart-----------------------------------------*/
-
 
 .cart {
 	position: absolute;
@@ -522,6 +486,7 @@
 	width: 100%;
 	height: 100%;
 }
+
 .cart-mask {
 	width: 100%;
 	height: 100%;
@@ -538,13 +503,11 @@
 }
 
 .cart-item {
-	/*display: -webkit-flex;*/
 	display: flex;
 	color: #000;
 	font-size: 36rpx;
 	line-height: 50rpx;
 	padding: 20rpx 40rpx;
-	/*background-color: blue;*/
 }
 
 .cart-name {
@@ -553,24 +516,19 @@
 
 .cart-total {
 	width: 120rpx;
-	/*background-color: red;*/
 }
 
 .cart-reduce, .cart-add {
 	width: 50rpx;
 	height: 50rpx;
-	/*background-color: green;*/
 }
 
 .cart-num {
 	width: 50rpx;
 	text-align: center;
-	/*background-color: yellow;*/
 }
 
-
 /*-----------------------------------------bottom-----------------------------------------*/
-
 
 .bottom {
 	display: -webkit-flex;
@@ -623,7 +581,6 @@ button[disabled][type="default"], wx-button[disabled]:not([type]) {
 	background: #ffd300;
 	color: #000;
 }
-
 
 /*-----------------------------------------debug-----------------------------------------*/
 

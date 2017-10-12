@@ -1,3 +1,4 @@
+
 <import src="../component/score_show/score_show.wxml" />
 <view class="header">
     <image class="header-logo" src="{{shop.logo}}" wx:if="{{shop.logo}}"></image>
@@ -32,6 +33,3 @@
         <text class="notice-promotion-discount" wx:for="{{shop.promotion}}" wx:key="{{item.full}}">满{{item.full}}减{{item.discount}}</text>
     </view>
 </view>
-
-
-

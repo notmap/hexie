@@ -1,16 +1,12 @@
 
-
-
 .progress {
 	width: 100%;
-	/*height: 400rpx;*/
 	background-color: #fff;
 }
 
 .progress-bar {
 	padding: 60rpx 2rpx 30rpx 2rpx;
 	background-color: #fff;
-	/*background-color: red;*/
 }
 
 .progress-bar:after {
@@ -80,7 +76,6 @@
 	color: #f5cc00;
 }
 
-
 .progress-status {
 	padding: 50rpx;
 	height: 80rpx;
@@ -123,9 +118,7 @@
 	color: #666;
 }
 
-
 /*--------------------------------order--------------------------------*/
-
 
 .order {
 	margin-top: 20rpx;
@@ -258,10 +251,7 @@
 	color: red;
 }
 
-
-
 /*--------------------------------info--------------------------------*/
-
 
 .info-unti {
 	display: flex;
@@ -286,11 +276,3 @@
 	line-height: 40rpx;
 	text-align: right;
 }
-
-
-
-/*#ffd300*/
-
-
-
-

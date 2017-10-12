@@ -1,5 +1,5 @@
-module.exports = {
 
+module.exports = {
     deepClone(obj) {
         var result;
         var oClass = this.isClass(obj);
@@ -24,4 +24,3 @@ module.exports = {
         return Object.prototype.toString.call(o).slice(8, -1);
     }
 }
-

@@ -1,6 +1,6 @@
 
 module.exports = {
-
+    
     getDate(timeStamp, delimiter) { 
         var date =  new Date(timeStamp);
         var year = date.getFullYear();

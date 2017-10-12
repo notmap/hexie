@@ -1,7 +1,8 @@
+
 var clone = require('../../utils/deepClone.js');
 var server = require('../../model/server');
+var app = getApp();
 
-var app = getApp()
 Page({
 	onLoad: function (option) {
         if(option.data !== 'undefined') {
@@ -42,9 +43,8 @@ Page({
         return address.area && address.address && address.user && address.phone;
     },
 
-    postUserAddress: function(cb) {  // 提交用户信息（店铺id 昵称 头像）
+    postUserAddress: function(cb) {
         Promise.all([app.getOpenId(), app.getShopId()]).then((arr) => {
-            // console.log(arr);
             var openId = arr[0],
                 shopId = arr[1],
                 id = this.data.address.id,
@@ -54,7 +54,6 @@ Page({
                 address = this.data.address.address,
                 lat = this.data.address.lat,
                 lng = this.data.address.lng;
-                
             server.postUserAddress(openId, shopId, id, contact, mobile, area, address, lat, lng, function(res){
                 console.log('postUserAddress: user address has posted');
                 cb && cb(res)
@@ -62,7 +61,7 @@ Page({
         });
     },
 
-    postDefaultAddress: function(addressId, cb) {  // 新增设置默认
+    postDefaultAddress: function(addressId, cb) {
         server.postDefaultAddress(addressId, function() {
             cb && cb();
         });
@@ -94,4 +93,3 @@ Page({
         }
     }
 });
-

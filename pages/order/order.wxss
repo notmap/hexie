@@ -1,12 +1,9 @@
 
-
 .scrollbox {
 	height: 100%;
 }
 
-
 /*--------------------------------address--------------------------------*/
-
 
 .address{
 	height: 80rpx;
@@ -20,7 +17,6 @@
 	height: 32rpx;
 	padding: 24rpx 0;
 	float: left;
-	/*background-color: blue;*/
 	margin-right: 20rpx;
 }
 
@@ -34,7 +30,6 @@
 	display: block;
 	font-size: 28rpx;
 	line-height: 40rpx;
-	/*background-color: yellow;*/
 }
 
 .address-info-add {
@@ -42,7 +37,6 @@
 	display: block;
 	font-size: 28rpx;
 	line-height: 80rpx;
-	/*background-color: red;*/
 }
 
 .address-jump {
@@ -50,7 +44,6 @@
 	height: 80rpx;
 	width: 80rpx;
 	float: right;
-	/*background-color: red;*/
 	position: relative;
 }
 
@@ -67,20 +60,15 @@
     left: 24rpx;
 }
 
-
 /*--------------------------------order--------------------------------*/
-
 
 .order {
 	margin-top: 20rpx;
-	/*height: 200rpx;*/
 	background-color: white;
 	padding-bottom: 100rpx;
-	/*padding: 0 28rpx;*/
 }
 
 .order-head {
-	/*background-color: red;*/
 	height: 48rpx;
 	padding: 28rpx;
 }
@@ -90,7 +78,6 @@
 	float: left;
 	width: 48rpx;
 	height: 48rpx;
-	/*background-color: yellow;*/
 	border-radius: 100%;
 }
 
@@ -98,7 +85,6 @@
 	display: block;
 	font-size: 28rpx;
 	line-height: 48rpx;
-	/*background-color: blue;*/
 	float: left;
 	margin-left: 20rpx;
 }
@@ -108,21 +94,18 @@
 	font-size: 24rpx;
 	line-height: 24rpx;
 	padding: 6rpx 10rpx;
-	/*background-color: blue;*/
 	border: 2rpx solid black;
 	float: right;
 	margin-top: 7rpx;
 }
 
 .order-unit {
-	/*background-color: #f5f5f5;*/
 	background-color: white;
 	height: 114rpx;
 	padding: 28rpx;
 }
 
 .order-unit-box {
-	/*background-color: green;*/
 	float: left;
 	margin-left: 20rpx;
 }
@@ -132,28 +115,24 @@
 	float: left;
 	width: 114rpx;
 	height: 114rpx;
-	/*background-color: red;*/
 }
 
 .order-unit-name {
 	display: block;
 	font-size: 28rpx;
 	line-height: 42rpx;
-	/*background-color: yellow;*/
 }
 
 .order-unit-remark {
 	display: block;
 	font-size: 24rpx;
 	line-height: 36rpx;
-	/*background-color: blue;*/
 }
 
 .order-unit-amount {
 	display: block;
 	font-size: 28rpx;
 	line-height: 36rpx;
-	/*background-color: white;*/
 }
 
 .order-unit-price {
@@ -161,16 +140,13 @@
 	float: right;
 	font-size: 28rpx;
 	line-height: 56rpx;
-	/*background-color: blue;*/
 }
 
 .order-bottom {
-	/*background-color: red;*/
 	padding: 12rpx 28rpx;
 }
 
 .order-bottom-unit {
-	/*background-color: red;*/
 	height: 28rpx;
 	padding: 16rpx 0;
 }
@@ -180,7 +156,6 @@
 	float: left;
 	font-size: 28rpx;
 	line-height: 28rpx;
-	/*background-color: blue;*/
 }
 
 .order-bottom-value {
@@ -188,40 +163,9 @@
 	float: right;
 	font-size: 28rpx;
 	line-height: 28rpx;
-	/*background-color: blue;*/
 }
-
-/*.order-bottom-total {
-	height: 28rpx;
-	padding: 16rpx 0;
-}
-
-.order-bottom-discount {
-	display: block;
-	float: right;
-	font-size: 28rpx;
-	line-height: 28rpx;
-	margin-right: 20rpx;
-}
-
-.order-bottom-tip {
-	display: block;
-	float: right;
-	font-size: 28rpx;
-	line-height: 28rpx;
-	margin-right: 20rpx;
-}
-
-.order-bottom-money {
-	display: block;
-	float: right;
-	font-size: 28rpx;
-	line-height: 28rpx;
-}*/
-
 
 /*--------------------------------address--------------------------------*/
-
 
 .checkout {
 	position: absolute;
@@ -235,7 +179,6 @@
 .checkout-discount {
 	display: block;
 	float: left;
-	/*background-color: red;*/
 	font-size: 28rpx;
 	line-height: 100rpx;
 	padding-left: 28rpx;
@@ -244,7 +187,6 @@
 .checkout-tip {
 	display: block;
 	float: right;
-	/*background-color: blue;*/
 	font-size: 28rpx;
 	line-height: 100rpx;
 	padding-right: 28rpx;
@@ -253,7 +195,6 @@
 .checkout-money {
 	display: block;
 	float: right;
-	/*background-color: green;*/
 	font-size: 28rpx;
 	font-weight: bold;
 	color: red;
@@ -270,12 +211,3 @@
 	line-height: 100rpx;
 	background-color: #ffd300;
 }
-
-
-
-
-/*#ffd300*/
-
-
-
-

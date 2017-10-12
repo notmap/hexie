@@ -1,12 +1,9 @@
 
-
 .scrollbox {
 	height: 100%;
 }
 
-
 /*--------------------------------address--------------------------------*/
-
 
 .address{
 	height: 80rpx;
@@ -22,7 +19,6 @@
 
 .address-info-icon {
     float: left;
-    /*background-color: red;*/
     height: 40rpx;
     padding: 20rpx 0;
     margin-right: 24rpx;
@@ -34,7 +30,6 @@
 	font-size: 28rpx;
 	line-height: 40rpx;
     margin-left: 64rpx;
-	/*background-color: yellow;*/
 }
 
 .address-jump {
@@ -42,7 +37,6 @@
 	height: 80rpx;
 	width: 80rpx;
 	float: right;
-	/*background-color: green;*/
 	position: relative;
 }
 
@@ -59,9 +53,7 @@
     left: 24rpx;
 }
 
-
 /*--------------------------------add--------------------------------*/
-
 
 .add {
 	position: absolute;
@@ -79,14 +71,3 @@
 	line-height: 100rpx;
 	color: #000;
 }
-
-
-
-
-
-
-/*#ffd300*/
-
-
-
-

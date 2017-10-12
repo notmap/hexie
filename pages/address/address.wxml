@@ -1,3 +1,4 @@
+
 <scroll-view class="scrollbox" scroll-y="true">
     <view class="address" wx:for="{{addressArr}}" wx:key="address">
         <view class="address-info" id="{{item.id}}" bindtap="setActive">
@@ -12,4 +13,3 @@
 <view class="add" bindtap="jump">
     <text class="add-text">新增地址</text>
 </view>
-

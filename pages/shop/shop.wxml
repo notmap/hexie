@@ -1,3 +1,4 @@
+
 <import src="../component/score_show/score_show.wxml" />
 <view class="container">
 	<view class="header {{scrollDown ? 'header-hidden' : ''}}" data-fun="header.goShopInfo" bindtap="onEvent">

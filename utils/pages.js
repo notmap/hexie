@@ -1,5 +1,6 @@
 
 export default class PM {
+    
     constructor() {
         this.$$cache = {};
     }

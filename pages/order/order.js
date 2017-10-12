@@ -1,7 +1,9 @@
+
 const calc = require('../../utils/calculation.js');
 const deepClone = require('../../utils/deepClone.js');
 const arrtModify = require('../../utils/arrtModify');
-var app = getApp()
+var app = getApp();
+
 Page({
 	onLoad: function (option) {
         var cart = JSON.parse(option.data);

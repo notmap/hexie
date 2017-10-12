@@ -1,7 +1,6 @@
-// const calc = require('../../utils/calculation.js');
-// const deepClone = require('../../utils/deepClone.js');
-const dateFormat = require('../../utils/dateFormat');
-var app = getApp()
+
+var app = getApp();
+
 Page({
 	onLoad: function (option) {
         this.setOrderData(JSON.parse(option.order));

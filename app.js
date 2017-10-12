@@ -20,9 +20,10 @@ App({
     getShopId: function() { 
         this.globalData.pShopId || (this.globalData.pShopId = new Promise((resolve, reject) => {
             var self = this;
-            if (wx.getExtConfig) {  // extAppid==Appid && extEnable==true
+            if (wx.getExtConfig) {
                 wx.getExtConfig({
                     success: function(res) {
+                        console.log(res)
                         console.log(`shopId: ${res.extConfig.attr.shopId}`);
                         return resolve(res.extConfig.attr.shopId);
                     }
@@ -71,7 +72,6 @@ App({
                     return resolve(addressInfo);
                 });
             });
-
             function dataHandle(data) {
                 arrtModify(data, {contact: 'user', mobile: 'phone'});
                 var active;
@@ -93,7 +93,6 @@ App({
                 var shopId = arr[0];
                 server.getShopInfo(shopId, (res) => {
                     var shopInfo = res.data.data;
-                    // console.log('shopInfo', shopInfo);
                     arrtModify(shopInfo, {
                         fullCover: 'logo',
                         serviceTel: 'phone',
@@ -104,12 +103,11 @@ App({
                     });
                     shopInfo.loaded = false;
                     shopInfo.express = shopInfo.express ? '蜂鸟配送' : '商家配送';
-                    shopInfo.photo = [  
+                    shopInfo.photo = [  // 商家图片部分 后端还没实现
                         'http://qcloud.dpfile.com/pc/PHcxD4nCBlB8h6vezu-T9SCoYB2Xb7922dU_-sMF-UAEXDLgqdYkbuvgvsPMUAGUTYGVDmosZWTLal1WbWRW3A.jpg',
                         'http://qcloud.dpfile.com/pc/dHPtV-DmneoXfV3QTvfUBrq__JZSaQN48srBMFA1pgyvfKHE67nJBl-ZP3TZ2_TTTYGVDmosZWTLal1WbWRW3A.jpg',
                         'http://qcloud.dpfile.com/pc/FAIZWEBZbHjE5x12EfXJCMJ2qtZnU7MrD9k2wLsayjCNJJyLrOQU-SMeLn0eUv76TYGVDmosZWTLal1WbWRW3A.jpg'
-                    ];
-
+                    ];   
                     server.getPromotion(shopId, (res) => {
                         var promotion = res.data.data;
                         shopInfo.promotion = res.data.data;
@@ -145,7 +143,6 @@ App({
                     allProduct = arr[1];
                 server.getClassify(shopId, (res) => {
                     var classify = res.data.data;
-
                     arrtModify(classify, {
                         products: 'product'
                     });
@@ -155,15 +152,9 @@ App({
                         });
                         item.id = 'c' + item.id;
                     });
-                    converProductId(classify, allProduct);
-
-                    // classify.map((item, index, arr) => {   // 临时的数据处理
-                    //     item.product = item.product.slice(0,5);
-                    // });
-
+                    converProductId(classify, allProduct);  
                     return resolve(classify);
                 });
-
                 function converProductId(classify, allProduct) {   // 转换产品ID到产品所在的组下标
                     classify.map((item, index, arr) => {
                         item.product = item.product.map((item2, index, arr) => {
@@ -185,7 +176,6 @@ App({
                 var shopId = arr[0],
                     page = 1, 
                     size = 10;
-
                 server.getComments(shopId, page, size, (res) => {
                     var comments = res.data.data;
                     arrtModify(comments, {
@@ -285,6 +275,7 @@ App({
     },
 
     dataHandle: {
+        
         productSection: {  // 商品区的高度  单位是rpx
             classify: 74,
             unit: 152,
@@ -293,7 +284,7 @@ App({
         },
 
         orderStatus: [
-            {status: '等待接单', code: 10, button: '查看订单', data: 'order.goScore'},
+            {status: '等待接单', code: 10, button: '查看订单', data: 'order.goExpress'},
             {status: '已接单', code: 20, button: '查看订单', data: 'order.goExpress'},
             {status: '配送中', code: 30, button: '查看订单', data: 'order.goExpress'},
             {status: '订单已完成', code: 40, button: '评价一下', data: 'order.goScore'},
@@ -320,7 +311,6 @@ App({
                 });
             }
             converOrderStatus(historyData);
-
             return historyData.map((item, index, arr) => {
                 item.order.goods.length > 3 ? item.fold = true : item.fold = false;
                 item.button = this.orderStatus[item.status].button;
@@ -347,11 +337,4 @@ App({
     },
 
     globalData: {}
-
-    // ,checkSession: function() {  
-    //     wx.checkSession({
-    //         success: () => {this.getUserInfo();},
-    //         fail: () => {this.login();}
-    //     })
-    // }
 })

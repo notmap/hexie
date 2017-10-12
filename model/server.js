@@ -1,8 +1,6 @@
 
 module.exports = {
 
-	appid: 'wx1d5cce846744081a',
-	secret: '84f4d868dae8a82e8b2457a86868f441',
 	host: 'https://snack.bugdeer.com',
 
 	request: function(url, method, data, success, fail) {
@@ -20,9 +18,7 @@ module.exports = {
 	},
 
 	getOpenId: function(code, shopId, success, fail) {
-		// var app = getApp();
 		this.request('/wx/wechat/openid', 'post', {
-			// rd_session: app.rd_session,
 			appid: this.appid,
 			secret: this.secret,
 			code: code,

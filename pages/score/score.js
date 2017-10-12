@@ -1,7 +1,7 @@
-const scoreShow = require('../component/score_show/score_show.js');
-const dateFormat = require('../../utils/dateFormat');
 
-var app = getApp()
+const scoreShow = require('../component/score_show/score_show.js');
+var app = getApp();
+
 Page({
 	onLoad: function (option) {
         app.getShopInfo().then((shopInfo) => {
@@ -46,6 +46,7 @@ Page({
             
         if(score && content) {
             app.postComments(orderId, score.score, content, function(res) {
+                console.log(res)
                 console.log('comments has post');
             });
             delete app.globalData.pComments;
@@ -60,4 +61,3 @@ Page({
         }
     }
 });
-

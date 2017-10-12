@@ -1,5 +1,7 @@
+
 var server = require('../../model/server');
-var app = getApp()
+var app = getApp();
+
 Page({
 	onLoad: function (options) {
         app.getUserAddress().then((res) => {   
@@ -36,7 +38,6 @@ Page({
 
     postDefaultAddress: function(addressId, cb) {
         server.postDefaultAddress(addressId, function() {
-            // console.log('addressreset')
             cb && cb();
         });
     },
